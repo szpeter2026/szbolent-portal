@@ -1,0 +1,264 @@
+<template>
+  <footer class="footer">
+    <div class="footer-main">
+      <div class="container">
+        <div class="footer-grid">
+          <!-- 公司信息 -->
+          <div class="footer-col">
+            <div class="footer-logo">
+              <span class="logo-text">Bolent</span>
+            </div>
+            <p class="footer-desc">
+              您值得信赖的 IT 合作伙伴<br>
+              咨询 | 方案 | 外包服务
+            </p>
+            <div class="social-links">
+              <a href="#" target="_blank" class="social-link" aria-label="Twitter">
+                <i class="icon-twitter">𝕏</i>
+              </a>
+              <a href="#" target="_blank" class="social-link" aria-label="Facebook">
+                <i class="icon-facebook">f</i>
+              </a>
+              <a href="#" target="_blank" class="social-link" aria-label="Instagram">
+                <i class="icon-instagram">📷</i>
+              </a>
+              <a href="#" target="_blank" class="social-link" aria-label="LinkedIn">
+                <i class="icon-linkedin">in</i>
+              </a>
+            </div>
+          </div>
+
+          <!-- 服务 -->
+          <div class="footer-col">
+            <h4 class="footer-title">我们的服务</h4>
+            <ul class="footer-links">
+              <li><router-link to="/services/outsourcing">IT 外包</router-link></li>
+              <li><router-link to="/services/agile">敏捷咨询</router-link></li>
+              <li><router-link to="/services/automation">自动化 & QA</router-link></li>
+              <li><router-link to="/services/development">软件开发</router-link></li>
+              <li><router-link to="/services/digital">数字化 & 数据</router-link></li>
+              <li><router-link to="/services/it-management">IT 管理</router-link></li>
+            </ul>
+          </div>
+
+          <!-- 快速链接 -->
+          <div class="footer-col">
+            <h4 class="footer-title">快速链接</h4>
+            <ul class="footer-links">
+              <li><router-link to="/">首页</router-link></li>
+              <li><router-link to="/about">关于我们</router-link></li>
+              <li><router-link to="/blog">博客</router-link></li>
+              <li><router-link to="/case-study">案例研究</router-link></li>
+              <li><router-link to="/careers">加入我们</router-link></li>
+              <li><router-link to="/contact">联系我们</router-link></li>
+            </ul>
+          </div>
+
+          <!-- 联系方式 -->
+          <div class="footer-col">
+            <h4 class="footer-title">联系我们</h4>
+            <ul class="footer-contact">
+              <li>
+                <i class="icon">📍</i>
+                <span>中国 · 上海<br>浦东新区张江高科技园区</span>
+              </li>
+              <li>
+                <i class="icon">📧</i>
+                <span>contact@bolent.com</span>
+              </li>
+              <li>
+                <i class="icon">📞</i>
+                <span>+86 21 1234 5678</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部版权 -->
+    <div class="footer-bottom">
+      <div class="container">
+        <div class="footer-bottom-content">
+          <p>&copy; {{ currentYear }} Bolent. 版权所有</p>
+          <div class="footer-bottom-links">
+            <a href="#">隐私政策</a>
+            <a href="#">服务条款</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+const currentYear = computed(() => new Date().getFullYear())
+</script>
+
+<style scoped lang="scss">
+.footer {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  color: white;
+
+  .footer-main {
+    padding: 80px 0 40px;
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+
+      .footer-col {
+        .footer-logo {
+          margin-bottom: 20px;
+
+          .logo-text {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+          }
+        }
+
+        .footer-desc {
+          color: rgba(255, 255, 255, 0.8);
+          line-height: 1.8;
+          margin-bottom: 24px;
+        }
+
+        .social-links {
+          display: flex;
+          gap: 12px;
+
+          .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.3s;
+
+            &:hover {
+              background: rgba(255, 255, 255, 0.2);
+              transform: translateY(-3px);
+            }
+          }
+        }
+
+        .footer-title {
+          font-size: 18px;
+          font-weight: 600;
+          margin-bottom: 24px;
+          position: relative;
+          padding-bottom: 12px;
+
+          &::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+          }
+        }
+
+        .footer-links {
+          li {
+            margin-bottom: 12px;
+
+            a {
+              color: rgba(255, 255, 255, 0.8);
+              font-size: 14px;
+              transition: all 0.3s;
+              display: inline-block;
+
+              &:hover {
+                color: white;
+                padding-left: 8px;
+              }
+            }
+          }
+        }
+
+        .footer-contact {
+          li {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            line-height: 1.6;
+
+            .icon {
+              font-size: 18px;
+              flex-shrink: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 24px 0;
+
+    .footer-bottom-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+
+      p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 14px;
+      }
+
+      .footer-bottom-links {
+        display: flex;
+        gap: 24px;
+
+        a {
+          color: rgba(255, 255, 255, 0.7);
+          font-size: 14px;
+          transition: color 0.3s;
+
+          &:hover {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .footer {
+    .footer-main {
+      padding: 50px 0 30px;
+
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
+
+    .footer-bottom {
+      .footer-bottom-content {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  }
+}
+</style>

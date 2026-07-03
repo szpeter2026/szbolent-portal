@@ -1,0 +1,20 @@
+{
+  "project": "szbolent-portal",
+  "domain": "szbolent.cn",
+  "narrative": "bolent-content",
+  "canonical_delivery": "/Users/jason/Projects/szbolent-portal",
+  "inherited_from": {
+    "path": "/Users/jason/SurfaceZervi/archive-gitee/szbenyx/bolent/web-public",
+    "description": "Bolent 对外官网 Vue3 壳（web-public）"
+  },
+  "related_surfacezervi": {
+    "strategy": "GitHub/szjason72/poetries-of-bolent",
+    "wordpress": "GitHub/szjason72/Poetry-modown",
+    "vue_brand": "GitHub/xiajason/szbolent-frontend",
+    "poetry_corpus": "snapshots/chinese-poetry-corpus-2026-06-b",
+    "ai_rag": "gitea-repos/planetx-tatha (poetry_rag)",
+    "lineage": "lineage/NARRATIVES/bolent-content.md"
+  },
+  "created": "2026-07-03",
+  "notes": "日常工程入口；SurfaceZervi 只维护 MANIFEST 与战略文档，不在此复制 WP 整站"
+}
