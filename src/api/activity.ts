@@ -1,8 +1,15 @@
 /**
  * 活动抽奖API接口
+ *
+ * DEPRECATED (P0-L6): 当前依赖 legacy bolent Sanic :8001。
+ * looma-zervi 尚未迁移活动路由，待决策后：
+ *   - 方案A: 迁移到 looma /v1/activity/*
+ *   - 方案B: portal 下线活动模块
+ * 参见 DUAL_REPO_WORK_GUIDE.md §6.1 P0-L6
  */
 import axios from 'axios'
 
+/** legacy bolent Sanic 地址；迁移后改为 import.meta.env.VITE_LOOMA_API_BASE + '/v1/activity' */
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8001'
 
 export interface Activity {
@@ -53,27 +60,27 @@ export const activityApi = {
     return axios.get<{ data: Activity[] }>(`${API_BASE}/api/activity/list`)
       .then(res => res.data)
   },
-  
+
   // 获取活动详情
   getDetail: (id: number) => {
     return axios.get<Activity>(`${API_BASE}/api/activity/${id}`)
       .then(res => res.data)
   },
-  
+
   // 查询抽奖次数
   getDrawCount: (id: number, userId: number) => {
     return axios.get<DrawCountResponse>(`${API_BASE}/api/activity/${id}/draw-count`, {
       params: { user_id: userId }
     }).then(res => res.data)
   },
-  
+
   // 执行抽奖
   draw: (id: number, userId: number) => {
     return axios.post<DrawResponse>(`${API_BASE}/api/activity/${id}/draw`, {
       user_id: userId
     }).then(res => res.data)
   },
-  
+
   // 发放抽奖次数
   grant: (id: number, userId: number, count: number = 1) => {
     return axios.post<GrantResponse>(`${API_BASE}/api/activity/${id}/grant`, {

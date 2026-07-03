@@ -1,27 +1,13 @@
 /**
- * Tatha poetry_rag 只读接口（可选）
- * 合同见 SurfaceZervi/lineage/NARRATIVES/bolent-content.md
+ * ARCHIVED: Tatha poetry_rag 独立部署已退役（P0-P4）。
+ *
+ * 原功能已融入 looma-zervi backend/src/rag/，门户通过：
+ *   - GET /v1/poetry/search （语义搜索）
+ *   - POST /v1/ask （RAG 问答）
+ * 直接调用 Looma API。
+ *
+ * 参见 DUAL_REPO_WORK_GUIDE.md §9 Legacy 退役清单
  */
-import axios from 'axios'
 
-const TATHA_BASE = import.meta.env.VITE_TATHA_URL || 'http://127.0.0.1:8010'
-const ENABLED = import.meta.env.VITE_TATHA_POETRY_ENABLED === 'true'
-
-export interface PoetryRagResult {
-  answer: string
-  sources?: Array<{ title?: string; poet_name?: string }>
-}
-
-export async function queryPoetryRag(question: string): Promise<PoetryRagResult | null> {
-  if (!ENABLED) return null
-  try {
-    const { data } = await axios.post(`${TATHA_BASE}/v1/rag/query`, {
-      query: question,
-      namespace: 'poetry_rag',
-    })
-    return data
-  } catch (err) {
-    console.warn('[tatha] poetry_rag unavailable', err)
-    return null
-  }
-}
+// 此文件保留作为历史参考，不再导出任何可用功能。
+export {}
