@@ -3,6 +3,11 @@
   "domain": "szbolent.cn",
   "narrative": "bolent-content",
   "canonical_delivery": "/Users/jason/Projects/szbolent-portal",
+  "github": {
+    "origin": "https://github.com/szpeter2026/szbolent-portal.git",
+    "default_branch": "main",
+    "pushed_at": "2026-07-03"
+  },
   "inherited_from": {
     "path": "/Users/jason/SurfaceZervi/archive-gitee/szbenyx/bolent/web-public",
     "description": "Bolent 对外官网 Vue3 壳（web-public）"
