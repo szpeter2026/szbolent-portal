@@ -17,7 +17,7 @@
       <div class="container">
         <div class="about-grid">
           <div class="about-image" data-aos="fade-right">
-            <img src="https://via.placeholder.com/600x400" alt="关于我们">
+            <div class="about-image-placeholder" role="img" aria-label="关于我们" />
             <div class="services-list">
               <ul>
                 <li><i>✓</i> IT 外包</li>
@@ -186,10 +186,12 @@ const whyChooseUs = ref([
       .about-image {
         position: relative;
 
-        img {
+        .about-image-placeholder {
           width: 100%;
+          aspect-ratio: 3 / 2;
           border-radius: 12px;
           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+          background: linear-gradient(135deg, #e8eef5 0%, #c5d4e8 50%, #9bb5d6 100%);
         }
 
         .services-list {

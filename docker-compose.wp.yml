@@ -39,16 +39,14 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: modown_wp
+      WORDPRESS_TABLE_PREFIX: genz_
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_HOME','http://localhost:8800');
         define('WP_SITEURL','http://localhost:8800');
     volumes:
-      - szbolent_wp_content:/var/www/html/wp-content
-      # 取消注释并指向 Poetry-modown（按需导入 SQL 备份）
-      # - ${POETRY_MODOWN_WP_CONTENT:-/Users/jason/SurfaceZervi/GitHub/szjason72/Poetry-modown/public/wp-content}:/var/www/html/wp-content:ro
+      - ${POETRY_MODOWN_WP_CONTENT:-/Users/jason/SurfaceZervi/GitHub/szjason72/Poetry-modown/public/wp-content}:/var/www/html/wp-content
     ports:
       - "8800:80"
 
 volumes:
   szbolent_wp_mysql_data:
-  szbolent_wp_content:
