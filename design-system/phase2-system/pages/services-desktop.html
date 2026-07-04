@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolent — 服务列表页设计稿 · Desktop</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary:#0E6E6A; --primary-dark:#0A4F4C; --primary-light:#1A8F8A;
+    --primary-50:#E8F4F3; --primary-100:#C5E3E1;
+    --accent:#C99A3F; --accent-dark:#A67D2E; --accent-50:#FAF3E4;
+    --ink:#1A1F1E; --text:#2C3331; --text-sec:#5C6663; --text-muted:#8A938F;
+    --border:#E0E5E3; --bg:#FFF; --bg-soft:#F7F9F8; --bg-warm:#FAF8F4;
+    --gradient:linear-gradient(135deg,#0E6E6A 0%,#0A4F4C 100%);
+    --shadow:0 4px 16px rgba(26,31,30,0.08); --shadow-lg:0 12px 40px rgba(26,31,30,0.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Manrope','Noto Sans SC',sans-serif;color:var(--text);background:var(--bg);line-height:1.6;}
+  a{text-decoration:none;color:inherit;}
+  .container{max-width:1200px;margin:0 auto;padding:0 24px;}
+
+  /* Header (复用) */
+  .header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:70px;display:flex;align-items:center;}
+  .header .container{display:flex;align-items:center;justify-content:space-between;width:100%;}
+  .logo{display:flex;align-items:center;gap:8px;}
+  .logo-mark{width:36px;height:36px;position:relative;}
+  .logo-mark .sq1{position:absolute;left:2px;top:4px;width:14px;height:14px;background:var(--primary);border-radius:3px;}
+  .logo-mark .sq2{position:absolute;left:2px;top:20px;width:14px;height:8px;background:var(--primary);border-radius:3px;opacity:0.55;}
+  .logo-mark .arc{position:absolute;left:18px;top:4px;width:16px;height:28px;border:2.5px solid var(--primary);border-left:none;border-radius:0 14px 14px 0;}
+  .logo-mark .dot{position:absolute;left:26px;top:12px;width:7px;height:7px;background:var(--accent);border-radius:50%;}
+  .logo-text{font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-0.5px;}
+  .nav{display:flex;gap:36px;}
+  .nav a{font-size:15px;color:var(--text);font-weight:500;}
+  .nav a:hover,.nav a.active{color:var(--primary);}
+  .nav a.active::after{content:'';display:block;margin-top:6px;height:2px;background:var(--primary);}
+  .header-cta{padding:10px 24px;background:var(--primary);color:#fff;border-radius:8px;font-size:14px;font-weight:500;}
+
+  /* Page Header */
+  .page-header{background:var(--gradient);padding:80px 0 60px;position:relative;overflow:hidden;}
+  .page-header::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(201,154,63,0.08) 0%,transparent 50%);}
+  .page-header .container{position:relative;z-index:2;}
+  .breadcrumb{display:flex;gap:8px;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:16px;}
+  .breadcrumb a:hover{color:#fff;}
+  .breadcrumb .current{color:#fff;}
+  .page-header h1{font-size:40px;font-weight:500;color:#fff;margin-bottom:12px;}
+  .page-header p{font-size:17px;color:rgba(255,255,255,0.8);max-width:600px;}
+
+  /* Section */
+  .section{padding:100px 0;}
+  .section-header{text-align:center;margin-bottom:64px;}
+  .section-eyebrow{display:inline-block;font-size:13px;color:var(--primary);font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;}
+  .section-title{font-size:36px;font-weight:500;color:var(--ink);margin-bottom:16px;}
+  .section-desc{font-size:17px;color:var(--text-sec);max-width:620px;margin:0 auto;}
+
+  /* Services Grid */
+  .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  .service-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:36px 32px;transition:all .3s;position:relative;overflow:hidden;}
+  .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--primary);transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+  .service-card:hover{border-color:var(--primary-100);box-shadow:var(--shadow-lg);transform:translateY(-6px);}
+  .service-card:hover::before{transform:scaleX(1);}
+  .service-card.featured{background:var(--bg-warm);border-color:#F0E0BD;}
+  .service-card.featured::before{background:var(--accent);transform:scaleX(1);}
+  .service-icon{width:56px;height:56px;border-radius:14px;background:var(--primary-50);display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--primary);margin-bottom:24px;}
+  .service-card.featured .service-icon{background:var(--accent-50);color:var(--accent-dark);}
+  .service-card h3{font-size:20px;font-weight:500;color:var(--ink);margin-bottom:12px;}
+  .service-card p{font-size:15px;color:var(--text-sec);margin-bottom:20px;line-height:1.7;}
+  .service-features{list-style:none;margin-bottom:20px;}
+  .service-features li{font-size:14px;color:var(--text-sec);padding:4px 0 4px 24px;position:relative;}
+  .service-features li::before{content:'✓';position:absolute;left:0;color:var(--primary);font-weight:700;}
+  .service-card.featured .service-features li::before{color:var(--accent-dark);}
+  .service-link{font-size:14px;color:var(--primary);font-weight:500;display:inline-flex;align-items:center;gap:6px;}
+  .service-card.featured .service-link{color:var(--accent-dark);}
+  .service-tag{display:inline-block;padding:3px 10px;background:var(--accent-50);color:var(--accent-dark);font-size:11px;font-weight:500;border-radius:999px;margin-bottom:12px;}
+
+  /* Process */
+  .process{background:var(--bg-soft);}
+  .process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px;}
+  .process-card{text-align:center;position:relative;}
+  .process-num{font-size:48px;font-weight:500;color:var(--primary-100);margin-bottom:16px;line-height:1;}
+  .process-icon{width:56px;height:56px;margin:0 auto 20px;border-radius:14px;background:var(--primary-50);display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--primary);}
+  .process-card h4{font-size:18px;font-weight:500;color:var(--ink);margin-bottom:12px;}
+  .process-card p{font-size:14px;color:var(--text-sec);}
+
+  /* Tech Stack */
+  .tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+  .tech-category h4{font-size:16px;font-weight:500;color:var(--ink);margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--primary-50);}
+  .tech-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .tech-tag{padding:8px 16px;background:var(--bg-soft);border:1px solid var(--border);border-radius:999px;font-size:13px;color:var(--text);font-family:'JetBrains Mono',monospace;transition:all .2s;}
+  .tech-tag:hover{background:var(--primary-50);border-color:var(--primary-100);color:var(--primary);}
+
+  /* CTA */
+  .cta{background:var(--gradient);padding:80px 0;text-align:center;}
+  .cta h2{font-size:32px;font-weight:500;color:#fff;margin-bottom:16px;}
+  .cta p{font-size:17px;color:rgba(255,255,255,0.8);margin-bottom:32px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;font-size:15px;font-weight:500;border-radius:8px;cursor:pointer;border:none;transition:all .25s;}
+  .btn-light{background:#fff;color:var(--primary);}
+
+  .design-badge{position:fixed;bottom:20px;right:20px;z-index:999;background:var(--ink);color:#fff;padding:8px 16px;border-radius:8px;font-size:12px;font-family:monospace;opacity:0.8;}
+</style>
+</head>
+<body>
+<div class="design-badge">● Phase 2 · 服务列表页 · Desktop</div>
+
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <div class="logo-mark"><div class="sq1"></div><div class="sq2"></div><div class="arc"></div><div class="dot"></div></div>
+      <span class="logo-text">Bolent</span>
+    </div>
+    <nav class="nav">
+      <a href="#">首页</a>
+      <a href="#">关于</a>
+      <a href="#" class="active">服务</a>
+      <a href="#">诗词</a>
+      <a href="#">案例</a>
+      <a href="#">博客</a>
+      <a href="#">招聘</a>
+    </nav>
+    <a href="#" class="header-cta">立即咨询</a>
+  </div>
+</header>
+
+<section class="page-header">
+  <div class="container">
+    <div class="breadcrumb"><a href="#">首页</a><span>/</span><span class="current">服务</span></div>
+    <h1>全方位数智服务</h1>
+    <p>从企业级软件开发到 AI 诗词解析，Bolent 以专业团队和工程精度，为您构建数字化解决方案</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">OUR SERVICES</span>
+      <h2 class="section-title">六大服务板块</h2>
+      <p class="section-desc">每个板块都由资深团队驱动，确保交付质量与行业最佳实践</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">◆</div>
+        <h3>数字化 & 数据</h3>
+        <p>实时、准确、可靠的数据采集与分析体系</p>
+        <ul class="service-features">
+          <li>数据采集与清洗</li>
+          <li>实时分析看板</li>
+          <li>数据治理咨询</li>
+          <li>BI 可视化</li>
+        </ul>
+        <a href="#" class="service-link">查看详情 →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">▲</div>
+        <h3>软件开发</h3>
+        <p>从 Web 到移动端，为企业打造核心数字化产品</p>
+        <ul class="service-features">
+          <li>Web 应用开发</li>
+          <li>移动端开发</li>
+          <li>微服务架构</li>
+          <li>DevOps 流水线</li>
+        </ul>
+        <a href="#" class="service-link">查看详情 →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">●</div>
+        <h3>自动化 & QA</h3>
+        <p>测试自动化工具与质量保障体系</p>
+        <ul class="service-features">
+          <li>自动化测试框架</li>
+          <li>性能压测</li>
+          <li>CI/CD 集成</li>
+          <li>质量度量</li>
+        </ul>
+        <a href="#" class="service-link">查看详情 →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">■</div>
+        <h3>IT 管理</h3>
+        <p>企业级 IT 管理与基础设施运维</p>
+        <ul class="service-features">
+          <li>网络监控</li>
+          <li>云基础设施</li>
+          <li>安全审计</li>
+          <li>运维自动化</li>
+        </ul>
+        <a href="#" class="service-link">查看详情 →</a>
+      </div>
+      <div class="service-card featured">
+        <span class="service-tag">特色板块</span>
+        <div class="service-icon">✦</div>
+        <h3>AI 读诗</h3>
+        <p>以人工智能解读古典诗词，科技在诗意中落地</p>
+        <ul class="service-features">
+          <li>诗词智能解析</li>
+          <li>意境可视化</li>
+          <li>古文 NLP 引擎</li>
+          <li>文化数据传承</li>
+        </ul>
+        <a href="#" class="service-link">进入诗词 →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">◈</div>
+        <h3>IT 外包</h3>
+        <p>不只是成本套利，更是优质人才与高质量交付</p>
+        <ul class="service-features">
+          <li>驻场开发</li>
+          <li>项目外包</li>
+          <li>技术顾问</li>
+          <li>团队搭建</li>
+        </ul>
+        <a href="#" class="service-link">查看详情 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section process">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">OUR PROCESS</span>
+      <h2 class="section-title">交付流程</h2>
+      <p class="section-desc">四步标准化流程，确保每个项目高质量交付</p>
+    </div>
+    <div class="process-grid">
+      <div class="process-card">
+        <div class="process-num">01</div>
+        <div class="process-icon">◇</div>
+        <h4>需求分析</h4>
+        <p>深度沟通，明确目标与边界</p>
+      </div>
+      <div class="process-card">
+        <div class="process-num">02</div>
+        <div class="process-icon">◈</div>
+        <h4>方案设计</h4>
+        <p>技术选型与架构规划</p>
+      </div>
+      <div class="process-card">
+        <div class="process-num">03</div>
+        <div class="process-icon">◆</div>
+        <h4>开发交付</h4>
+        <p>敏捷迭代，持续集成</p>
+      </div>
+      <div class="process-card">
+        <div class="process-num">04</div>
+        <div class="process-icon">✦</div>
+        <h4>运维支持</h4>
+        <p>上线后持续优化与保障</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">TECH STACK</span>
+      <h2 class="section-title">技术栈</h2>
+      <p class="section-desc">我们使用行业领先的技术栈，确保方案的先进性与可维护性</p>
+    </div>
+    <div class="tech-grid">
+      <div class="tech-category">
+        <h4>前端</h4>
+        <div class="tech-tags">
+          <span class="tech-tag">Vue 3</span><span class="tech-tag">React</span><span class="tech-tag">TypeScript</span>
+          <span class="tech-tag">Vite</span><span class="tech-tag">TailwindCSS</span><span class="tech-tag">WordPress</span>
+        </div>
+      </div>
+      <div class="tech-category">
+        <h4>后端</h4>
+        <div class="tech-tags">
+          <span class="tech-tag">Python</span><span class="tech-tag">Flask</span><span class="tech-tag">Node.js</span>
+          <span class="tech-tag">Go</span><span class="tech-tag">PostgreSQL</span><span class="tech-tag">Redis</span>
+        </div>
+      </div>
+      <div class="tech-category">
+        <h4>AI & 基础设施</h4>
+        <div class="tech-tags">
+          <span class="tech-tag">LLM</span><span class="tech-tag">RAG</span><span class="tech-tag">ChromaDB</span>
+          <span class="tech-tag">Docker</span><span class="tech-tag">K8s</span><span class="tech-tag">ServBay</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="container">
+    <h2>找到适合您的服务方案</h2>
+    <p>让我们聊聊您的需求，定制专属数智化解决方案</p>
+    <a href="#" class="btn btn-light">立即咨询 →</a>
+  </div>
+</section>
+
+</body>
+</html>

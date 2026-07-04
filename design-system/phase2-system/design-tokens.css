@@ -1,0 +1,242 @@
+/**
+ * Bolent Design System — Design Tokens v1.0
+ * 项目：szbolent-portal
+ * 阶段：Phase 2 设计体系
+ *
+ * 本文件是完整的设计令牌文件，对应外包需求"Design Tokens 1 份 CSS 变量文件"
+ * 可直接导入 Astra 子主题 style.css 使用
+ */
+
+:root {
+  /* ═══════════ 品牌色板（继承 Phase 1） ═══════════ */
+  --bolent-primary: #0E6E6A;
+  --bolent-primary-dark: #0A4F4C;
+  --bolent-primary-light: #1A8F8A;
+  --bolent-primary-50: #E8F4F3;
+  --bolent-primary-100: #C5E3E1;
+  --bolent-primary-200: #9DD0CC;
+  --bolent-primary-400: #2A8F8A;
+  --bolent-primary-600: #0E6E6A;
+  --bolent-primary-800: #0A4F4C;
+  --bolent-accent: #C99A3F;
+  --bolent-accent-dark: #A67D2E;
+  --bolent-accent-light: #E0B85A;
+  --bolent-accent-50: #FAF3E4;
+  --bolent-accent-100: #F0E0BD;
+  --bolent-ink: #1A1F1E;
+  --bolent-text: #2C3331;
+  --bolent-text-secondary: #5C6663;
+  --bolent-text-muted: #8A938F;
+  --bolent-border: #E0E5E3;
+  --bolent-border-light: #EDF0EF;
+  --bolent-bg: #FFFFFF;
+  --bolent-bg-soft: #F7F9F8;
+  --bolent-bg-warm: #FAF8F4;
+  --bolent-success: #2E8B57;
+  --bolent-success-bg: #E6F4EC;
+  --bolent-warning: #E0932B;
+  --bolent-warning-bg: #FDF3E1;
+  --bolent-error: #D14545;
+  --bolent-error-bg: #FCEAEA;
+  --bolent-info: #2B7BB9;
+  --bolent-info-bg: #E6F1FB;
+  --bolent-gradient: linear-gradient(135deg, #0E6E6A 0%, #0A4F4C 100%);
+  --bolent-gradient-accent: linear-gradient(135deg, #0E6E6A 0%, #C99A3F 100%);
+  --bolent-gradient-soft: linear-gradient(180deg, #F7F9F8 0%, #FAF8F4 100%);
+
+  /* ═══════════ 字体 ═══════════ */
+  --bolent-font-sans: 'Alibaba PuHuiTi 3.0', 'Source Han Sans CN', 'Noto Sans SC', -apple-system, sans-serif;
+  --bolent-font-serif: 'Source Han Serif CN', 'Noto Serif SC', 'Songti SC', serif;
+  --bolent-font-en: 'Manrope', -apple-system, sans-serif;
+  --bolent-font-en-serif: 'Fraunces', serif;
+  --bolent-font-mono: 'JetBrains Mono', monospace;
+
+  /* ═══════════ 字号 ═══════════ */
+  --bolent-fs-display: 56px;
+  --bolent-fs-h1: 48px;
+  --bolent-fs-h2: 36px;
+  --bolent-fs-h3: 24px;
+  --bolent-fs-h4: 20px;
+  --bolent-fs-body: 17px;
+  --bolent-fs-body-sm: 15px;
+  --bolent-fs-small: 14px;
+  --bolent-fs-caption: 13px;
+  --bolent-fs-overline: 12px;
+
+  /* ═══════════ 字重 ═══════════ */
+  --bolent-fw-regular: 400;
+  --bolent-fw-medium: 500;
+  --bolent-fw-bold: 700;
+
+  /* ═══════════ 行高 ═══════════ */
+  --bolent-lh-tight: 1.2;
+  --bolent-lh-snug: 1.4;
+  --bolent-lh-normal: 1.6;
+  --bolent-lh-relaxed: 1.75;
+
+  /* ═══════════ 间距系统（4px 基准） ═══════════ */
+  --bolent-space-0: 0;
+  --bolent-space-1: 4px;
+  --bolent-space-2: 8px;
+  --bolent-space-3: 12px;
+  --bolent-space-4: 16px;
+  --bolent-space-5: 20px;
+  --bolent-space-6: 24px;
+  --bolent-space-8: 32px;
+  --bolent-space-10: 40px;
+  --bolent-space-12: 48px;
+  --bolent-space-16: 64px;
+  --bolent-space-20: 80px;
+  --bolent-space-25: 100px;
+
+  /* ═══════════ 圆角 ═══════════ */
+  --bolent-radius-xs: 4px;
+  --bolent-radius-sm: 8px;
+  --bolent-radius-md: 12px;
+  --bolent-radius-lg: 16px;
+  --bolent-radius-xl: 24px;
+  --bolent-radius-pill: 999px;
+
+  /* ═══════════ 阴影 ═══════════ */
+  --bolent-shadow-xs: 0 1px 2px rgba(26, 31, 30, 0.04);
+  --bolent-shadow-sm: 0 1px 3px rgba(26, 31, 30, 0.06);
+  --bolent-shadow: 0 4px 16px rgba(26, 31, 30, 0.08);
+  --bolent-shadow-md: 0 6px 24px rgba(26, 31, 30, 0.10);
+  --bolent-shadow-lg: 0 12px 40px rgba(26, 31, 30, 0.12);
+  --bolent-shadow-primary: 0 8px 24px rgba(14, 110, 106, 0.18);
+  --bolent-shadow-accent: 0 8px 24px rgba(201, 154, 63, 0.20);
+
+  /* ═══════════ 过渡 ═══════════ */
+  --bolent-transition-fast: all 0.15s ease;
+  --bolent-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --bolent-transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ═══════════ 容器 ═══════════ */
+  --bolent-container-max: 1200px;
+  --bolent-container-pad: 24px;
+  --bolent-header-height: 70px;
+
+  /* ═══════════ 组件级 Token ═══════════ */
+
+  /* Button */
+  --bolent-btn-padding-y: 14px;
+  --bolent-btn-padding-x: 32px;
+  --bolent-btn-padding-y-sm: 10px;
+  --bolent-btn-padding-x-sm: 20px;
+  --bolent-btn-padding-y-lg: 16px;
+  --bolent-btn-padding-x-lg: 40px;
+  --bolent-btn-radius: 8px;
+  --bolent-btn-font-size: 15px;
+  --bolent-btn-bg: var(--bolent-primary);
+  --bolent-btn-bg-hover: var(--bolent-primary-dark);
+  --bolent-btn-text: #FFFFFF;
+  --bolent-btn-outline-border: 1.5px solid var(--bolent-primary);
+  --bolent-btn-ghost-bg: transparent;
+  --bolent-btn-ghost-bg-hover: var(--bolent-primary-50);
+
+  /* Card */
+  --bolent-card-bg: #FFFFFF;
+  --bolent-card-border: 1px solid var(--bolent-border);
+  --bolent-card-radius: 16px;
+  --bolent-card-padding: 32px;
+  --bolent-card-padding-sm: 24px;
+  --bolent-card-shadow: var(--bolent-shadow);
+  --bolent-card-shadow-hover: var(--bolent-shadow-lg);
+  --bolent-card-hover-lift: -6px;
+
+  /* Input */
+  --bolent-input-height: 48px;
+  --bolent-input-padding: 0 16px;
+  --bolent-input-radius: 8px;
+  --bolent-input-border: 1px solid var(--bolent-border);
+  --bolent-input-border-focus: 2px solid var(--bolent-primary);
+  --bolent-input-bg: #FFFFFF;
+  --bolent-input-placeholder: var(--bolent-text-muted);
+  --bolent-input-error-border: 1px solid var(--bolent-error);
+  --bolent-input-error-text: var(--bolent-error);
+
+  /* Tag / Badge */
+  --bolent-tag-padding: 4px 12px;
+  --bolent-tag-radius: 999px;
+  --bolent-tag-font-size: 12px;
+  --bolent-tag-bg: var(--bolent-primary-50);
+  --bolent-tag-text: var(--bolent-primary);
+  --bolent-tag-accent-bg: var(--bolent-accent-50);
+  --bolent-tag-accent-text: var(--bolent-accent-dark);
+
+  /* Section */
+  --bolent-section-padding: 100px 0;
+  --bolent-section-padding-sm: 60px 0;
+  --bolent-section-header-margin: 64px;
+  --bolent-section-eyebrow-color: var(--bolent-primary);
+  --bolent-section-eyebrow-spacing: 2px;
+
+  /* Navigation */
+  --bolent-nav-gap: 36px;
+  --bolent-nav-font-size: 15px;
+  --bolent-nav-active-color: var(--bolent-primary);
+  --bolent-nav-active-indicator: 2px solid var(--bolent-primary);
+
+  /* Grid */
+  --bolent-grid-gap: 32px;
+  --bolent-grid-gap-sm: 20px;
+  --bolent-grid-cols-desktop: repeat(3, 1fr);
+  --bolent-grid-cols-tablet: repeat(2, 1fr);
+  --bolent-grid-cols-mobile: 1fr;
+
+  /* Icon container */
+  --bolent-icon-sm: 40px;
+  --bolent-icon-md: 56px;
+  --bolent-icon-lg: 80px;
+  --bolent-icon-radius: 14px;
+  --bolent-icon-bg: var(--bolent-primary-50);
+  --bolent-icon-color: var(--bolent-primary);
+
+  /* Avatar */
+  --bolent-avatar-sm: 24px;
+  --bolent-avatar-md: 40px;
+  --bolent-avatar-lg: 80px;
+  --bolent-avatar-radius: 50%;
+
+  /* Modal */
+  --bolent-modal-overlay: rgba(26, 31, 30, 0.5);
+  --bolent-modal-bg: #FFFFFF;
+  --bolent-modal-radius: 16px;
+  --bolent-modal-max-width: 600px;
+  --bolent-modal-padding: 40px;
+
+  /* Z-index 层级 */
+  --bolent-z-base: 1;
+  --bolent-z-dropdown: 100;
+  --bolent-z-sticky: 200;
+  --bolent-z-modal: 1000;
+  --bolent-z-toast: 1100;
+}
+
+/* ═══════════ 响应式覆盖 ═══════════ */
+@media (max-width: 991px) {
+  :root {
+    --bolent-fs-display: 44px;
+    --bolent-fs-h1: 40px;
+    --bolent-fs-h2: 30px;
+    --bolent-fs-h3: 22px;
+    --bolent-section-padding: 80px 0;
+    --bolent-grid-gap: 24px;
+    --bolent-card-padding: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --bolent-fs-display: 36px;
+    --bolent-fs-h1: 32px;
+    --bolent-fs-h2: 28px;
+    --bolent-fs-h3: 20px;
+    --bolent-fs-body: 16px;
+    --bolent-section-padding: 60px 0;
+    --bolent-container-pad: 20px;
+    --bolent-grid-gap: 20px;
+    --bolent-nav-gap: 0;
+    --bolent-card-padding: 20px;
+  }
+}

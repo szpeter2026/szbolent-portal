@@ -1,0 +1,142 @@
+/**
+ * Bolent Brand Design Tokens
+ * 项目：szbolent-portal
+ * 定位：企业门户为主体，诗词/AI读诗作为特色业务板块融入
+ * 品牌调性：现代科技 + 文化底蕴
+ *
+ * 主色系 — 墨青（Teal）：科技沉稳 + 东方青色意境
+ * 辅色系 — 琥珀金（Amber）：文化温度、诗词"金句"意象
+ * 中性色 — 暖灰：比纯冷灰更具文化温度
+ */
+
+:root {
+  /* ========== 主色系 · 墨青 ========== */
+  --bolent-primary: #0E6E6A;
+  --bolent-primary-dark: #0A4F4C;
+  --bolent-primary-light: #1A8F8A;
+  --bolent-primary-50: #E8F4F3;
+  --bolent-primary-100: #C5E3E1;
+  --bolent-primary-200: #9DD0CC;
+  --bolent-primary-400: #2A8F8A;
+  --bolent-primary-600: #0E6E6A;
+  --bolent-primary-800: #0A4F4C;
+
+  /* ========== 辅色系 · 琥珀金 ========== */
+  --bolent-accent: #C99A3F;
+  --bolent-accent-dark: #A67D2E;
+  --bolent-accent-light: #E0B85A;
+  --bolent-accent-50: #FAF3E4;
+  --bolent-accent-100: #F0E0BD;
+
+  /* ========== 中性色 · 暖灰 ========== */
+  --bolent-ink: #1A1F1E;        /* 近黑，带微青 */
+  --bolent-text: #2C3331;        /* 主文字 */
+  --bolent-text-secondary: #5C6663; /* 辅助文字 */
+  --bolent-text-muted: #8A938F;  /* 弱化文字 */
+  --bolent-border: #E0E5E3;      /* 边框 */
+  --bolent-border-light: #EDF0EF;
+  --bolent-bg: #FFFFFF;          /* 主背景 */
+  --bolent-bg-soft: #F7F9F8;     /* 浅底 */
+  --bolent-bg-warm: #FAF8F4;     /* 暖底，文化感 */
+
+  /* ========== 语义色 ========== */
+  --bolent-success: #2E8B57;
+  --bolent-success-bg: #E6F4EC;
+  --bolent-warning: #E0932B;
+  --bolent-warning-bg: #FDF3E1;
+  --bolent-error: #D14545;
+  --bolent-error-bg: #FCEAEA;
+  --bolent-info: #2B7BB9;
+  --bolent-info-bg: #E6F1FB;
+
+  /* ========== 渐变（替换占位紫渐变） ========== */
+  --bolent-gradient: linear-gradient(135deg, #0E6E6A 0%, #0A4F4C 100%);
+  --bolent-gradient-accent: linear-gradient(135deg, #0E6E6A 0%, #C99A3F 100%);
+  --bolent-gradient-soft: linear-gradient(180deg, #F7F9F8 0%, #FAF8F4 100%);
+
+  /* ========== 字体 ========== */
+  --bolent-font-sans: 'Alibaba PuHuiTi 3.0', 'Source Han Sans CN', 'Noto Sans SC',
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --bolent-font-serif: 'Source Han Serif CN', 'Noto Serif SC', 'Songti SC', serif;
+  --bolent-font-en: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bolent-font-en-serif: 'Fraunces', 'Source Han Serif CN', serif;
+  --bolent-font-mono: 'JetBrains Mono', 'Fira Code', 'Source Code Pro', monospace;
+
+  /* ========== 字号规范 ========== */
+  --bolent-fs-h1: 48px;    /* Hero 标题 · Desktop */
+  --bolent-fs-h2: 36px;    /* 区块标题 */
+  --bolent-fs-h3: 24px;    /* 卡片标题 */
+  --bolent-fs-h4: 20px;
+  --bolent-fs-body: 17px;
+  --bolent-fs-body-sm: 15px;
+  --bolent-fs-small: 14px;
+  --bolent-fs-caption: 13px;
+
+  /* ========== 间距 ========== */
+  --bolent-space-section: 100px;   /* Section 上下内边距 · 桌面 */
+  --bolent-space-section-sm: 60px; /* 移动 */
+  --bolent-space-card: 32px;       /* 卡片内边距 */
+  --bolent-gap-grid: 32px;        /* Grid 间距 */
+
+  /* ========== 圆角 ========== */
+  --bolent-radius-sm: 8px;
+  --bolent-radius-md: 12px;       /* 卡片/图片 */
+  --bolent-radius-lg: 16px;
+  --bolent-radius-pill: 999px;    /* 标签/按钮 */
+
+  /* ========== 阴影 ========== */
+  --bolent-shadow-sm: 0 1px 3px rgba(26, 31, 30, 0.06);
+  --bolent-shadow: 0 4px 16px rgba(26, 31, 30, 0.08);
+  --bolent-shadow-lg: 0 12px 40px rgba(26, 31, 30, 0.12);
+  --bolent-shadow-primary: 0 8px 24px rgba(14, 110, 106, 0.18);
+
+  /* ========== 过渡 ========== */
+  --bolent-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --bolent-transition-fast: all 0.15s ease;
+
+  /* ========== 容器 ========== */
+  --bolent-container-max: 1200px;
+  --bolent-container-pad: 24px;
+}
+
+/* ========== 响应式字号 ========== */
+@media (max-width: 991px) {
+  :root {
+    --bolent-fs-h1: 40px;
+    --bolent-fs-h2: 30px;
+    --bolent-fs-h3: 22px;
+    --bolent-space-section: 80px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --bolent-fs-h1: 32px;
+    --bolent-fs-h2: 28px;
+    --bolent-fs-h3: 20px;
+    --bolent-fs-body: 16px;
+    --bolent-space-section: 60px;
+    --bolent-container-pad: 20px;
+    --bolent-gap-grid: 20px;
+  }
+}
+
+/* ========== Astra Customizer 映射 ==========
+ * 以下变量名对应 Astra 主题 Customizer 中的设置项，
+ * 外包方在 WordPress 后台 Appearance → Customize 中按此映射设置：
+ *
+ * Astra 设置项                        → Bolent Token
+ * ─────────────────────────────────────────────────
+ * Primary Color                       → --bolent-primary (#0E6E6A)
+ * Text Color                          → --bolent-text (#2C3331)
+ * Link Color                          → --bolent-primary (#0E6E6A)
+ * Link Hover Color                    → --bolent-primary-dark (#0A4F4C)
+ * Heading Font Family                 → --bolent-font-sans
+ * Body Font Family                    → --bolent-font-sans
+ * Font Size (Base)                    → 17px
+ * Container Width                     → 1200px
+ * Button Radius                       → 8px
+ * Button Color                        → #FFFFFF (on primary bg)
+ * Button BG                           → --bolent-primary (#0E6E6A)
+ * Button Hover BG                     → --bolent-primary-dark (#0A4F4C)
+ */

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bolent — 首页设计稿 · Desktop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #0E6E6A;
+    --primary-dark: #0A4F4C;
+    --primary-light: #1A8F8A;
+    --primary-50: #E8F4F3;
+    --primary-100: #C5E3E1;
+    --accent: #C99A3F;
+    --accent-light: #E0B85A;
+    --accent-50: #FAF3E4;
+    --ink: #1A1F1E;
+    --text: #2C3331;
+    --text-sec: #5C6663;
+    --text-muted: #8A938F;
+    --border: #E0E5E3;
+    --bg: #FFFFFF;
+    --bg-soft: #F7F9F8;
+    --bg-warm: #FAF8F4;
+    --gradient: linear-gradient(135deg, #0E6E6A 0%, #0A4F4C 100%);
+    --gradient-accent: linear-gradient(135deg, #0E6E6A 0%, #C99A3F 100%);
+    --shadow: 0 4px 16px rgba(26,31,30,0.08);
+    --shadow-lg: 0 12px 40px rgba(26,31,30,0.12);
+    --shadow-primary: 0 8px 24px rgba(14,110,106,0.18);
+    --radius: 12px;
+    --radius-lg: 16px;
+    --font-sans: 'Manrope', 'Noto Sans SC', -apple-system, sans-serif;
+    --font-serif: 'Noto Serif SC', serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: var(--font-sans); color: var(--text); background: var(--bg); line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a { text-decoration:none; color:inherit; }
+  .container { max-width:1200px; margin:0 auto; padding:0 24px; }
+
+  /* Header */
+  .header {
+    position:sticky; top:0; z-index:100;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    height:70px; display:flex; align-items:center;
+  }
+  .header .container { display:flex; align-items:center; justify-content:space-between; width:100%; }
+  .logo { display:flex; align-items:center; gap:8px; }
+  .logo-mark { width:36px; height:36px; position:relative; }
+  .logo-mark .sq1 { position:absolute; left:2px; top:4px; width:14px; height:14px; background:var(--primary); border-radius:3px; }
+  .logo-mark .sq2 { position:absolute; left:2px; top:20px; width:14px; height:8px; background:var(--primary); border-radius:3px; opacity:0.55; }
+  .logo-mark .arc { position:absolute; left:18px; top:4px; width:16px; height:28px; border:2.5px solid var(--primary); border-left:none; border-radius:0 14px 14px 0; }
+  .logo-mark .dot { position:absolute; left:26px; top:12px; width:7px; height:7px; background:var(--accent); border-radius:50%; }
+  .logo-text { font-size:22px; font-weight:700; color:var(--ink); letter-spacing:-0.5px; }
+  .nav { display:flex; gap:36px; }
+  .nav a { font-size:15px; color:var(--text); font-weight:500; transition:color .2s; }
+  .nav a:hover, .nav a.active { color:var(--primary); }
+  .nav a.active { position:relative; }
+  .nav a.active::after { content:''; position:absolute; bottom:-24px; left:0; right:0; height:2px; background:var(--primary); }
+  .header-cta { padding:10px 24px; background:var(--primary); color:#fff; border-radius:8px; font-size:14px; font-weight:500; transition:all .2s; }
+  .header-cta:hover { background:var(--primary-dark); transform:translateY(-1px); box-shadow:var(--shadow-primary); }
+
+  /* Hero */
+  .hero {
+    position:relative; min-height:calc(100vh - 70px);
+    background: var(--gradient);
+    display:flex; align-items:center; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background:
+      radial-gradient(circle at 15% 25%, rgba(255,255,255,0.08) 0%, transparent 45%),
+      radial-gradient(circle at 85% 75%, rgba(201,154,63,0.10) 0%, transparent 45%);
+  }
+  .hero::after {
+    content:''; position:absolute; width:320px; height:320px; border-radius:50%;
+    background:rgba(255,255,255,0.04); top:12%; right:12%;
+  }
+  .hero .container { position:relative; z-index:2; }
+  .hero-content { max-width:760px; padding:60px 0; }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    padding:6px 16px; background:rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.2); border-radius:999px;
+    font-size:13px; color:#fff; margin-bottom:24px; backdrop-filter:blur(8px);
+  }
+  .hero-badge .dot { width:6px; height:6px; background:var(--accent-light); border-radius:50%; }
+  .hero h1 {
+    font-size:52px; font-weight:500; color:#fff; line-height:1.2;
+    margin-bottom:24px; letter-spacing:-1px;
+  }
+  .hero h1 .accent { color:var(--accent-light); font-family:var(--font-serif); font-weight:500; }
+  .hero-desc {
+    font-size:19px; color:rgba(255,255,255,0.85); max-width:580px;
+    margin-bottom:40px; line-height:1.7;
+  }
+  .hero-actions { display:flex; gap:16px; flex-wrap:wrap; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 32px; font-size:15px; font-weight:500; border-radius:8px; cursor:pointer; transition:all .25s; border:none; }
+  .btn-primary { background:#fff; color:var(--primary); }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.2); }
+  .btn-outline { background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,0.5); }
+  .btn-outline:hover { background:rgba(255,255,255,0.1); border-color:#fff; }
+  .hero-arrow { font-size:18px; }
+
+  .social-sidebar {
+    position:absolute; right:40px; top:50%; transform:translateY(-50%);
+    display:flex; flex-direction:column; gap:14px; z-index:3;
+  }
+  .social-link {
+    width:44px; height:44px; border-radius:50%;
+    background:rgba(255,255,255,0.12); backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,0.15);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:16px; transition:all .25s;
+  }
+  .social-link:hover { background:#fff; color:var(--primary); transform:scale(1.1); border-color:#fff; }
+
+  .hero-scroll {
+    position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+    color:rgba(255,255,255,0.6); font-size:12px; display:flex; flex-direction:column; align-items:center; gap:8px; z-index:3;
+  }
+  .hero-scroll .line { width:1px; height:32px; background:rgba(255,255,255,0.3); }
+
+  /* Section common */
+  .section { padding:100px 0; }
+  .section-header { text-align:center; margin-bottom:64px; }
+  .section-eyebrow { display:inline-block; font-size:13px; color:var(--primary); font-weight:500; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px; }
+  .section-title { font-size:36px; font-weight:500; color:var(--ink); margin-bottom:16px; letter-spacing:-0.5px; }
+  .section-desc { font-size:17px; color:var(--text-sec); max-width:620px; margin:0 auto; }
+
+  /* Services */
+  .services-grid {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:32px;
+  }
+  .service-card {
+    background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg);
+    padding:36px 32px; transition:all .3s; cursor:pointer; position:relative; overflow:hidden;
+  }
+  .service-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:3px;
+    background:var(--primary); transform:scaleX(0); transform-origin:left; transition:transform .3s;
+  }
+  .service-card:hover { border-color:var(--primary-100); box-shadow:var(--shadow-lg); transform:translateY(-6px); }
+  .service-card:hover::before { transform:scaleX(1); }
+  .service-card.featured { background:var(--bg-warm); border-color:var(--accent-50); }
+  .service-card.featured::before { background:var(--accent); }
+  .service-icon {
+    width:56px; height:56px; border-radius:14px; background:var(--primary-50);
+    display:flex; align-items:center; justify-content:center; margin-bottom:24px;
+    font-size:26px; color:var(--primary);
+  }
+  .service-card.featured .service-icon { background:var(--accent-50); color:var(--accent-dark); }
+  .service-card h3 { font-size:20px; font-weight:500; color:var(--ink); margin-bottom:12px; }
+  .service-card p { font-size:15px; color:var(--text-sec); margin-bottom:20px; line-height:1.7; }
+  .service-link { font-size:14px; color:var(--primary); font-weight:500; display:inline-flex; align-items:center; gap:6px; transition:gap .2s; }
+  .service-card.featured .service-link { color:var(--accent-dark); }
+  .service-link:hover { gap:10px; }
+  .service-tag { display:inline-block; padding:3px 10px; background:var(--accent-50); color:var(--accent-dark); font-size:11px; font-weight:500; border-radius:999px; margin-bottom:12px; }
+
+  /* Why Choose Us */
+  .why { background:var(--bg-soft); }
+  .features-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:32px; }
+  .feature-card {
+    text-align:center; padding:40px 24px; background:#fff;
+    border:1px solid var(--border); border-radius:var(--radius-lg); transition:all .3s;
+  }
+  .feature-card:hover { transform:translateY(-6px); box-shadow:var(--shadow-lg); border-color:var(--primary-100); }
+  .feature-icon {
+    width:64px; height:64px; margin:0 auto 24px; border-radius:50%;
+    background:var(--primary-50); display:flex; align-items:center; justify-content:center;
+    font-size:28px; color:var(--primary);
+  }
+  .feature-card h4 { font-size:18px; font-weight:500; color:var(--ink); margin-bottom:12px; }
+  .feature-card p { font-size:14px; color:var(--text-sec); line-height:1.6; }
+
+  /* Stats strip */
+  .stats { background:var(--gradient); padding:60px 0; }
+  .stats-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:32px; text-align:center; }
+  .stat-value { font-size:42px; font-weight:500; color:#fff; letter-spacing:-1px; }
+  .stat-value .unit { font-size:20px; color:var(--accent-light); }
+  .stat-label { font-size:14px; color:rgba(255,255,255,0.7); margin-top:8px; }
+
+  /* CTA */
+  .cta { position:relative; padding:100px 0; background:var(--gradient-accent); overflow:hidden; }
+  .cta::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 70% 30%, rgba(255,255,255,0.08) 0%, transparent 50%); }
+  .cta .container { position:relative; z-index:2; }
+  .cta-content { text-align:center; max-width:640px; margin:0 auto; }
+  .cta h2 { font-size:36px; font-weight:500; color:#fff; margin-bottom:16px; letter-spacing:-0.5px; }
+  .cta h2 .serif { font-family:var(--font-serif); }
+  .cta p { font-size:18px; color:rgba(255,255,255,0.85); margin-bottom:36px; }
+
+  /* Footer */
+  .footer { background:var(--ink); color:rgba(255,255,255,0.7); padding:64px 0 32px; }
+  .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; margin-bottom:48px; }
+  .footer-brand p { font-size:14px; line-height:1.7; margin-top:16px; max-width:300px; }
+  .footer-col h5 { font-size:14px; font-weight:500; color:#fff; margin-bottom:20px; }
+  .footer-col ul li { margin-bottom:12px; }
+  .footer-col a { font-size:14px; color:rgba(255,255,255,0.6); transition:color .2s; }
+  .footer-col a:hover { color:var(--accent-light); }
+  .footer-bottom { border-top:1px solid rgba(255,255,255,0.1); padding-top:24px; display:flex; justify-content:space-between; font-size:13px; color:rgba(255,255,255,0.4); }
+
+  /* Design annotation badge */
+  .design-badge {
+    position:fixed; bottom:20px; right:20px; z-index:999;
+    background:var(--ink); color:#fff; padding:8px 16px; border-radius:8px;
+    font-size:12px; font-family:monospace; opacity:0.8;
+  }
+  .design-badge .dot { display:inline-block; width:6px; height:6px; background:var(--accent-light); border-radius:50%; margin-right:6px; }
+</style>
+</head>
+<body>
+
+<!-- Design annotation -->
+<div class="design-badge"><span class="dot"></span>Phase 1 · 首页设计稿 · Desktop 1440px</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="container">
+    <div class="logo">
+      <div class="logo-mark">
+        <div class="sq1"></div><div class="sq2"></div>
+        <div class="arc"></div><div class="dot"></div>
+      </div>
+      <span class="logo-text">Bolent</span>
+    </div>
+    <nav class="nav">
+      <a href="#" class="active">首页</a>
+      <a href="#">关于我们</a>
+      <a href="#">服务</a>
+      <a href="#">诗词</a>
+      <a href="#">案例</a>
+      <a href="#">博客</a>
+      <a href="#">招贤纳士</a>
+    </nav>
+    <a href="#" class="header-cta">立即咨询</a>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        科技 × 人文 · 数智融合
+      </div>
+      <h1>以工程精度交付价值<br>以<span class="accent">人文视角</span>连接未来</h1>
+      <p class="hero-desc">
+        Bolent 是一家融合现代科技与文化底蕴的数智企业。我们提供全方位 IT 服务，
+        并以 AI 读诗为特色，让技术在诗意中落地。
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary">探索服务 <span class="hero-arrow">→</span></a>
+        <a href="#" class="btn btn-outline">进入诗词</a>
+      </div>
+    </div>
+  </div>
+  <div class="social-sidebar">
+    <a href="#" class="social-link">𝕏</a>
+    <a href="#" class="social-link">in</a>
+    <a href="#" class="social-link">微</a>
+    <a href="#" class="social-link">GH</a>
+  </div>
+  <div class="hero-scroll">
+    <span>向下滚动</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">OUR SERVICES</span>
+      <h2 class="section-title">全方位数智服务</h2>
+      <p class="section-desc">从软件开发到 AI 诗词，Bolent 以专业团队为您构建数字化解决方案</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">◆</div>
+        <h3>数字化 & 数据</h3>
+        <p>实时、准确、可靠的数据采集与分析，驱动业务决策。</p>
+        <a href="#" class="service-link">了解更多 →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">▲</div>
+        <h3>软件开发</h3>
+        <p>从 Web 到移动端，为企业打造数字化身份与核心产品。</p>
+        <a href="#" class="service-link">了解更多 →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">●</div>
+        <h3>自动化 & QA</h3>
+        <p>测试自动化工具与质量保障体系，更快交付更高质量。</p>
+        <a href="#" class="service-link">了解更多 →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">■</div>
+        <h3>IT 管理</h3>
+        <p>企业级 IT 管理方案，监控与管控全部网络与基础设施。</p>
+        <a href="#" class="service-link">了解更多 →</a>
+      </div>
+      <div class="service-card featured">
+        <span class="service-tag">特色板块</span>
+        <div class="service-icon">✦</div>
+        <h3>AI 读诗</h3>
+        <p>以人工智能解读古典诗词，让科技在诗意中落地，文化在数据中传承。</p>
+        <a href="#" class="service-link">进入诗词 →</a>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">◈</div>
+        <h3>IT 外包</h3>
+        <p>不只是成本套利，更是为您提供最优秀的人才与高质量交付。</p>
+        <a href="#" class="service-link">了解更多 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-value">120<span class="unit">+</span></div>
+        <div class="stat-label">交付项目</div>
+      </div>
+      <div>
+        <div class="stat-value">98<span class="unit">%</span></div>
+        <div class="stat-label">客户满意度</div>
+      </div>
+      <div>
+        <div class="stat-value">3000<span class="unit">+</span></div>
+        <div class="stat-label">诗词解析</div>
+      </div>
+      <div>
+        <div class="stat-value">8<span class="unit">年</span></div>
+        <div class="stat-label">行业经验</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Choose Us -->
+<section class="section why">
+  <div class="container">
+    <div class="section-header">
+      <span class="section-eyebrow">WHY BOLENT</span>
+      <h2 class="section-title">为什么选择我们</h2>
+      <p class="section-desc">深耕技术，融通人文，以可信赖的伙伴角色陪伴您的数智化旅程</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">◆</div>
+        <h4>领域专业</h4>
+        <p>深厚的行业经验与专业技能积累</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✦</div>
+        <h4>卓越品质</h4>
+        <p>工程级精度，交付高质量解决方案</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◈</div>
+        <h4>技术前沿</h4>
+        <p>采用最新技术与行业最佳实践</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">❖</div>
+        <h4>人文视角</h4>
+        <p>以文化底蕴驱动有温度的产品体验</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2>准备好开启<span class="serif">数智</span>之旅了吗？</h2>
+      <p>让我们一起探讨如何以技术助力业务、以人文连接未来</p>
+      <a href="#" class="btn btn-primary">立即咨询 <span class="hero-arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-mark">
+            <div class="sq1" style="background:#fff"></div>
+            <div class="sq2" style="background:#fff;opacity:0.6"></div>
+            <div class="arc" style="border-color:#fff"></div>
+            <div class="dot"></div>
+          </div>
+          <span class="logo-text" style="color:#fff">Bolent</span>
+        </div>
+        <p>融合现代科技与文化底蕴的数智企业。以工程精度交付价值，以人文视角连接未来。</p>
+      </div>
+      <div class="footer-col">
+        <h5>服务</h5>
+        <ul>
+          <li><a href="#">软件开发</a></li>
+          <li><a href="#">数字化 & 数据</a></li>
+          <li><a href="#">自动化 & QA</a></li>
+          <li><a href="#">IT 外包</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>探索</h5>
+        <ul>
+          <li><a href="#">AI 读诗</a></li>
+          <li><a href="#">成功案例</a></li>
+          <li><a href="#">技术博客</a></li>
+          <li><a href="#">关于我们</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>联系</h5>
+        <ul>
+          <li><a href="#">联系我们</a></li>
+          <li><a href="#">招贤纳士</a></li>
+          <li><a href="#">合作伙伴</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Bolent. All rights reserved.</span>
+      <span>szbolent.cn</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
