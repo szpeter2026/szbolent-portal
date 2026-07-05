@@ -127,7 +127,7 @@ onMounted(() => {
 <style scoped>
 .poet-list-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bolent-gradient);
   padding: 40px 20px;
 }
 
@@ -172,7 +172,7 @@ onMounted(() => {
 
 .filters button.active {
   background: white;
-  color: #667eea;
+  color: var(--bolent-primary);
   border-color: white;
 }
 
@@ -222,7 +222,7 @@ onMounted(() => {
   width: 80px;
   height: 80px;
   margin: 0 auto 20px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -277,7 +277,7 @@ onMounted(() => {
 }
 
 .pagination button:not(:disabled):hover {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
 }
 

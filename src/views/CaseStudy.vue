@@ -215,7 +215,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .case-study-page {
   .case-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     color: white;
     padding: 100px 0 80px;
     text-align: center;
@@ -236,7 +236,7 @@ onMounted(() => {
 
   .filter-section {
     padding: 40px 0;
-    background: #f8f9fa;
+    background: var(--bolent-bg-soft);
 
     .filter-bar {
       display: flex;
@@ -247,24 +247,24 @@ onMounted(() => {
 
     .filter-btn {
       padding: 10px 24px;
-      border: 2px solid #e1e8ed;
+      border: 2px solid var(--bolent-border);
       background: white;
       border-radius: 25px;
       font-size: 15px;
       cursor: pointer;
-      transition: all 0.3s ease;
-      color: #333;
+      transition: var(--bolent-transition);
+      color: var(--bolent-text);
       font-weight: 500;
 
       &:hover {
-        border-color: #1890ff;
-        color: #1890ff;
+        border-color: var(--bolent-primary);
+        color: var(--bolent-primary);
         transform: translateY(-2px);
       }
 
       &.active {
-        background: #1890ff;
-        border-color: #1890ff;
+        background: var(--bolent-primary);
+        border-color: var(--bolent-primary);
         color: white;
       }
     }
@@ -282,12 +282,12 @@ onMounted(() => {
       background: white;
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      box-shadow: var(--bolent-shadow);
+      transition: var(--bolent-transition);
 
       &:hover {
         transform: translateY(-8px);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        box-shadow: var(--bolent-shadow-lg);
 
         .case-overlay {
           opacity: 1;
@@ -312,7 +312,7 @@ onMounted(() => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(102, 126, 234, 0.9);
+          background: rgba(14, 110, 106, 0.9);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -322,11 +322,11 @@ onMounted(() => {
           .view-btn {
             padding: 12px 32px;
             background: white;
-            color: #667eea;
+            color: var(--bolent-primary);
             border-radius: 25px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: var(--bolent-transition);
 
             &:hover {
               transform: scale(1.05);
@@ -357,8 +357,8 @@ onMounted(() => {
           }
 
           .industry-tag {
-            background: #e6f7ff;
-            color: #1890ff;
+            background: var(--bolent-primary-50);
+            color: var(--bolent-primary);
           }
 
           .service-tag {
@@ -371,12 +371,12 @@ onMounted(() => {
           font-size: 22px;
           font-weight: 700;
           margin-bottom: 12px;
-          color: #1a1a1a;
+          color: var(--bolent-ink);
           line-height: 1.4;
         }
 
         .case-description {
-          color: #666;
+          color: var(--bolent-text-secondary);
           line-height: 1.6;
           margin-bottom: 20px;
           font-size: 15px;
@@ -397,26 +397,26 @@ onMounted(() => {
             .stat-value {
               font-size: 24px;
               font-weight: 700;
-              color: #1890ff;
+              color: var(--bolent-primary);
               margin-bottom: 4px;
             }
 
             .stat-label {
               font-size: 12px;
-              color: #999;
+              color: var(--bolent-text-muted);
             }
           }
         }
 
         .read-more {
           display: inline-block;
-          color: #1890ff;
+          color: var(--bolent-primary);
           font-weight: 600;
           text-decoration: none;
-          transition: all 0.3s ease;
+          transition: var(--bolent-transition);
 
           &:hover {
-            color: #096dd9;
+            color: var(--bolent-primary-dark);
             transform: translateX(4px);
           }
         }
@@ -426,7 +426,7 @@ onMounted(() => {
     .empty-state {
       text-align: center;
       padding: 80px 20px;
-      color: #999;
+      color: var(--bolent-text-muted);
 
       .empty-icon {
         font-size: 64px;
@@ -440,7 +440,7 @@ onMounted(() => {
   }
 
   .cta-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     color: white;
     padding: 80px 0;
 
@@ -463,11 +463,11 @@ onMounted(() => {
         padding: 16px 48px;
         font-size: 18px;
         background: white;
-        color: #667eea;
+        color: var(--bolent-primary);
         border: none;
 
         &:hover {
-          background: #f0f0f0;
+          background: var(--bolent-border-light);
           transform: translateY(-3px);
         }
       }

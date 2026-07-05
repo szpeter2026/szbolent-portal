@@ -273,7 +273,7 @@ const handleSubmit = async () => {
   padding-top: 70px;
 
   .page-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     padding: 100px 0 60px;
     text-align: center;
     color: white;
@@ -330,7 +330,7 @@ const handleSubmit = async () => {
           flex-shrink: 0;
           width: 50px;
           height: 50px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--bolent-gradient);
           border-radius: 12px;
           display: flex;
           align-items: center;
@@ -372,7 +372,7 @@ const handleSubmit = async () => {
       background: white;
       padding: 40px;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--bolent-shadow-md);
 
       h3 {
         font-size: 2rem;
@@ -395,10 +395,10 @@ const handleSubmit = async () => {
         textarea {
           width: 100%;
           padding: 12px 16px;
-          border: 2px solid #e8e8e8;
+          border: 2px solid var(--bolent-border);
           border-radius: 8px;
           font-size: 1rem;
-          transition: all 0.3s ease;
+          transition: var(--bolent-transition);
           font-family: inherit;
 
           &:focus {
@@ -411,7 +411,7 @@ const handleSubmit = async () => {
           }
 
           &::placeholder {
-            color: #999;
+            color: var(--bolent-text-muted);
           }
         }
 
@@ -453,7 +453,7 @@ const handleSubmit = async () => {
   .map-section {
     .map-placeholder {
       height: 400px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--bolent-gradient);
       position: relative;
       display: flex;
       align-items: center;

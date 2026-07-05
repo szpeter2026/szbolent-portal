@@ -6,7 +6,9 @@
           <!-- 公司信息 -->
           <div class="footer-col">
             <div class="footer-logo">
-              <span class="logo-text">Bolent</span>
+              <router-link to="/" class="logo-link">
+                <img src="/bolent-logo-white.svg" alt="Bolent" class="logo-img" />
+              </router-link>
             </div>
             <p class="footer-desc">
               您值得信赖的 IT 合作伙伴<br>
@@ -99,8 +101,8 @@ const currentYear = computed(() => new Date().getFullYear())
 
 <style scoped lang="scss">
 .footer {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-  color: white;
+  background: var(--bolent-ink);
+  color: rgba(255, 255, 255, 0.7);
 
   .footer-main {
     padding: 80px 0 40px;
@@ -114,12 +116,18 @@ const currentYear = computed(() => new Date().getFullYear())
         .footer-logo {
           margin-bottom: 20px;
 
-          .logo-text {
-            font-size: 32px;
-            font-weight: bold;
-            background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+          .logo-link {
+            display: inline-block;
+            transition: opacity 0.3s;
+
+            &:hover {
+              opacity: 0.85;
+            }
+          }
+
+          .logo-img {
+            height: 44px;
+            width: auto;
           }
         }
 
@@ -142,7 +150,7 @@ const currentYear = computed(() => new Date().getFullYear())
             align-items: center;
             justify-content: center;
             font-size: 18px;
-            transition: all 0.3s;
+            transition: var(--bolent-transition);
 
             &:hover {
               background: rgba(255, 255, 255, 0.2);
@@ -153,7 +161,8 @@ const currentYear = computed(() => new Date().getFullYear())
 
         .footer-title {
           font-size: 18px;
-          font-weight: 600;
+          font-weight: var(--bolent-fw-medium);
+          color: #fff;
           margin-bottom: 24px;
           position: relative;
           padding-bottom: 12px;
@@ -165,7 +174,8 @@ const currentYear = computed(() => new Date().getFullYear())
             bottom: 0;
             width: 40px;
             height: 2px;
-            background: rgba(255, 255, 255, 0.3);
+            background: var(--bolent-accent-light);
+            opacity: 0.5;
           }
         }
 
@@ -176,7 +186,7 @@ const currentYear = computed(() => new Date().getFullYear())
             a {
               color: rgba(255, 255, 255, 0.8);
               font-size: 14px;
-              transition: all 0.3s;
+              transition: var(--bolent-transition);
               display: inline-block;
 
               &:hover {

@@ -316,7 +316,7 @@ onMounted(() => {
   padding-top: 70px;
 
   .page-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     padding: 100px 0 60px;
     text-align: center;
     color: white;
@@ -351,7 +351,7 @@ onMounted(() => {
       input {
         flex: 1;
         padding: 12px 20px;
-        border: 2px solid #e8e8e8;
+        border: 2px solid var(--bolent-border);
         border-radius: 8px;
         font-size: 1rem;
 
@@ -369,11 +369,11 @@ onMounted(() => {
 
       .filter-btn {
         padding: 8px 20px;
-        border: 2px solid #e8e8e8;
+        border: 2px solid var(--bolent-border);
         background: white;
         border-radius: 20px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: var(--bolent-transition);
         font-size: 0.95rem;
 
         &:hover {
@@ -401,7 +401,7 @@ onMounted(() => {
         width: 50px;
         height: 50px;
         margin: 0 auto 20px;
-        border: 4px solid #f3f3f3;
+        border: 4px solid var(--bolent-bg-soft);
         border-top: 4px solid var(--primary-color);
         border-radius: 50%;
         animation: spin 1s linear infinite;
@@ -432,12 +432,12 @@ onMounted(() => {
       background: white;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      box-shadow: var(--bolent-shadow);
+      transition: var(--bolent-transition);
 
       &:hover {
         transform: translateY(-8px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        box-shadow: var(--bolent-shadow-lg);
       }
 
       .post-thumbnail {
@@ -465,7 +465,7 @@ onMounted(() => {
           align-items: center;
           justify-content: center;
           font-size: 4rem;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--bolent-gradient);
         }
       }
 
@@ -566,11 +566,11 @@ onMounted(() => {
         min-width: 40px;
         height: 40px;
         padding: 8px 12px;
-        border: 2px solid #e8e8e8;
+        border: 2px solid var(--bolent-border);
         background: white;
         border-radius: 8px;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: var(--bolent-transition);
 
         &:hover:not(.active) {
           border-color: var(--primary-color);

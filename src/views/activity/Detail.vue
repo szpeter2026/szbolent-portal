@@ -263,7 +263,7 @@ onMounted(() => {
 .time {
   color: #95a5a6;
   padding: 10px 20px;
-  background: #f8f9fa;
+  background: var(--bolent-bg-soft);
   border-radius: 20px;
 }
 
@@ -335,7 +335,7 @@ onMounted(() => {
 }
 
 .prize-card {
-  background: #f8f9fa;
+  background: var(--bolent-bg-soft);
   border-radius: 15px;
   padding: 25px;
   text-align: center;
@@ -392,7 +392,7 @@ onMounted(() => {
 
 .get-chances li {
   padding: 15px 20px;
-  background: #f8f9fa;
+  background: var(--bolent-bg-soft);
   border-radius: 10px;
   margin-bottom: 10px;
   font-size: 16px;
@@ -402,7 +402,7 @@ onMounted(() => {
 .btn-go-poetry {
   display: block;
   width: 100%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
   border: none;
   padding: 15px;
@@ -415,7 +415,7 @@ onMounted(() => {
 
 .btn-go-poetry:hover {
   transform: scale(1.02);
-  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 10px 30px rgba(14, 110, 106, 0.4);
 }
 
 @media (max-width: 768px) {

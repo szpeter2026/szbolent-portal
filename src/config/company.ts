@@ -1,17 +1,17 @@
 /**
- * szbolent.cn 门户品牌配置
- * 继承自 SurfaceZervi/archive-gitee/szbenyx/bolent/web-public
+ * Bolent 门户品牌配置 v2.0
+ * 对齐 Phase 1 品牌规范：数智企业门户定位
  */
 
 export const companyInfo = {
-  name: 'SZBolent',
-  fullName: 'SZBolent Poetry Portal',
-  chineseName: '诗词门户',
-  tagline: '以诗会友，以 AI 读诗',
-  slogan: 'szbolent.cn — 智能化诗词与个人品牌门户',
+  name: 'Bolent',
+  fullName: 'Bolent Digital Intelligence',
+  chineseName: '数智企业门户',
+  tagline: '以工程精度交付价值，以人文视角连接未来',
+  slogan: 'Bolent — 融合科技与人文的数智企业',
 
   description:
-    'SZBolent 是面向诗词爱好者与个人品牌展示的智能化门户：精选古典诗词、博客文章与 AI 辅助赏析，与 JobFirst 求职主线刻意分离。',
+    'Bolent 是一家融合现代科技与文化底蕴的数智企业。我们提供软件开发、数字化、自动化、IT 管理与 IT 外包等全方位服务，并以 AI 读诗为特色板块，让技术在诗意中落地。',
 
   contact: {
     email: 'hello@szbolent.cn',
@@ -22,7 +22,7 @@ export const companyInfo = {
   address: {
     main: {
       city: '中国',
-      full: '线上门户 szbolent.cn',
+      full: 'szbolent.cn',
       postcode: '',
     },
   },
@@ -40,30 +40,28 @@ export const companyInfo = {
 
   stats: {
     foundedYear: 2026,
-    poemCorpus: '78k+',
-    aiModules: 'poetry_rag',
   },
 
   values: [
     {
-      icon: '📜',
-      title: '诗词为本',
-      description: '古典语料与当代阅读体验结合',
+      icon: '◆',
+      title: '领域专业',
+      description: '深厚的行业经验与专业技能积累',
     },
     {
-      icon: '🤖',
-      title: 'AI 增强',
-      description: '智能推荐、赏析与检索，不替代人文判断',
+      icon: '▲',
+      title: '卓越品质',
+      description: '工程级精度，交付高质量解决方案',
     },
     {
-      icon: '🌐',
-      title: '开放门户',
-      description: 'Headless CMS + 现代前端，内容可运营',
+      icon: '●',
+      title: '技术前沿',
+      description: '采用最新技术与行业最佳实践',
     },
     {
-      icon: '🔗',
-      title: '溯源清晰',
-      description: '工程与 SurfaceZervi bolent-content 线对齐',
+      icon: '✦',
+      title: '人文视角',
+      description: '以文化底蕴驱动有温度的产品体验',
     },
   ],
 
@@ -72,17 +70,18 @@ export const companyInfo = {
 }
 
 export const seoConfig = {
-  defaultTitle: 'SZBolent — 智能化诗词门户',
-  titleTemplate: '%s | szbolent.cn',
+  defaultTitle: 'Bolent — 数智企业门户',
+  titleTemplate: '%s | Bolent',
   defaultDescription:
-    'szbolent.cn：古典诗词鉴赏、个人品牌展示与 AI 辅助读诗。Headless WordPress 内容 + Vue 门户 + Tatha 诗词 RAG。',
+    'Bolent 是融合现代科技与文化底蕴的数智企业，提供软件开发、数字化、IT管理及AI读诗等全方位服务。',
   keywords: [
-    'szbolent',
-    '诗词',
-    '古典文学',
+    'Bolent',
+    '数智企业',
+    '软件开发',
     'AI读诗',
-    '个人品牌',
-    'headless WordPress',
+    '数字化转型',
+    'IT服务',
+    '企业门户',
   ],
   siteUrl: 'https://szbolent.cn',
   ogImage: '/images/og-image.jpg',

@@ -312,7 +312,7 @@ onMounted(() => {
   padding-top: 70px;
 
   .service-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     padding: 80px 0 60px;
     color: white;
 
@@ -392,19 +392,19 @@ onMounted(() => {
           padding: 30px;
           background: white;
           border-radius: 12px;
-          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-          transition: all 0.3s ease;
+          box-shadow: var(--bolent-shadow);
+          transition: var(--bolent-transition);
 
           &:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            box-shadow: var(--bolent-shadow-lg);
           }
 
           .feature-icon {
             flex-shrink: 0;
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bolent-gradient);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -442,7 +442,7 @@ onMounted(() => {
             font-size: 1.125rem;
             line-height: 1.6;
             color: var(--text-secondary);
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--bolent-border);
 
             &:last-child {
               border-bottom: none;
@@ -455,7 +455,7 @@ onMounted(() => {
               top: 16px;
               width: 24px;
               height: 24px;
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              background: var(--bolent-gradient);
               color: white;
               border-radius: 50%;
               display: flex;
@@ -474,7 +474,7 @@ onMounted(() => {
         background: white;
         padding: 30px;
         border-radius: 12px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        box-shadow: var(--bolent-shadow);
         margin-bottom: 30px;
 
         h3 {
@@ -491,7 +491,7 @@ onMounted(() => {
       }
 
       .contact-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--bolent-gradient);
         color: white;
 
         h3 {
@@ -520,7 +520,7 @@ onMounted(() => {
           padding: 0;
 
           li {
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid var(--bolent-border);
 
             &:last-child {
               border-bottom: none;
@@ -531,7 +531,7 @@ onMounted(() => {
               padding: 12px 0;
               color: var(--text-secondary);
               text-decoration: none;
-              transition: all 0.3s ease;
+              transition: var(--bolent-transition);
 
               &:hover {
                 color: var(--primary-color);
@@ -545,7 +545,7 @@ onMounted(() => {
   }
 
   .cta-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     padding: 80px 0;
     text-align: center;
     color: white;

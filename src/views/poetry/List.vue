@@ -212,7 +212,7 @@ onMounted(() => {
 <style scoped>
 .poetry-list-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bolent-gradient);
   padding: 40px 20px;
 }
 
@@ -275,12 +275,12 @@ onMounted(() => {
 }
 
 .filter-group button:hover {
-  border-color: #667eea;
-  color: #667eea;
+  border-color: var(--bolent-primary);
+  color: var(--bolent-primary);
 }
 
 .filter-group button.active {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
   border-color: transparent;
 }
@@ -341,7 +341,7 @@ onMounted(() => {
 }
 
 .dynasty-badge {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
   padding: 4px 12px;
   border-radius: 12px;
@@ -402,7 +402,7 @@ onMounted(() => {
 }
 
 .pagination button:not(:disabled):hover {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
 }
 

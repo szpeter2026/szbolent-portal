@@ -109,7 +109,7 @@ onMounted(() => {
 <style scoped>
 .poet-detail-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bolent-gradient);
   padding: 40px 20px;
 }
 
@@ -120,7 +120,7 @@ onMounted(() => {
 
 .btn-back {
   background: white;
-  color: #667eea;
+  color: var(--bolent-primary);
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
@@ -162,7 +162,7 @@ onMounted(() => {
   width: 120px;
   height: 120px;
   margin: 0 auto 20px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -193,7 +193,7 @@ onMounted(() => {
 }
 
 .dynasty {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
 }
 
@@ -237,7 +237,7 @@ onMounted(() => {
   display: block;
   font-size: 28px;
   font-weight: bold;
-  color: #667eea;
+  color: var(--bolent-primary);
 }
 
 .poet-poems {
@@ -261,7 +261,7 @@ onMounted(() => {
 }
 
 .poem-card {
-  background: #f8f9fa;
+  background: var(--bolent-bg-soft);
   border-radius: 15px;
   padding: 20px;
   cursor: pointer;
@@ -269,7 +269,7 @@ onMounted(() => {
 }
 
 .poem-card:hover {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
   transform: translateY(-5px);
 }

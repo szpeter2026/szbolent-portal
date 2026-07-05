@@ -39,7 +39,7 @@
     </section>
 
     <!-- 服务流程 -->
-    <section class="process-section section" style="background: #f8f9fa;">
+    <section class="process-section section" style="background: var(--bolent-bg-soft);">
       <div class="container">
         <div class="section-header">
           <h2 data-aos="fade-up">我们的服务流程</h2>
@@ -93,7 +93,7 @@
     </section>
 
     <!-- 为什么选择我们 -->
-    <section class="why-choose-section section" style="background: #f8f9fa;">
+    <section class="why-choose-section section" style="background: var(--bolent-bg-soft);">
       <div class="container">
         <div class="section-header">
           <h2 data-aos="fade-up">为什么选择 Bolent？</h2>
@@ -149,7 +149,7 @@
     </section>
 
     <!-- 客户评价 -->
-    <section class="testimonials-section section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+    <section class="testimonials-section section" style="background: var(--bolent-gradient); color: white;">
       <div class="container">
         <div class="section-header">
           <h2 data-aos="fade-up" style="color: white;">客户评价</h2>
@@ -400,7 +400,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .services-page {
   .services-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     color: white;
     padding: 100px 0 80px;
     text-align: center;
@@ -429,7 +429,7 @@ onMounted(() => {
 
     p {
       font-size: 18px;
-      color: #666;
+      color: var(--bolent-text-secondary);
     }
   }
 
@@ -444,12 +444,12 @@ onMounted(() => {
       background: white;
       border-radius: 16px;
       padding: 40px 30px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      box-shadow: var(--bolent-shadow);
+      transition: var(--bolent-transition);
 
       &:hover {
         transform: translateY(-8px);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        box-shadow: var(--bolent-shadow-lg);
       }
 
       .service-icon {
@@ -461,11 +461,11 @@ onMounted(() => {
         font-size: 24px;
         font-weight: 700;
         margin-bottom: 16px;
-        color: #1a1a1a;
+        color: var(--bolent-ink);
       }
 
       .service-description {
-        color: #666;
+        color: var(--bolent-text-secondary);
         line-height: 1.6;
         margin-bottom: 24px;
       }
@@ -477,7 +477,7 @@ onMounted(() => {
 
         li {
           padding: 8px 0;
-          color: #333;
+          color: var(--bolent-text);
           display: flex;
           align-items: center;
           gap: 10px;
@@ -492,13 +492,13 @@ onMounted(() => {
 
       .service-link {
         display: inline-block;
-        color: #1890ff;
+        color: var(--bolent-primary);
         font-weight: 600;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: var(--bolent-transition);
 
         &:hover {
-          color: #096dd9;
+          color: var(--bolent-primary-dark);
           transform: translateX(4px);
         }
       }
@@ -517,13 +517,13 @@ onMounted(() => {
       border-radius: 12px;
       padding: 30px;
       text-align: center;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      box-shadow: var(--bolent-shadow-sm);
       position: relative;
-      transition: all 0.3s ease;
+      transition: var(--bolent-transition);
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        box-shadow: var(--bolent-shadow-md);
       }
 
       .process-number {
@@ -544,11 +544,11 @@ onMounted(() => {
         font-size: 20px;
         font-weight: 600;
         margin-bottom: 12px;
-        color: #333;
+        color: var(--bolent-text);
       }
 
       p {
-        color: #666;
+        color: var(--bolent-text-secondary);
         line-height: 1.6;
       }
     }
@@ -565,9 +565,9 @@ onMounted(() => {
         font-size: 22px;
         font-weight: 600;
         margin-bottom: 20px;
-        color: #333;
+        color: var(--bolent-text);
         padding-bottom: 12px;
-        border-bottom: 3px solid #1890ff;
+        border-bottom: 3px solid var(--bolent-primary);
         display: inline-block;
       }
 
@@ -579,14 +579,14 @@ onMounted(() => {
 
       .tech-item {
         padding: 10px 20px;
-        background: #f5f5f5;
+        background: var(--bolent-bg-soft);
         border-radius: 20px;
         font-size: 14px;
-        color: #333;
-        transition: all 0.3s ease;
+        color: var(--bolent-text);
+        transition: var(--bolent-transition);
 
         &:hover {
-          background: #1890ff;
+          background: var(--bolent-primary);
           color: white;
           transform: translateY(-2px);
         }
@@ -605,12 +605,12 @@ onMounted(() => {
       background: white;
       border-radius: 12px;
       padding: 30px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      transition: all 0.3s ease;
+      box-shadow: var(--bolent-shadow-sm);
+      transition: var(--bolent-transition);
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        box-shadow: var(--bolent-shadow-md);
       }
 
       .advantage-icon {
@@ -622,11 +622,11 @@ onMounted(() => {
         font-size: 20px;
         font-weight: 600;
         margin-bottom: 12px;
-        color: #333;
+        color: var(--bolent-text);
       }
 
       p {
-        color: #666;
+        color: var(--bolent-text-secondary);
         line-height: 1.6;
       }
     }
@@ -644,12 +644,12 @@ onMounted(() => {
       background: white;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      box-shadow: var(--bolent-shadow);
+      transition: var(--bolent-transition);
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: var(--bolent-shadow-md);
       }
 
       .case-image {
@@ -674,8 +674,8 @@ onMounted(() => {
         .case-tag {
           display: inline-block;
           padding: 4px 12px;
-          background: #e6f7ff;
-          color: #1890ff;
+          background: var(--bolent-primary-50);
+          color: var(--bolent-primary);
           border-radius: 12px;
           font-size: 13px;
           margin-bottom: 12px;
@@ -685,11 +685,11 @@ onMounted(() => {
           font-size: 18px;
           font-weight: 600;
           margin-bottom: 8px;
-          color: #333;
+          color: var(--bolent-text);
         }
 
         p {
-          color: #1890ff;
+          color: var(--bolent-primary);
           font-weight: 500;
         }
       }
@@ -764,7 +764,7 @@ onMounted(() => {
 
       p {
         font-size: 18px;
-        color: #666;
+        color: var(--bolent-text-secondary);
         margin-bottom: 32px;
       }
 

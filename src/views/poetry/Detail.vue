@@ -187,7 +187,7 @@ onMounted(() => {
 <style scoped>
 .poetry-detail-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bolent-gradient);
   padding: 40px 20px;
 }
 
@@ -218,7 +218,7 @@ onMounted(() => {
 
 .btn-back {
   background: white;
-  color: #667eea;
+  color: var(--bolent-primary);
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
@@ -268,7 +268,7 @@ onMounted(() => {
 }
 
 .dynasty {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
 }
 
@@ -285,7 +285,7 @@ onMounted(() => {
 }
 
 .season, .theme {
-  background: #f8f9fa;
+  background: var(--bolent-bg-soft);
   color: #7f8c8d;
 }
 
@@ -301,7 +301,7 @@ onMounted(() => {
 }
 
 .translation, .appreciation {
-  background: #f8f9fa;
+  background: var(--bolent-bg-soft);
   border-radius: 15px;
   padding: 30px;
   margin-bottom: 30px;
@@ -364,13 +364,13 @@ onMounted(() => {
 }
 
 .btn-share {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: var(--bolent-gradient);
   color: white;
 }
 
 .btn-share:hover {
   transform: scale(1.05);
-  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 5px 20px rgba(14, 110, 106, 0.4);
 }
 
 .btn-collect {
@@ -405,7 +405,7 @@ onMounted(() => {
   display: block;
   font-size: 24px;
   font-weight: bold;
-  color: #667eea;
+  color: var(--bolent-primary);
 }
 
 .error {
@@ -421,7 +421,7 @@ onMounted(() => {
 
 .error button {
   background: white;
-  color: #667eea;
+  color: var(--bolent-primary);
   border: none;
   padding: 12px 30px;
   border-radius: 25px;

@@ -149,7 +149,7 @@ const whyChooseUs = ref([
 <style scoped lang="scss">
 .about-page {
   .page-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     padding: 100px 0 60px;
     text-align: center;
     color: white;
@@ -190,8 +190,8 @@ const whyChooseUs = ref([
           width: 100%;
           aspect-ratio: 3 / 2;
           border-radius: 12px;
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-          background: linear-gradient(135deg, #e8eef5 0%, #c5d4e8 50%, #9bb5d6 100%);
+          box-shadow: var(--bolent-shadow-lg);
+          background: var(--bolent-gradient-soft);
         }
 
         .services-list {
@@ -199,7 +199,7 @@ const whyChooseUs = ref([
           background: white;
           padding: 24px;
           border-radius: 12px;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          box-shadow: var(--bolent-shadow-md);
 
           ul {
             display: grid;
@@ -293,11 +293,11 @@ const whyChooseUs = ref([
         padding: 40px 32px;
         border-radius: 12px;
         text-align: center;
-        transition: all 0.3s;
+        transition: var(--bolent-transition);
 
         &:hover {
           transform: translateY(-8px);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          box-shadow: var(--bolent-shadow-lg);
         }
 
         .why-icon {
@@ -319,7 +319,7 @@ const whyChooseUs = ref([
   }
 
   .team-cta {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     text-align: center;
     color: white;
 

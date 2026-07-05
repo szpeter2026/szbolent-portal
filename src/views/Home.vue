@@ -182,7 +182,7 @@ const features = ref([
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     overflow: hidden;
 
     // 动态背景图案
@@ -303,7 +303,7 @@ const features = ref([
         justify-content: center;
         color: white;
         font-size: 20px;
-        transition: all 0.3s;
+        transition: var(--bolent-transition);
 
         &:hover {
           background: white;
@@ -345,13 +345,13 @@ const features = ref([
         background: white;
         border-radius: 12px;
         padding: 40px 32px;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
+        box-shadow: var(--bolent-shadow);
+        transition: var(--bolent-transition);
         cursor: pointer;
 
         &:hover {
           transform: translateY(-8px);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          box-shadow: var(--bolent-shadow-lg);
 
           .service-icon span {
             transform: scale(1.1);
@@ -362,7 +362,7 @@ const features = ref([
           width: 80px;
           height: 80px;
           border-radius: 16px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: var(--bolent-gradient);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -415,11 +415,11 @@ const features = ref([
         padding: 40px 24px;
         background: white;
         border-radius: 12px;
-        transition: all 0.3s;
+        transition: var(--bolent-transition);
 
         &:hover {
           transform: translateY(-8px);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+          box-shadow: var(--bolent-shadow-lg);
         }
 
         .feature-icon {
@@ -442,7 +442,7 @@ const features = ref([
   }
 
   .cta-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     padding: 100px 0;
 
     .cta-content {

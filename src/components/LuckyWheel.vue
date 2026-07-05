@@ -261,7 +261,7 @@ canvas {
   border: none;
   border-radius: 30px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: var(--bolent-transition);
   box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
 }
 

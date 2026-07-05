@@ -147,7 +147,7 @@
     </section>
 
     <!-- 招聘流程 -->
-    <section class="process-section section" style="background: #f8f9fa;">
+    <section class="process-section section" style="background: var(--bolent-bg-soft);">
       <div class="container">
         <div class="section-header">
           <h2 data-aos="fade-up">招聘流程</h2>
@@ -510,7 +510,7 @@ onMounted(() => {
 <style scoped lang="scss">
 .careers-page {
   .careers-hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     color: white;
     padding: 100px 0 80px;
     text-align: center;
@@ -559,7 +559,7 @@ onMounted(() => {
 
     p {
       font-size: 18px;
-      color: #666;
+      color: var(--bolent-text-secondary);
     }
   }
 
@@ -574,12 +574,12 @@ onMounted(() => {
       background: white;
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      box-shadow: var(--bolent-shadow);
+      transition: var(--bolent-transition);
 
       &:hover {
         transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: var(--bolent-shadow-md);
       }
 
       .benefit-icon {
@@ -594,7 +594,7 @@ onMounted(() => {
       }
 
       p {
-        color: #666;
+        color: var(--bolent-text-secondary);
         line-height: 1.6;
       }
     }
@@ -615,12 +615,12 @@ onMounted(() => {
 
         label {
           font-weight: 500;
-          color: #333;
+          color: var(--bolent-text);
         }
 
         select {
           padding: 8px 16px;
-          border: 2px solid #e1e8ed;
+          border: 2px solid var(--bolent-border);
           border-radius: 6px;
           font-size: 15px;
           cursor: pointer;
@@ -628,7 +628,7 @@ onMounted(() => {
 
           &:focus {
             outline: none;
-            border-color: #1890ff;
+            border-color: var(--bolent-primary);
           }
         }
       }
@@ -644,12 +644,12 @@ onMounted(() => {
       background: white;
       border-radius: 12px;
       padding: 30px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      box-shadow: var(--bolent-shadow);
+      transition: var(--bolent-transition);
 
       &:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        box-shadow: var(--bolent-shadow-md);
       }
 
       .job-header {
@@ -662,7 +662,7 @@ onMounted(() => {
           font-size: 22px;
           font-weight: 700;
           margin-bottom: 12px;
-          color: #1a1a1a;
+          color: var(--bolent-ink);
         }
 
         .job-meta {
@@ -674,7 +674,7 @@ onMounted(() => {
             display: flex;
             align-items: center;
             gap: 6px;
-            color: #666;
+            color: var(--bolent-text-secondary);
             font-size: 14px;
 
             .icon {
@@ -685,8 +685,8 @@ onMounted(() => {
 
         .department-badge {
           padding: 6px 16px;
-          background: #e6f7ff;
-          color: #1890ff;
+          background: var(--bolent-primary-50);
+          color: var(--bolent-primary);
           border-radius: 20px;
           font-size: 14px;
           font-weight: 500;
@@ -695,7 +695,7 @@ onMounted(() => {
       }
 
       .job-description {
-        color: #666;
+        color: var(--bolent-text-secondary);
         line-height: 1.6;
         margin-bottom: 16px;
       }
@@ -707,7 +707,7 @@ onMounted(() => {
           font-size: 16px;
           font-weight: 600;
           margin-bottom: 12px;
-          color: #333;
+          color: var(--bolent-text);
         }
 
         ul {
@@ -717,14 +717,14 @@ onMounted(() => {
           li {
             padding-left: 24px;
             position: relative;
-            color: #666;
+            color: var(--bolent-text-secondary);
             line-height: 1.8;
 
             &::before {
               content: '•';
               position: absolute;
               left: 8px;
-              color: #1890ff;
+              color: var(--bolent-primary);
               font-weight: bold;
             }
           }
@@ -739,7 +739,7 @@ onMounted(() => {
         border-top: 1px solid #f0f0f0;
 
         .job-date {
-          color: #999;
+          color: var(--bolent-text-muted);
           font-size: 14px;
         }
       }
@@ -748,7 +748,7 @@ onMounted(() => {
     .empty-state {
       text-align: center;
       padding: 80px 20px;
-      color: #999;
+      color: var(--bolent-text-muted);
 
       .empty-icon {
         font-size: 64px;
@@ -781,7 +781,7 @@ onMounted(() => {
       .step-number {
         width: 60px;
         height: 60px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--bolent-gradient);
         color: white;
         border-radius: 50%;
         display: flex;
@@ -790,7 +790,7 @@ onMounted(() => {
         font-size: 24px;
         font-weight: 700;
         margin: 0 auto 20px;
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 4px 12px rgba(14, 110, 106, 0.3);
       }
 
       .step-content {
@@ -798,11 +798,11 @@ onMounted(() => {
           font-size: 18px;
           font-weight: 600;
           margin-bottom: 8px;
-          color: #333;
+          color: var(--bolent-text);
         }
 
         p {
-          color: #666;
+          color: var(--bolent-text-secondary);
           font-size: 14px;
         }
       }
@@ -810,7 +810,7 @@ onMounted(() => {
   }
 
   .cta-section {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--bolent-gradient);
     color: white;
     padding: 80px 0;
 
@@ -833,12 +833,12 @@ onMounted(() => {
         padding: 16px 48px;
         font-size: 18px;
         background: white;
-        color: #667eea;
+        color: var(--bolent-primary);
         border: none;
         text-decoration: none;
 
         &:hover {
-          background: #f0f0f0;
+          background: var(--bolent-border-light);
           transform: translateY(-3px);
         }
       }
@@ -877,14 +877,14 @@ onMounted(() => {
       width: 40px;
       height: 40px;
       border: none;
-      background: #f5f5f5;
+      background: var(--bolent-bg-soft);
       border-radius: 50%;
       font-size: 24px;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: var(--bolent-transition);
 
       &:hover {
-        background: #e0e0e0;
+        background: var(--bolent-border);
         transform: rotate(90deg);
       }
     }
@@ -892,7 +892,7 @@ onMounted(() => {
     h3 {
       font-size: 24px;
       margin-bottom: 30px;
-      color: #1a1a1a;
+      color: var(--bolent-ink);
     }
 
     .apply-form {
@@ -903,21 +903,21 @@ onMounted(() => {
           display: block;
           margin-bottom: 8px;
           font-weight: 500;
-          color: #333;
+          color: var(--bolent-text);
         }
 
         input,
         textarea {
           width: 100%;
           padding: 12px;
-          border: 2px solid #e1e8ed;
+          border: 2px solid var(--bolent-border);
           border-radius: 8px;
           font-size: 15px;
           transition: border-color 0.3s ease;
 
           &:focus {
             outline: none;
-            border-color: #1890ff;
+            border-color: var(--bolent-primary);
           }
         }
 
@@ -928,7 +928,7 @@ onMounted(() => {
         small {
           display: block;
           margin-top: 6px;
-          color: #999;
+          color: var(--bolent-text-muted);
           font-size: 13px;
         }
       }

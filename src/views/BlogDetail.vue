@@ -304,7 +304,7 @@ onMounted(() => {
       width: 50px;
       height: 50px;
       margin-bottom: 20px;
-      border: 4px solid #f3f3f3;
+      border: 4px solid var(--bolent-bg-soft);
       border-top: 4px solid var(--primary-color);
       border-radius: 50%;
       animation: spin 1s linear infinite;
@@ -414,7 +414,7 @@ onMounted(() => {
       img {
         width: 100%;
         border-radius: 12px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        box-shadow: var(--bolent-shadow-lg);
       }
     }
 
@@ -475,7 +475,7 @@ onMounted(() => {
 
           :deep(code) {
             padding: 2px 8px;
-            background: #f5f5f5;
+            background: var(--bolent-bg-soft);
             border-radius: 4px;
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
@@ -516,7 +516,7 @@ onMounted(() => {
         .post-tags {
           margin: 60px 0 40px;
           padding-top: 30px;
-          border-top: 1px solid #e8e8e8;
+          border-top: 1px solid var(--bolent-border);
 
           h4 {
             margin-bottom: 16px;
@@ -540,7 +540,7 @@ onMounted(() => {
 
         .post-share {
           padding: 30px 0;
-          border-top: 1px solid #e8e8e8;
+          border-top: 1px solid var(--bolent-border);
 
           h4 {
             margin-bottom: 16px;
@@ -557,7 +557,7 @@ onMounted(() => {
               border-radius: 8px;
               cursor: pointer;
               font-size: 0.95rem;
-              transition: all 0.3s ease;
+              transition: var(--bolent-transition);
 
               &.wechat {
                 background: #07c160;
@@ -582,7 +582,7 @@ onMounted(() => {
                 color: var(--text-primary);
 
                 &:hover {
-                  background: #e0e0e0;
+                  background: var(--bolent-border);
                 }
               }
             }
@@ -595,7 +595,7 @@ onMounted(() => {
           background: white;
           padding: 30px;
           border-radius: 12px;
-          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+          box-shadow: var(--bolent-shadow);
           margin-bottom: 30px;
 
           h3 {
@@ -665,12 +665,12 @@ onMounted(() => {
         background: white;
         border-radius: 12px;
         overflow: hidden;
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
+        box-shadow: var(--bolent-shadow);
+        transition: var(--bolent-transition);
 
         &:hover {
           transform: translateY(-5px);
-          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+          box-shadow: var(--bolent-shadow-lg);
         }
 
         .related-thumbnail {
@@ -698,7 +698,7 @@ onMounted(() => {
             align-items: center;
             justify-content: center;
             font-size: 3rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: var(--bolent-gradient);
           }
         }
 
@@ -728,7 +728,7 @@ onMounted(() => {
     }
 
     .post-cta {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--bolent-gradient);
       padding: 80px 0;
       text-align: center;
       color: white;

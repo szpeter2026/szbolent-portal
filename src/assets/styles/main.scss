@@ -1,21 +1,224 @@
-/* 全局样式重置和基础样式 */
+/* ══════════════════════════════════════════════
+   Bolent Design System — Global Styles v2.0
+   基于 Phase 1/2 设计令牌体系
+   品牌调性：墨青主色 + 琥珀金辅色 + 暖灰中性
+   ══════════════════════════════════════════════ */
 
-/* CSS 变量 - 主题色 */
+/* ========== Design Tokens ========== */
 :root {
-  --primary-color: #1890ff;
+  /* 主色系 · 墨青 Teal */
+  --bolent-primary: #0E6E6A;
+  --bolent-primary-dark: #0A4F4C;
+  --bolent-primary-light: #1A8F8A;
+  --bolent-primary-50: #E8F4F3;
+  --bolent-primary-100: #C5E3E1;
+  --bolent-primary-200: #9DD0CC;
+  --bolent-primary-400: #2A8F8A;
+  --bolent-primary-600: #0E6E6A;
+  --bolent-primary-800: #0A4F4C;
+
+  /* 辅色系 · 琥珀金 Amber */
+  --bolent-accent: #C99A3F;
+  --bolent-accent-dark: #A67D2E;
+  --bolent-accent-light: #E0B85A;
+  --bolent-accent-50: #FAF3E4;
+  --bolent-accent-100: #F0E0BD;
+
+  /* 中性色 · 暖灰 */
+  --bolent-ink: #1A1F1E;
+  --bolent-text: #2C3331;
+  --bolent-text-secondary: #5C6663;
+  --bolent-text-muted: #8A938F;
+  --bolent-border: #E0E5E3;
+  --bolent-border-light: #EDF0EF;
+  --bolent-bg: #FFFFFF;
+  --bolent-bg-soft: #F7F9F8;
+  --bolent-bg-warm: #FAF8F4;
+
+  /* 语义色 */
+  --bolent-success: #2E8B57;
+  --bolent-success-bg: #E6F4EC;
+  --bolent-warning: #E0932B;
+  --bolent-warning-bg: #FDF3E1;
+  --bolent-error: #D14545;
+  --bolent-error-bg: #FCEAEA;
+  --bolent-info: #2B7BB9;
+  --bolent-info-bg: #E6F1FB;
+
+  /* 渐变 */
+  --bolent-gradient: linear-gradient(135deg, #0E6E6A 0%, #0A4F4C 100%);
+  --bolent-gradient-accent: linear-gradient(135deg, #0E6E6A 0%, #C99A3F 100%);
+  --bolent-gradient-soft: linear-gradient(180deg, #F7F9F8 0%, #FAF8F4 100%);
+
+  /* 字体 */
+  --bolent-font-sans: 'Alibaba PuHuiTi 3.0', 'Source Han Sans CN', 'Noto Sans SC',
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --bolent-font-serif: 'Source Han Serif CN', 'Noto Serif SC', 'Songti SC', serif;
+  --bolent-font-en: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  --bolent-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* 字号 */
+  --bolent-fs-display: 56px;
+  --bolent-fs-h1: 48px;
+  --bolent-fs-h2: 36px;
+  --bolent-fs-h3: 24px;
+  --bolent-fs-h4: 20px;
+  --bolent-fs-body: 17px;
+  --bolent-fs-body-sm: 15px;
+  --bolent-fs-small: 14px;
+  --bolent-fs-caption: 13px;
+
+  /* 字重 */
+  --bolent-fw-regular: 400;
+  --bolent-fw-medium: 500;
+  --bolent-fw-bold: 700;
+
+  /* 行高 */
+  --bolent-lh-tight: 1.2;
+  --bolent-lh-snug: 1.4;
+  --bolent-lh-normal: 1.6;
+  --bolent-lh-relaxed: 1.75;
+
+  /* 间距 (4px 基准) */
+  --bolent-space-0: 0;
+  --bolent-space-1: 4px;
+  --bolent-space-2: 8px;
+  --bolent-space-3: 12px;
+  --bolent-space-4: 16px;
+  --bolent-space-5: 20px;
+  --bolent-space-6: 24px;
+  --bolent-space-8: 32px;
+  --bolent-space-10: 40px;
+  --bolent-space-12: 48px;
+  --bolent-space-16: 64px;
+  --bolent-space-20: 80px;
+  --bolent-space-25: 100px;
+
+  /* 圆角 */
+  --bolent-radius-xs: 4px;
+  --bolent-radius-sm: 8px;
+  --bolent-radius-md: 12px;
+  --bolent-radius-lg: 16px;
+  --bolent-radius-xl: 24px;
+  --bolent-radius-pill: 999px;
+
+  /* 阴影 */
+  --bolent-shadow-xs: 0 1px 2px rgba(26, 31, 30, 0.04);
+  --bolent-shadow-sm: 0 1px 3px rgba(26, 31, 30, 0.06);
+  --bolent-shadow: 0 4px 16px rgba(26, 31, 30, 0.08);
+  --bolent-shadow-md: 0 6px 24px rgba(26, 31, 30, 0.10);
+  --bolent-shadow-lg: 0 12px 40px rgba(26, 31, 30, 0.12);
+  --bolent-shadow-primary: 0 8px 24px rgba(14, 110, 106, 0.18);
+  --bolent-shadow-accent: 0 8px 24px rgba(201, 154, 63, 0.20);
+
+  /* 过渡 */
+  --bolent-transition-fast: all 0.15s ease;
+  --bolent-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --bolent-transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 容器 */
+  --bolent-container-max: 1200px;
+  --bolent-container-pad: 24px;
+  --bolent-header-height: 70px;
+
+  /* ——— 向后兼容别名 (逐步迁移后可移除) ——— */
+  --primary-color: var(--bolent-primary);
   --secondary-color: #52c41a;
-  --text-dark: #333;
-  --text-light: #666;
-  --text-muted: #999;
-  --bg-light: #f5f7fa;
-  --bg-white: #ffffff;
-  --border-color: #e8e8e8;
-  --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  --shadow-hover: 0 4px 20px rgba(0, 0, 0, 0.12);
-  --transition: all 0.3s ease;
+  --text-dark: var(--bolent-text);
+  --text-light: var(--bolent-text-secondary);
+  --text-muted: var(--bolent-text-muted);
+  --bg-light: var(--bolent-bg-soft);
+  --bg-white: var(--bolent-bg);
+  --border-color: var(--bolent-border);
+  --shadow: var(--bolent-shadow);
+  --shadow-hover: var(--bolent-shadow-lg);
+  --transition: var(--bolent-transition);
+
+  /* 组件级 Token */
+  --bolent-btn-padding-y: 14px;
+  --bolent-btn-padding-x: 32px;
+  --bolent-btn-radius: var(--bolent-radius-sm);
+  --bolent-btn-bg: var(--bolent-primary);
+  --bolent-btn-bg-hover: var(--bolent-primary-dark);
+  --bolent-btn-text: #FFFFFF;
+
+  --bolent-card-bg: #FFFFFF;
+  --bolent-card-border: 1px solid var(--bolent-border);
+  --bolent-card-radius: var(--bolent-radius-lg);
+  --bolent-card-padding: 32px;
+  --bolent-card-shadow: var(--bolent-shadow);
+  --bolent-card-shadow-hover: var(--bolent-shadow-lg);
+  --bolent-card-hover-lift: -6px;
+
+  --bolent-input-height: 48px;
+  --bolent-input-padding: 0 16px;
+  --bolent-input-radius: var(--bolent-radius-sm);
+  --bolent-input-border: 1px solid var(--bolent-border);
+  --bolent-input-border-focus: 2px solid var(--bolent-primary);
+
+  --bolent-tag-padding: 4px 12px;
+  --bolent-tag-radius: var(--bolent-radius-pill);
+  --bolent-tag-font-size: 12px;
+
+  --bolent-section-padding: 100px 0;
+  --bolent-section-padding-sm: 60px 0;
+
+  --bolent-nav-gap: 36px;
+  --bolent-nav-font-size: 15px;
+
+  --bolent-grid-gap: 32px;
+  --bolent-grid-gap-sm: 20px;
+
+  --bolent-icon-sm: 40px;
+  --bolent-icon-md: 56px;
+  --bolent-icon-lg: 80px;
+  --bolent-icon-radius: 14px;
+
+  --bolent-avatar-sm: 24px;
+  --bolent-avatar-md: 40px;
+  --bolent-avatar-lg: 80px;
+
+  --bolent-modal-overlay: rgba(26, 31, 30, 0.5);
+  --bolent-modal-bg: #FFFFFF;
+  --bolent-modal-radius: var(--bolent-radius-lg);
+  --bolent-modal-max-width: 600px;
+
+  --bolent-z-base: 1;
+  --bolent-z-dropdown: 100;
+  --bolent-z-sticky: 200;
+  --bolent-z-modal: 1000;
+  --bolent-z-toast: 1100;
 }
 
-/* 重置样式 */
+/* ========== 响应式覆盖 ========== */
+@media (max-width: 991px) {
+  :root {
+    --bolent-fs-display: 44px;
+    --bolent-fs-h1: 40px;
+    --bolent-fs-h2: 30px;
+    --bolent-fs-h3: 22px;
+    --bolent-section-padding: 80px 0;
+    --bolent-grid-gap: 24px;
+    --bolent-card-padding: 24px;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --bolent-fs-display: 36px;
+    --bolent-fs-h1: 32px;
+    --bolent-fs-h2: 28px;
+    --bolent-fs-h3: 20px;
+    --bolent-fs-body: 16px;
+    --bolent-section-padding: 60px 0;
+    --bolent-container-pad: 20px;
+    --bolent-grid-gap: 20px;
+    --bolent-nav-gap: 0;
+    --bolent-card-padding: 20px;
+  }
+}
+
+/* ========== 重置样式 ========== */
 * {
   margin: 0;
   padding: 0;
@@ -28,163 +231,167 @@ html {
 }
 
 body {
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial,
-    'Noto Sans', sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--text-dark);
-  background-color: var(--bg-white);
+  font-family: var(--bolent-font-sans);
+  font-size: var(--bolent-fs-body);
+  font-weight: var(--bolent-fw-regular);
+  line-height: var(--bolent-lh-normal);
+  color: var(--bolent-text);
+  background-color: var(--bolent-bg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 链接 */
+/* ========== 标题 ========== */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--bolent-fw-medium);
+  line-height: var(--bolent-lh-snug);
+  color: var(--bolent-ink);
+}
+
+h1 { font-size: var(--bolent-fs-h1); }
+h2 { font-size: var(--bolent-fs-h2); }
+h3 { font-size: var(--bolent-fs-h3); }
+h4 { font-size: var(--bolent-fs-h4); }
+
+p {
+  margin-bottom: 1rem;
+  color: var(--bolent-text-secondary);
+}
+
+/* ========== 链接 ========== */
 a {
   color: inherit;
   text-decoration: none;
-  transition: var(--transition);
+  transition: var(--bolent-transition);
 }
 
 a:hover {
-  color: var(--primary-color);
+  color: var(--bolent-primary);
 }
 
-/* 图片 */
+/* ========== 图片 ========== */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* 按钮 */
+/* ========== 按钮 ========== */
 button {
   font-family: inherit;
   cursor: pointer;
   border: none;
   outline: none;
-  transition: var(--transition);
+  transition: var(--bolent-transition);
 }
 
-/* 列表 */
-ul,
-ol {
+/* ========== 列表 ========== */
+ul, ol {
   list-style: none;
 }
 
-/* 标题 */
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--text-dark);
-}
-
-h1 {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
-}
-
-h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1.25rem;
-}
-
-h3 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-h4 {
-  font-size: 1.5rem;
-  margin-bottom: 0.875rem;
-}
-
-h5 {
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
-}
-
-h6 {
-  font-size: 1rem;
-  margin-bottom: 0.625rem;
-}
-
-p {
-  margin-bottom: 1rem;
-  color: var(--text-light);
-}
-
-/* 容器 */
+/* ========== 容器 ========== */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: var(--bolent-container-max);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--bolent-container-pad);
 }
 
 .container-fluid {
   width: 100%;
-  padding: 0 20px;
+  padding: 0 var(--bolent-container-pad);
 }
 
-/* 通用按钮 */
+/* ========== 通用按钮组件 ========== */
 .btn {
-  display: inline-block;
-  padding: 12px 32px;
-  font-size: 16px;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: var(--bolent-btn-padding-y) var(--bolent-btn-padding-x);
+  font-size: var(--bolent-btn-font-size, 15px);
+  font-weight: var(--bolent-fw-medium);
   text-align: center;
-  border-radius: 4px;
+  border-radius: var(--bolent-btn-radius);
   cursor: pointer;
-  transition: var(--transition);
+  transition: var(--bolent-transition);
   border: none;
   outline: none;
+  text-decoration: none;
 }
 
 .btn-primary {
-  background: var(--primary-color);
-  color: #fff;
+  background: var(--bolent-btn-bg);
+  color: var(--bolent-btn-text);
 }
 
 .btn-primary:hover {
-  background: #096dd9;
-  color: #fff;
+  background: var(--bolent-btn-bg-hover);
+  color: var(--bolent-btn-text);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
+  box-shadow: var(--bolent-shadow-primary);
+}
+
+.btn-primary:active {
+  background: #08403D;
+  transform: scale(0.97);
+}
+
+.btn-primary:focus-visible {
+  outline: 3px solid rgba(14, 110, 106, 0.25);
+  outline-offset: 1px;
+}
+
+.btn-primary:disabled {
+  background: var(--bolent-border);
+  color: var(--bolent-text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
 }
 
 .btn-outline {
   background: transparent;
-  color: var(--primary-color);
-  border: 2px solid var(--primary-color);
+  color: var(--bolent-primary);
+  border: 1.5px solid var(--bolent-primary);
 }
 
 .btn-outline:hover {
-  background: var(--primary-color);
+  background: var(--bolent-primary);
   color: #fff;
 }
 
-.btn-large {
-  padding: 16px 48px;
-  font-size: 18px;
+.btn-outline:focus-visible {
+  outline: 3px solid rgba(14, 110, 106, 0.25);
+  outline-offset: 1px;
 }
 
-/* 卡片 */
+.btn-large {
+  padding: 16px 40px;
+  font-size: 16px;
+}
+
+/* ========== 卡片组件 ========== */
 .card {
-  background: var(--bg-white);
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  padding: 24px;
-  transition: var(--transition);
+  background: var(--bolent-card-bg);
+  border: var(--bolent-card-border);
+  border-radius: var(--bolent-card-radius);
+  box-shadow: var(--bolent-card-shadow);
+  padding: var(--bolent-card-padding);
+  transition: var(--bolent-transition);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-4px);
+  box-shadow: var(--bolent-card-shadow-hover);
+  transform: translateY(var(--bolent-card-hover-lift));
+  border-color: var(--bolent-primary-100);
 }
 
-/* 章节 */
+/* ========== 章节 ========== */
 .section {
-  padding: 80px 0;
+  padding: var(--bolent-section-padding);
 }
 
 .section-title {
@@ -193,18 +400,18 @@ p {
 }
 
 .section-title h2 {
-  font-size: 2.5rem;
+  font-size: var(--bolent-fs-h2);
   margin-bottom: 16px;
 }
 
 .section-title p {
-  font-size: 1.125rem;
-  color: var(--text-light);
+  font-size: var(--bolent-fs-body);
+  color: var(--bolent-text-secondary);
   max-width: 600px;
   margin: 0 auto;
 }
 
-/* 间距工具类 */
+/* ========== 间距工具类 ========== */
 .mt-10 { margin-top: 10px; }
 .mt-20 { margin-top: 20px; }
 .mt-30 { margin-top: 30px; }
@@ -222,27 +429,15 @@ p {
 .pb-50 { padding-bottom: 50px; }
 .pb-80 { padding-bottom: 80px; }
 
-/* 文本对齐 */
+/* ========== 文本对齐 ========== */
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
-/* 响应式 */
-@media (max-width: 768px) {
+/* ========== 响应式 ========== */
+@media (max-width: 767px) {
   html {
-    font-size: 14px;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.75rem;
-  }
-
-  h3 {
-    font-size: 1.5rem;
+    font-size: 15px;
   }
 
   .section {
@@ -264,21 +459,21 @@ p {
   }
 }
 
-/* 滚动条样式 */
+/* ========== 滚动条 ========== */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--bolent-bg-soft);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
+  background: var(--bolent-border);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: var(--bolent-text-muted);
 }

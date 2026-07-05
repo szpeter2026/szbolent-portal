@@ -4,8 +4,7 @@
       <div class="header-wrapper">
         <!-- Logo -->
         <router-link to="/" class="logo">
-          <span class="logo-icon">🚀</span>
-          <span class="logo-text">Bolent</span>
+          <img src="/bolent-logo.svg" alt="Bolent" class="logo-img" />
         </router-link>
 
         <!-- 桌面导航 -->
@@ -131,7 +130,7 @@ onUnmounted(() => {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  transition: var(--bolent-transition);
 
   &.header-scrolled {
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
@@ -147,36 +146,16 @@ onUnmounted(() => {
   .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 28px;
-    font-weight: bold;
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: var(--bolent-transition);
 
     &:hover {
       transform: translateY(-2px);
     }
 
-    .logo-icon {
-      font-size: 32px;
-      filter: drop-shadow(0 2px 4px rgba(24, 144, 255, 0.3));
-      transition: all 0.3s ease;
-    }
-
-    &:hover .logo-icon {
-      transform: rotate(10deg) scale(1.1);
-    }
-
-    img {
+    .logo-img {
       height: 40px;
-    }
-
-    .logo-text {
-      background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-weight: 700;
-      letter-spacing: -0.5px;
+      width: auto;
     }
   }
 
@@ -233,7 +212,7 @@ onUnmounted(() => {
         opacity: 0;
         visibility: hidden;
         transform: translateY(-10px);
-        transition: all 0.3s ease;
+        transition: var(--bolent-transition);
 
         li {
           a {
@@ -241,7 +220,7 @@ onUnmounted(() => {
             padding: 10px 24px;
             color: var(--text-dark);
             font-size: 14px;
-            transition: all 0.3s;
+            transition: var(--bolent-transition);
 
             &:hover {
               background: var(--bg-light);
@@ -261,12 +240,12 @@ onUnmounted(() => {
     border-radius: 6px;
     font-size: 14px;
     font-weight: 500;
-    transition: all 0.3s;
+    transition: var(--bolent-transition);
 
     &:hover {
-      background: #096dd9;
+      background: var(--bolent-primary-dark);
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+      box-shadow: var(--bolent-shadow-primary);
     }
   }
 
@@ -285,7 +264,7 @@ onUnmounted(() => {
       height: 3px;
       background: var(--text-dark);
       border-radius: 2px;
-      transition: all 0.3s;
+      transition: var(--bolent-transition);
     }
   }
 
