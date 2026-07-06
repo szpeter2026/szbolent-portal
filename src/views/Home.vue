@@ -109,7 +109,7 @@
 import { computed, ref } from 'vue'
 import { companyInfo as company } from '@/config/company'
 
-const heroTitle = computed(() => 'szbolent.cn<br>智能化诗词门户')
+const heroTitle = computed(() => 'www.szbolent.com.cn<br>智能化诗词门户')
 
 const services = ref([
   {

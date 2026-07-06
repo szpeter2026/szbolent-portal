@@ -104,7 +104,7 @@ Jason 高性能机器：
 | 2 | **报告 Sprint 1 #2** 题库 → shared-core 迁移 | W2 中 | planetx/saas 不再本地维护题库 |
 | 3 | **报告 Sprint 1 #1** 小程序 npm 接入 shared-core | W2 末 | miniprogram 不再手工复制类型 |
 | 4 | **报告 Sprint 1 #3** 合规碎片统一 | W3 中 | ConsentScope 全端单真源 |
-| 5 | 确认 CORS 生产配置 `CORS_ORIGINS` 含 `szbolent.cn` | W1 中 | 我这边 portal 联调 CORS |
+| 5 | 确认 CORS 生产配置 `CORS_ORIGINS` 含 `szbolent.com.cn`、`www.szbolent.com.cn` | W1 中 | 我这边 portal 联调 CORS |
 | 6 | `verify-closed-loop.sh` 扩展（poetry random/browse/stats） | W1 末 | 脚本就绪 |
 | 7 | `/v1/poetry/authors` 分页接口 RFC | W2 中 | portal 不再客户端聚合诗人 |
 

@@ -14,15 +14,15 @@ export const companyInfo = {
     'Bolent 是一家融合现代科技与文化底蕴的数智企业。我们提供软件开发、数字化、自动化、IT 管理与 IT 外包等全方位服务，并以 AI 读诗为特色板块，让技术在诗意中落地。',
 
   contact: {
-    email: 'hello@szbolent.cn',
-    support: 'support@szbolent.cn',
+    email: 'hello@szbolent.com.cn',
+    support: 'support@szbolent.com.cn',
     workTime: '周一至周五 9:00–18:00',
   },
 
   address: {
     main: {
       city: '中国',
-      full: 'szbolent.cn',
+      full: 'www.szbolent.com.cn',
       postcode: '',
     },
   },
@@ -83,7 +83,7 @@ export const seoConfig = {
     'IT服务',
     '企业门户',
   ],
-  siteUrl: 'https://szbolent.cn',
+  siteUrl: 'https://www.szbolent.com.cn',
   ogImage: '/images/og-image.jpg',
 }
 

@@ -10,7 +10,7 @@
 
 - [x] **接受**上述分工与截止时间  
 - [x] **确认** S0-3（shared-core 补导出）可在 W1 末完成 — **已于 2026-07-04 启动并交付首版 PR 内容**  
-- [x] **确认** CORS 生产配置可在诗词注入后同步就绪 — **`.env.example` + `config.py` 默认已含 `localhost:3000`；生产 `.env` 将含 `https://szbolent.cn,https://www.szbolent.cn`**
+- [x] **确认** CORS 生产配置可在诗词注入后同步就绪 — **`.env.example` + `config.py` 默认已含 `localhost:3000`；生产 `.env` 将含 `https://szbolent.com.cn,https://www.szbolent.com.cn`**
 
 ---
 
