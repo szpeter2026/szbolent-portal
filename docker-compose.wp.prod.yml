@@ -1,0 +1,58 @@
+# Bolent WordPress 生产环境 — 阿里云 ECS
+# 部署路径: /opt/bolent-wp/
+#
+#   docker compose -f docker-compose.wp.prod.yml up -d
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: bolent_wp_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-bolent_wp}
+      MYSQL_USER: ${MYSQL_USER:-wordpress}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - bolent_wp_mysql_data:/var/lib/mysql
+    networks:
+      - bolent-wp-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 40s
+
+  wordpress:
+    image: wordpress:6.7-php8.3-apache
+    container_name: bolent_wp
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_USER: ${MYSQL_USER:-wordpress}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE:-bolent_wp}
+      WORDPRESS_TABLE_PREFIX: bolent_
+      WORDPRESS_CONFIG_EXTRA: |
+        define('WP_HOME','${WP_HOME}');
+        define('WP_SITEURL','${WP_SITEURL}');
+        define('DISALLOW_FILE_EDIT', true);
+    volumes:
+      - bolent_wp_data:/var/www/html
+      - ./themes/bolent-astra-child:/var/www/html/wp-content/themes/bolent-astra-child:ro
+    ports:
+      - "127.0.0.1:8080:80"
+    networks:
+      - bolent-wp-net
+
+volumes:
+  bolent_wp_mysql_data:
+  bolent_wp_data:
+
+networks:
+  bolent-wp-net:
+    driver: bridge

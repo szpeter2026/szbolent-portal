@@ -1,0 +1,14 @@
+{
+  "remotes": {
+    "github": {
+      "name": "origin",
+      "url": "https://github.com/szpeter2026/szbolent-portal.git"
+    },
+    "gitee": {
+      "name": "gitee",
+      "url": "https://gitee.com/szbenyx/szbolent-portal.git"
+    }
+  },
+  "branches": ["main"],
+  "syncTags": true
+}

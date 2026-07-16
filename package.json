@@ -9,7 +9,12 @@
     "typecheck": "vue-tsc --noEmit",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "sync:setup": "bash scripts/sync-remotes.sh setup",
+    "sync:push": "bash scripts/sync-remotes.sh push",
+    "sync:check": "bash scripts/sync-remotes.sh check",
+    "sync:force": "bash scripts/sync-remotes.sh force",
+    "deploy": "bash scripts/deploy.sh"
   },
   "dependencies": {
     "vue": "^3.4.15",
