@@ -49,6 +49,12 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '案例研究' }
       },
       {
+        path: 'case-study/:slug',
+        name: 'CaseStudyDetail',
+        component: () => import('@/views/CaseStudyDetail.vue'),
+        meta: { title: '案例详情' }
+      },
+      {
         path: 'careers',
         name: 'Careers',
         component: () => import('@/views/Careers.vue'),
@@ -111,27 +117,28 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/Terms.vue'),
         meta: { title: '用户协议' }
       },
-      // 活动抽奖路由
-      {
-        path: 'activity',
-        name: 'Activity',
-        component: () => import('@/views/activity/Layout.vue'),
-        meta: { title: '活动中心' },
-        children: [
-          {
-            path: '',
-            name: 'ActivityList',
-            component: () => import('@/views/activity/List.vue'),
-            meta: { title: '活动列表' }
-          },
-          {
-            path: ':id',
-            name: 'ActivityDetail',
-            component: () => import('@/views/activity/Detail.vue'),
-            meta: { title: '活动详情' }
-          }
-        ]
-      }
+      // 活动抽奖路由 — 已禁用：依赖的 legacy Sanic :8001 已退役
+      // 待 Looma 后端活动 API 就绪后重新启用
+      // {
+      //   path: 'activity',
+      //   name: 'Activity',
+      //   component: () => import('@/views/activity/Layout.vue'),
+      //   meta: { title: '活动中心' },
+      //   children: [
+      //     {
+      //       path: '',
+      //       name: 'ActivityList',
+      //       component: () => import('@/views/activity/List.vue'),
+      //       meta: { title: '活动列表' }
+      //     },
+      //     {
+      //       path: ':id',
+      //       name: 'ActivityDetail',
+      //       component: () => import('@/views/activity/Detail.vue'),
+      //       meta: { title: '活动详情' }
+      //     }
+      //   ]
+      // }
     ]
   },
 

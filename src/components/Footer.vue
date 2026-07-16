@@ -15,17 +15,8 @@
               咨询 | 方案 | 外包服务
             </p>
             <div class="social-links">
-              <a href="#" target="_blank" class="social-link" aria-label="Twitter">
-                <i class="icon-twitter">𝕏</i>
-              </a>
-              <a href="#" target="_blank" class="social-link" aria-label="Facebook">
-                <i class="icon-facebook">f</i>
-              </a>
-              <a href="#" target="_blank" class="social-link" aria-label="Instagram">
-                <i class="icon-instagram">📷</i>
-              </a>
-              <a href="#" target="_blank" class="social-link" aria-label="LinkedIn">
-                <i class="icon-linkedin">in</i>
+              <a href="https://github.com/szbolent" target="_blank" class="social-link" aria-label="GitHub">
+                <i class="icon-github">&#9906;</i>
               </a>
             </div>
           </div>
@@ -61,16 +52,12 @@
             <h4 class="footer-title">联系我们</h4>
             <ul class="footer-contact">
               <li>
-                <i class="icon">📍</i>
-                <span>中国 · 上海<br>浦东新区张江高科技园区</span>
+                <i class="icon">&#x1F4CD;</i>
+                <span>中国 · 深圳 · 南山区</span>
               </li>
               <li>
-                <i class="icon">📧</i>
-                <span>contact@bolent.com</span>
-              </li>
-              <li>
-                <i class="icon">📞</i>
-                <span>+86 21 1234 5678</span>
+                <i class="icon">&#x1F4E7;</i>
+                <span>hello@szbolent.com.cn</span>
               </li>
             </ul>
           </div>
@@ -82,10 +69,10 @@
     <div class="footer-bottom">
       <div class="container">
         <div class="footer-bottom-content">
-          <p>&copy; {{ currentYear }} Bolent. 版权所有</p>
+          <p>&copy; {{ currentYear }} 深圳伯乐特科技有限公司 | <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">粤ICP备2024000000号</a></p>
           <div class="footer-bottom-links">
-            <a href="#">隐私政策</a>
-            <a href="#">服务条款</a>
+            <router-link to="/privacy">隐私政策</router-link>
+            <router-link to="/terms">服务条款</router-link>
           </div>
         </div>
       </div>

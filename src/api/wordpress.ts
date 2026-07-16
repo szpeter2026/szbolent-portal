@@ -222,14 +222,29 @@ export function extractExcerpt(html: string, maxLength = 150): string {
 }
 
 /**
- * 安全渲染 HTML（基础 XSS 防护）
- * 注意：生产环境建议使用 DOMPurify 等专业库
+ * 基础 HTML 消毒 — 防 XSS
+ * 移除 script/iframe/object/embed/link/style 标签和事件处理器
+ * 生产环境建议升级为 DOMPurify
  */
 export function sanitizeHTML(html: string): string {
-  // 基础过滤，允许常见的安全标签
-  const allowedTags = ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
-                       'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'code', 'pre']
-  
-  // 这里只是示例，生产环境请使用 DOMPurify
+  if (!html) return ''
+
+  // 移除危险标签及其内容
+  html = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+  html = html.replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+  html = html.replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
+  html = html.replace(/<embed\b[^<]*>/gi, '')
+  html = html.replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
+
+  // 移除危险属性：on* handlers, javascript: 协议, vbscript:
+  html = html.replace(/\son\w+\s*=\s*["'][^"']*["']/gi, '')
+  html = html.replace(/\son\w+\s*=\s*[^\s>]*/gi, '')
+  html = html.replace(/href\s*=\s*["']javascript:/gi, 'href="#"')
+  html = html.replace(/src\s*=\s*["']javascript:/gi, 'src="#"')
+  html = html.replace(/vbscript:/gi, '')
+
+  // 移除空 HTML 注释（WP 常见残留）
+  html = html.replace(/<!--[\s]*-->/g, '')
+
   return html
 }

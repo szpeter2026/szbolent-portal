@@ -31,23 +31,15 @@
               </div>
 
               <div class="info-item">
-                <div class="info-icon">📧</div>
+                <div class="info-icon">&#x1F4E7;</div>
                 <div class="info-content">
                   <h4>电子邮箱</h4>
-                  <p>contact@bolent.com<br>support@bolent.com</p>
+                  <p>hello@szbolent.com.cn<br>support@szbolent.com.cn</p>
                 </div>
               </div>
 
               <div class="info-item">
-                <div class="info-icon">📞</div>
-                <div class="info-content">
-                  <h4>联系电话</h4>
-                  <p>+86 755 8888 8888<br>工作日 9:00 - 18:00</p>
-                </div>
-              </div>
-
-              <div class="info-item">
-                <div class="info-icon">💬</div>
+                <div class="info-icon">&#x1F4AC;</div>
                 <div class="info-content">
                   <h4>社交媒体</h4>
                   <div class="social-links">
@@ -171,6 +163,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+import { apiPost } from '@/api/looma'
 
 const formData = reactive({
   name: '',
@@ -192,19 +185,16 @@ const submitSuccess = ref(false)
 
 const validateForm = () => {
   let isValid = true
-  
-  // 重置错误
+
   errors.name = ''
   errors.email = ''
   errors.message = ''
 
-  // 验证姓名
   if (!formData.name.trim()) {
     errors.name = '请输入您的姓名'
     isValid = false
   }
 
-  // 验证邮箱
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!formData.email.trim()) {
     errors.email = '请输入您的邮箱'
@@ -214,7 +204,6 @@ const validateForm = () => {
     isValid = false
   }
 
-  // 验证留言
   if (!formData.message.trim()) {
     errors.message = '请输入您的留言'
     isValid = false
@@ -235,33 +224,26 @@ const handleSubmit = async () => {
   submitSuccess.value = false
 
   try {
-    // 模拟 API 调用
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    // 这里应该调用实际的 API
-    // await axios.post('/api/contact', formData)
-    
-    console.log('表单数据:', formData)
-    
-    // 成功提交
+    await apiPost('/contact/submit', {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      company: formData.company,
+      service: formData.service,
+      message: formData.message,
+    })
+
     submitSuccess.value = true
-    
-    // 重置表单
+
     formData.name = ''
     formData.email = ''
     formData.phone = ''
     formData.company = ''
     formData.service = ''
     formData.message = ''
-    
-    // 3秒后隐藏成功消息
-    setTimeout(() => {
-      submitSuccess.value = false
-    }, 3000)
-    
-  } catch (error) {
-    console.error('提交失败:', error)
-    alert('提交失败，请稍后再试')
+  } catch (err) {
+    console.error('表单提交失败:', err)
+    errors.message = '提交失败，请稍后重试或直接发送邮件至 hello@szbolent.com.cn'
   } finally {
     isSubmitting.value = false
   }

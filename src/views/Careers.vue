@@ -177,7 +177,7 @@
         <div class="cta-content" data-aos="zoom-in">
           <h3>没有找到合适的职位？</h3>
           <p>发送你的简历到我们的人才库，我们会在有合适机会时联系你</p>
-          <a href="mailto:hr@bolent.com" class="btn btn-primary btn-large">
+          <a href="mailto:hr@szbolent.com.cn" class="btn btn-primary btn-large">
             投递简历到人才库
           </a>
         </div>
@@ -224,6 +224,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import AOS from 'aos'
+import { apiPost } from '@/api/looma'
 
 // 福利亮点
 const benefits = [
@@ -497,9 +498,18 @@ const closeModal = () => {
   }
 }
 
-const submitApplication = () => {
-  alert('申请提交成功！我们会尽快与您联系。')
-  closeModal()
+const submitApplication = async () => {
+  try {
+    await apiPost('/careers/apply', {
+      job: selectedJob.value?.title,
+      ...applicationForm.value,
+    })
+    alert('申请提交成功！我们会尽快与您联系。')
+    closeModal()
+  } catch (err) {
+    console.error('申请提交失败:', err)
+    alert('提交失败，请稍后重试或直接发送简历至 hr@szbolent.com.cn')
+  }
 }
 
 onMounted(() => {
