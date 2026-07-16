@@ -1,6 +1,7 @@
 /**
  * Bolent 门户品牌配置 v2.0
  * 对齐 Phase 1 品牌规范：数智企业门户定位
+ * 域名：www.szbolent.com.cn
  */
 
 export const companyInfo = {
@@ -87,7 +88,38 @@ export const seoConfig = {
   ogImage: '/images/og-image.jpg',
 }
 
+export const pricingPlans = [
+  {
+    id: 'free',
+    name: '免费版',
+    price: 0,
+    period: '永久',
+    features: ['每日 10 次诗词搜索', '基础诗人浏览', '诗词收藏'],
+    cta: '免费开始',
+    highlighted: false,
+  },
+  {
+    id: 'supporter',
+    name: '支持者',
+    price: 29,
+    period: '月',
+    features: ['无限诗词搜索', 'AI 诗词问答', '深度诗人分析', '去广告'],
+    cta: '立即订阅',
+    highlighted: true,
+  },
+  {
+    id: 'pro',
+    name: '专业版',
+    price: 99,
+    period: '月',
+    features: ['支持者全部功能', 'API 调用额度 x10', '企业级 RAG 知识库', '优先客服支持'],
+    cta: '升级专业版',
+    highlighted: false,
+  },
+]
+
 export default {
   company: companyInfo,
   seo: seoConfig,
+  pricing: pricingPlans,
 }

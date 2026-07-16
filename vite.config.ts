@@ -39,11 +39,6 @@ export default defineConfig({
         target: 'http://127.0.0.1:5200',
         changeOrigin: true
       },
-      // Legacy bolent backend（过渡）
-      '/api': {
-        target: 'http://localhost:8001',
-        changeOrigin: true
-      },
       // 代理 WordPress REST API (PoetImmortal 博客)
       '/wp-json': {
         target: process.env.VITE_WP_PROXY || 'http://localhost:8800',

@@ -93,6 +93,24 @@ const routes: RouteRecordRaw[] = [
           }
         ]
       },
+      {
+        path: 'pricing',
+        name: 'Pricing',
+        component: () => import('@/views/Pricing.vue'),
+        meta: { title: '定价方案' }
+      },
+      {
+        path: 'privacy',
+        name: 'Privacy',
+        component: () => import('@/views/Privacy.vue'),
+        meta: { title: '隐私政策' }
+      },
+      {
+        path: 'terms',
+        name: 'Terms',
+        component: () => import('@/views/Terms.vue'),
+        meta: { title: '用户协议' }
+      },
       // 活动抽奖路由
       {
         path: 'activity',
