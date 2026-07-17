@@ -48,7 +48,11 @@ jobs:
       - name: Reload nginx
         run: |
           ssh deploy "
-            cp /var/www/szbolent-portal/nginx/szbolent.conf /etc/nginx/conf.d/szbolent.conf &&
+            cp /var/www/szbolent-portal/nginx/szbolent.conf /etc/nginx/conf.d/00-szbolent.conf &&
+            for f in /etc/nginx/conf.d/*.conf; do
+              [ \"\$f\" = /etc/nginx/conf.d/00-szbolent.conf ] && continue
+              sed -i 's/default_server//g' \"\$f\"
+            done &&
             nginx -t &&
             systemctl reload nginx &&
             echo '✅ Deploy OK'
