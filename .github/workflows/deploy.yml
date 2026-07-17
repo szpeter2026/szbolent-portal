@@ -1,4 +1,4 @@
-name: Build & Deploy
+name: Deploy WordPress to Aliyun
 
 on:
   push:
@@ -6,24 +6,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build
-        run: npm run build
 
       - name: Setup SSH
         uses: shimataro/ssh-key-action@v2
@@ -40,10 +28,47 @@ jobs:
         run: |
           ssh deploy 'if ! command -v rsync &>/dev/null; then yum install -y rsync 2>/dev/null || dnf install -y rsync 2>/dev/null || (apt-get update -qq && apt-get install -y -qq rsync); fi'
 
-      - name: Deploy to server
+      - name: Create deploy directory
         run: |
-          rsync -avz --delete dist/ deploy:/var/www/szbolent-portal/dist/
+          ssh deploy 'mkdir -p /opt/bolent-wp/themes/bolent-astra-child'
+
+      - name: Deploy WordPress theme
+        run: |
+          rsync -avz --delete \
+            design-system/phase3-wordpress/astra-child/ \
+            deploy:/opt/bolent-wp/themes/bolent-astra-child/
+
+      - name: Deploy Docker Compose & nginx config
+        run: |
+          rsync -avz docker-compose.wp.prod.yml deploy:/opt/bolent-wp/docker-compose.wp.prod.yml
           rsync -avz nginx.conf deploy:/var/www/szbolent-portal/nginx/szbolent.conf
+
+      - name: Generate .env if not exists
+        run: |
+          ssh deploy '
+            if [ ! -f /opt/bolent-wp/.env ]; then
+              cat > /opt/bolent-wp/.env <<EOF
+          MYSQL_ROOT_PASSWORD=$(openssl rand -hex 16)
+          MYSQL_DATABASE=bolent_wp
+          MYSQL_USER=wordpress
+          MYSQL_PASSWORD=$(openssl rand -hex 16)
+          WP_HOME=http://47.115.168.107
+          WP_SITEURL=http://47.115.168.107
+          EOF
+              echo "✅ .env created"
+            else
+              echo "✅ .env exists"
+            fi
+          '
+
+      - name: Start WordPress containers
+        run: |
+          ssh deploy '
+            cd /opt/bolent-wp &&
+            docker compose -f docker-compose.wp.prod.yml pull &&
+            docker compose -f docker-compose.wp.prod.yml up -d &&
+            echo "✅ WordPress containers started"
+          '
 
       - name: Reload nginx
         run: |
@@ -55,5 +80,10 @@ jobs:
             done &&
             nginx -t &&
             systemctl reload nginx &&
-            echo '✅ Deploy OK'
+            echo '✅ Nginx reloaded — WordPress is live'
           "
+
+      - name: Health check
+        run: |
+          sleep 10
+          ssh deploy 'curl -s -o /dev/null -w "%{http_code}" http://127.0.0.1:8080 | grep -q "200\|301\|302" && echo "✅ WordPress responding" || echo "⚠️ WordPress not responding yet"'
