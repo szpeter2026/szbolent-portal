@@ -16,7 +16,7 @@
             </p>
             <div class="social-links">
               <a href="https://github.com/szbolent" target="_blank" class="social-link" aria-label="GitHub">
-                <i class="icon-github">&#9906;</i>
+                <Github :size="18" />
               </a>
             </div>
           </div>
@@ -52,11 +52,11 @@
             <h4 class="footer-title">联系我们</h4>
             <ul class="footer-contact">
               <li>
-                <i class="icon">&#x1F4CD;</i>
+                <MapPin :size="18" class="icon" />
                 <span>中国 · 深圳 · 南山区</span>
               </li>
               <li>
-                <i class="icon">&#x1F4E7;</i>
+                <Mail :size="18" class="icon" />
                 <span>hello@szbolent.com.cn</span>
               </li>
             </ul>
@@ -82,6 +82,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { Github, MapPin, Mail } from 'lucide-vue-next'
 
 const currentYear = computed(() => new Date().getFullYear())
 </script>
@@ -136,11 +137,12 @@ const currentYear = computed(() => new Date().getFullYear())
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            color: rgba(255, 255, 255, 0.7);
             transition: var(--bolent-transition);
 
             &:hover {
               background: rgba(255, 255, 255, 0.2);
+              color: #fff;
               transform: translateY(-3px);
             }
           }
@@ -192,10 +194,11 @@ const currentYear = computed(() => new Date().getFullYear())
             color: rgba(255, 255, 255, 0.8);
             font-size: 14px;
             line-height: 1.6;
+            align-items: center;
 
             .icon {
-              font-size: 18px;
               flex-shrink: 0;
+              opacity: 0.6;
             }
           }
         }
