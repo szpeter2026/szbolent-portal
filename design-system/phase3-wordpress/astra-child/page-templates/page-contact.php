@@ -11,9 +11,9 @@ get_header();
 <section class="bolent-hero" style="min-height:50vh;">
     <div class="bolent-hero-grid"></div>
     <div class="bolent-hero-content">
-        <h1>联系<span class="bolent-hero-highlight">我们</span></h1>
-        <p class="bolent-hero-subtitle">让我们一起探讨鸿蒙化方案</p>
-        <p class="bolent-hero-desc">无论是应用迁移、硬件适配还是生态共建，我们与您并肩前行</p>
+        <h1><?php echo esc_html(bolent_mod('page_contact_title1', '联系')); ?><span class="bolent-hero-highlight"><?php echo esc_html(bolent_mod('page_contact_highlight', '我们')); ?></span></h1>
+        <p class="bolent-hero-subtitle"><?php echo esc_html(bolent_mod('page_contact_subtitle', '让我们一起探讨鸿蒙化方案')); ?></p>
+        <p class="bolent-hero-desc"><?php echo esc_html(bolent_mod('page_contact_desc', '无论是应用迁移、硬件适配还是生态共建，我们与您并肩前行')); ?></p>
     </div>
 </section>
 
@@ -36,7 +36,7 @@ get_header();
                         </div>
                         <div>
                             <h4 style="font-size:15px;font-weight:600;color:var(--bolent-ink);margin-bottom:4px;">邮箱</h4>
-                            <p style="font-size:15px;color:var(--bolent-text-secondary);">contact@szbolent.com.cn</p>
+                            <p style="font-size:15px;color:var(--bolent-text-secondary);"><?php echo esc_html(bolent_mod('contact_email', 'contact@szbolent.com.cn')); ?></p>
                         </div>
                     </div>
 
@@ -46,7 +46,7 @@ get_header();
                         </div>
                         <div>
                             <h4 style="font-size:15px;font-weight:600;color:var(--bolent-ink);margin-bottom:4px;">电话</h4>
-                            <p style="font-size:15px;color:var(--bolent-text-secondary);">+86 0755-XXXX-XXXX</p>
+                            <p style="font-size:15px;color:var(--bolent-text-secondary);"><?php echo esc_html(bolent_mod('contact_phone', '+86 0755-XXXX-XXXX')); ?></p>
                         </div>
                     </div>
 
@@ -56,7 +56,7 @@ get_header();
                         </div>
                         <div>
                             <h4 style="font-size:15px;font-weight:600;color:var(--bolent-ink);margin-bottom:4px;">地址</h4>
-                            <p style="font-size:15px;color:var(--bolent-text-secondary);">深圳市 · 武汉市 · 中国香港</p>
+                            <p style="font-size:15px;color:var(--bolent-text-secondary);"><?php echo esc_html(bolent_mod('contact_address', '深圳市 · 武汉市 · 中国香港')); ?></p>
                         </div>
                     </div>
                 </div>

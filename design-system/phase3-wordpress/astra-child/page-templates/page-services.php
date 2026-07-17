@@ -11,9 +11,9 @@ get_header();
 <section class="bolent-hero" style="min-height:50vh;">
     <div class="bolent-hero-grid"></div>
     <div class="bolent-hero-content">
-        <h1>我们的<span class="bolent-hero-highlight">服务</span></h1>
-        <p class="bolent-hero-subtitle">全方位 IT 服务 · 鸿蒙全栈能力</p>
-        <p class="bolent-hero-desc">以工程精度交付每一个项目，从鸿蒙生态到企业数字化</p>
+        <h1><?php echo esc_html(bolent_mod('page_services_title1', '我们的')); ?><span class="bolent-hero-highlight"><?php echo esc_html(bolent_mod('page_services_highlight', '服务')); ?></span></h1>
+        <p class="bolent-hero-subtitle"><?php echo esc_html(bolent_mod('page_services_subtitle', '全方位 IT 服务 · 鸿蒙全栈能力')); ?></p>
+        <p class="bolent-hero-desc"><?php echo esc_html(bolent_mod('page_services_desc', '以工程精度交付每一个项目，从鸿蒙生态到企业数字化')); ?></p>
     </div>
 </section>
 

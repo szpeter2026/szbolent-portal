@@ -1,8 +1,8 @@
 <?php
 /**
  * Template Name: Bolent 首页
- * HarmonyOS 生态服务商品牌首页
- * 读取 bolent_service CPT 渲染服务卡片，含鸿蒙全栈能力展示
+ * HarmonyOS 生态服务商品牌首页 v3.0 — 全内容 Customizer 可编辑
+ * 「外观 → 自定义 → Bolent 首页内容」即可修改所有文案
  */
 if (!defined('ABSPATH')) exit;
 get_header();
@@ -12,33 +12,32 @@ get_header();
 <section class="bolent-hero">
     <div class="bolent-hero-grid"></div>
     <div class="bolent-hero-content">
-        <!-- 生态认证徽章 -->
         <div class="bolent-hero-badges">
             <span class="bolent-hero-badge">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                HarmonyOS 开发者
+                <?php echo esc_html(bolent_mod('hero_badge_1', 'HarmonyOS 开发者')); ?>
             </span>
             <span class="bolent-hero-badge">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                鸿蒙生态合作伙伴
+                <?php echo esc_html(bolent_mod('hero_badge_2', '鸿蒙生态合作伙伴')); ?>
             </span>
             <span class="bolent-hero-badge">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-                OpenHarmony 贡献者
+                <?php echo esc_html(bolent_mod('hero_badge_3', 'OpenHarmony 贡献者')); ?>
             </span>
         </div>
 
-        <h1>HarmonyOS <span class="bolent-hero-highlight">生态服务商</span></h1>
-        <p class="bolent-hero-subtitle">智能终端 · 应用开发 · 解决方案</p>
-        <p class="bolent-hero-desc">覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，为企业打造端到端的鸿蒙化解决方案</p>
+        <h1><?php echo esc_html(bolent_mod('hero_title_line1', 'HarmonyOS')); ?> <span class="bolent-hero-highlight"><?php echo esc_html(bolent_mod('hero_title_highlight', '生态服务商')); ?></span></h1>
+        <p class="bolent-hero-subtitle"><?php echo esc_html(bolent_mod('hero_subtitle', '智能终端 · 应用开发 · 解决方案')); ?></p>
+        <p class="bolent-hero-desc"><?php echo esc_html(bolent_mod('hero_desc', '覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，为企业打造端到端的鸿蒙化解决方案')); ?></p>
 
         <div class="bolent-hero-actions">
             <a href="<?php echo esc_url(home_url('/case-study')); ?>" class="bolent-btn-harmony">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                查看案例
+                <?php echo esc_html(bolent_mod('hero_btn_primary', '查看案例')); ?>
             </a>
             <a href="<?php echo esc_url(home_url('/contact')); ?>" class="bolent-btn-outline-light">
-                联系我们
+                <?php echo esc_html(bolent_mod('hero_btn_secondary', '联系我们')); ?>
             </a>
         </div>
     </div>
@@ -48,30 +47,20 @@ get_header();
 <section class="bolent-harmony-section">
     <div class="bolent-container">
         <div class="bolent-section-header">
-            <span class="bolent-section-eyebrow">HARMONYOS ECOSYSTEM</span>
-            <h2 class="bolent-section-title">鸿蒙全栈能力</h2>
-            <p class="bolent-section-desc">覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，打造端到端的鸿蒙化解决方案</p>
+            <span class="bolent-section-eyebrow"><?php echo esc_html(bolent_mod('harmony_eyebrow', 'HARMONYOS ECOSYSTEM')); ?></span>
+            <h2 class="bolent-section-title"><?php echo esc_html(bolent_mod('harmony_title', '鸿蒙全栈能力')); ?></h2>
+            <p class="bolent-section-desc"><?php echo esc_html(bolent_mod('harmony_desc', '覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，打造端到端的鸿蒙化解决方案')); ?></p>
         </div>
         <div class="bolent-harmony-grid">
-            <?php
-            $harmony_caps = array(
-                array('icon' => 'smartphone', 'title' => '鸿蒙应用开发', 'desc' => '基于 ArkUI + ArkTS 的原生应用开发，覆盖手机、平板、车机等多设备形态'),
-                array('icon' => 'cpu', 'title' => '硬件适配 & 驱动', 'desc' => '芯片平台适配、HDF 驱动开发、外设接入，让硬件轻松融入鸿蒙生态'),
-                array('icon' => 'atom', 'title' => '原子化服务', 'desc' => '免安装、即用即走的轻量化服务，多端流转，提升用户体验与留存'),
-                array('icon' => 'package', 'title' => '鸿蒙分发 & 上架', 'desc' => '全流程指引 AppGallery Connect 上架、测试分发、合规审核'),
-                array('icon' => 'gitmerge', 'title' => 'OpenHarmony 共建', 'desc' => '开源社区贡献、SIG 组参与、行业发行版定制，推动生态共建'),
-                array('icon' => 'layers', 'title' => '跨端迁移方案', 'desc' => '从 Android/iOS 到 HarmonyOS 的应用迁移，降低迁移成本与风险'),
-            );
-            foreach ($harmony_caps as $cap) :
-            ?>
+            <?php for ($i = 1; $i <= 6; $i++) : ?>
                 <div class="bolent-harmony-card">
                     <div class="bolent-harmony-card-icon">
-                        <?php echo bolent_get_svg_icon($cap['icon']); ?>
+                        <?php echo bolent_get_svg_icon(bolent_mod("harmony_icon_{$i}", '')); ?>
                     </div>
-                    <h3 class="bolent-harmony-card-title"><?php echo esc_html($cap['title']); ?></h3>
-                    <p class="bolent-harmony-card-desc"><?php echo esc_html($cap['desc']); ?></p>
+                    <h3 class="bolent-harmony-card-title"><?php echo esc_html(bolent_mod("harmony_title_{$i}", '')); ?></h3>
+                    <p class="bolent-harmony-card-desc"><?php echo esc_html(bolent_mod("harmony_desc_{$i}", '')); ?></p>
                 </div>
-            <?php endforeach; ?>
+            <?php endfor; ?>
         </div>
     </div>
 </section>
@@ -80,9 +69,9 @@ get_header();
 <section class="bolent-section">
     <div class="bolent-container">
         <div class="bolent-section-header">
-            <span class="bolent-section-eyebrow">SERVICES</span>
-            <h2 class="bolent-section-title">核心服务</h2>
-            <p class="bolent-section-desc">全方位 IT 服务，以工程精度交付每一个项目</p>
+            <span class="bolent-section-eyebrow"><?php echo esc_html(bolent_mod('services_eyebrow', 'SERVICES')); ?></span>
+            <h2 class="bolent-section-title"><?php echo esc_html(bolent_mod('services_title', '核心服务')); ?></h2>
+            <p class="bolent-section-desc"><?php echo esc_html(bolent_mod('services_desc', '全方位 IT 服务，以工程精度交付每一个项目')); ?></p>
         </div>
         <div class="bolent-service-grid">
             <?php
@@ -159,9 +148,9 @@ get_header();
 <section class="bolent-section" style="background: var(--bolent-bg-soft);">
     <div class="bolent-container">
         <div class="bolent-section-header">
-            <span class="bolent-section-eyebrow">CASE STUDIES</span>
-            <h2 class="bolent-section-title">精选案例</h2>
-            <p class="bolent-section-desc">以结果说话，这是我们交付价值的证明</p>
+            <span class="bolent-section-eyebrow"><?php echo esc_html(bolent_mod('cases_eyebrow', 'CASE STUDIES')); ?></span>
+            <h2 class="bolent-section-title"><?php echo esc_html(bolent_mod('cases_title', '精选案例')); ?></h2>
+            <p class="bolent-section-desc"><?php echo esc_html(bolent_mod('cases_desc', '以结果说话，这是我们交付价值的证明')); ?></p>
         </div>
         <div class="bolent-cases-grid">
             <?php
@@ -200,7 +189,6 @@ get_header();
                 endwhile;
                 wp_reset_postdata();
             else :
-                // 默认案例
                 $default_cases = array(
                     array('icon' => 'smartphone', 'tag' => '鸿蒙应用', 'title' => '智能诗词 App — HarmonyOS 原生版', 'desc' => '基于 ArkUI 重构诗词鉴赏应用，集成 AI 语音朗读与卡片流转，已上架 AppGallery', 'm1' => '4.8★', 'l1' => '应用评分', 'm2' => '50K+', 'l2' => '下载量'),
                     array('icon' => 'cloud', 'tag' => '数字化', 'title' => '某制造业工厂数字化平台', 'desc' => '端到端数据采集与可视化系统，实现产线实时监控与异常预警，良品率提升 12%', 'm1' => '12%', 'l1' => '良品率提升', 'm2' => '30%', 'l2' => '运维效率提升'),
@@ -234,28 +222,20 @@ get_header();
 <section class="bolent-section">
     <div class="bolent-container">
         <div class="bolent-section-header">
-            <span class="bolent-section-eyebrow">WHY BOLENT</span>
-            <h2 class="bolent-section-title">为什么选择我们</h2>
-            <p class="bolent-section-desc">不只是外包，我们是您值得信赖的技术合伙人</p>
+            <span class="bolent-section-eyebrow"><?php echo esc_html(bolent_mod('whyus_eyebrow', 'WHY BOLENT')); ?></span>
+            <h2 class="bolent-section-title"><?php echo esc_html(bolent_mod('whyus_title', '为什么选择我们')); ?></h2>
+            <p class="bolent-section-desc"><?php echo esc_html(bolent_mod('whyus_desc', '不只是外包，我们是您值得信赖的技术合伙人')); ?></p>
         </div>
         <div class="bolent-features-grid">
-            <?php
-            $features = array(
-                array('icon' => 'target', 'title' => '领域专业', 'desc' => '深耕鸿蒙生态与企业数字化，丰富的行业落地经验'),
-                array('icon' => 'sparkles', 'title' => '卓越品质', 'desc' => '工程级精度交付，代码评审覆盖率 > 85%，测试覆盖率 > 80%'),
-                array('icon' => 'wrench', 'title' => '技术前沿', 'desc' => '持续跟进 HarmonyOS/OpenHarmony 最新版本与技术演进'),
-                array('icon' => 'heart', 'title' => '客户至上', 'desc' => '不止于交付，我们关注长期合作与客户成功'),
-            );
-            foreach ($features as $feat) :
-            ?>
+            <?php for ($i = 1; $i <= 4; $i++) : ?>
                 <div class="bolent-feature-card">
                     <div class="bolent-feature-icon">
-                        <?php echo bolent_get_svg_icon($feat['icon']); ?>
+                        <?php echo bolent_get_svg_icon(bolent_mod("whyus_icon_{$i}", '')); ?>
                     </div>
-                    <h4><?php echo esc_html($feat['title']); ?></h4>
-                    <p><?php echo esc_html($feat['desc']); ?></p>
+                    <h4><?php echo esc_html(bolent_mod("whyus_title_{$i}", '')); ?></h4>
+                    <p><?php echo esc_html(bolent_mod("whyus_desc_{$i}", '')); ?></p>
                 </div>
-            <?php endforeach; ?>
+            <?php endfor; ?>
         </div>
     </div>
 </section>
@@ -263,11 +243,11 @@ get_header();
 <!-- ═══════════ CTA ═══════════ -->
 <section class="bolent-cta">
     <div class="bolent-cta-content">
-        <h2>准备好开启鸿蒙化之旅了吗？</h2>
-        <p>无论是应用迁移、硬件适配还是生态共建，我们与您并肩前行</p>
+        <h2><?php echo esc_html(bolent_mod('cta_title', '准备好开启鸿蒙化之旅了吗？')); ?></h2>
+        <p><?php echo esc_html(bolent_mod('cta_desc', '无论是应用迁移、硬件适配还是生态共建，我们与您并肩前行')); ?></p>
         <a href="<?php echo esc_url(home_url('/contact')); ?>" class="bolent-btn-harmony">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            立即咨询
+            <?php echo esc_html(bolent_mod('cta_btn', '立即咨询')); ?>
         </a>
     </div>
 </section>

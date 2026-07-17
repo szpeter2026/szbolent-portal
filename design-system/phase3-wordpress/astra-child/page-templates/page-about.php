@@ -11,9 +11,9 @@ get_header();
 <section class="bolent-hero" style="min-height:60vh;">
     <div class="bolent-hero-grid"></div>
     <div class="bolent-hero-content">
-        <h1>关于 <span class="bolent-hero-highlight">Bolent</span></h1>
-        <p class="bolent-hero-subtitle">HarmonyOS 生态服务商</p>
-        <p class="bolent-hero-desc">覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，为企业打造端到端的鸿蒙化解决方案</p>
+        <h1><?php echo esc_html(bolent_mod('page_about_title1', '关于 ')); ?><span class="bolent-hero-highlight"><?php echo esc_html(bolent_mod('page_about_highlight', 'Bolent')); ?></span></h1>
+        <p class="bolent-hero-subtitle"><?php echo esc_html(bolent_mod('page_about_subtitle', 'HarmonyOS 生态服务商')); ?></p>
+        <p class="bolent-hero-desc"><?php echo esc_html(bolent_mod('page_about_desc', '覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，为企业打造端到端的鸿蒙化解决方案')); ?></p>
     </div>
 </section>
 

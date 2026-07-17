@@ -220,3 +220,178 @@ if (!function_exists('bolent_get_svg_icon')) {
         return isset($icons[$name]) ? $icons[$name] : $icons['layers'];
     }
 }
+
+/**
+ * 11. WordPress Customizer — 首页内容面板
+ * 「外观 → 自定义 → Bolent 首页内容」即可编辑 Hero/鸿蒙能力/Why Us/CTA
+ */
+function bolent_customizer_register($wp_customize) {
+
+    // ── Panel: Bolent 首页内容 ──
+    $wp_customize->add_panel('bolent_home_panel', array(
+        'title'       => '🏠 Bolent 首页内容',
+        'priority'    => 30,
+    ));
+
+    /* ===== Hero Section ===== */
+    $wp_customize->add_section('bolent_hero_section', array(
+        'title'    => 'Hero 主视觉',
+        'panel'    => 'bolent_home_panel',
+    ));
+
+    $hero_fields = array(
+        'hero_title_line1'   => array('label' => '标题第一行', 'default' => 'HarmonyOS'),
+        'hero_title_highlight' => array('label' => '标题高亮文字', 'default' => '生态服务商'),
+        'hero_subtitle'      => array('label' => '副标题', 'default' => '智能终端 · 应用开发 · 解决方案'),
+        'hero_desc'          => array('label' => '描述', 'default' => '覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，为企业打造端到端的鸿蒙化解决方案'),
+        'hero_badge_1'       => array('label' => '徽章 1 文字', 'default' => 'HarmonyOS 开发者'),
+        'hero_badge_2'       => array('label' => '徽章 2 文字', 'default' => '鸿蒙生态合作伙伴'),
+        'hero_badge_3'       => array('label' => '徽章 3 文字', 'default' => 'OpenHarmony 贡献者'),
+        'hero_btn_primary'   => array('label' => '主按钮文字', 'default' => '查看案例'),
+        'hero_btn_secondary' => array('label' => '次按钮文字', 'default' => '联系我们'),
+    );
+    foreach ($hero_fields as $id => $cfg) {
+        $wp_customize->add_setting('bolent_' . $id, array('default' => $cfg['default'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_' . $id, array('label' => $cfg['label'], 'section' => 'bolent_hero_section', 'type' => 'text'));
+    }
+
+    /* ===== 鸿蒙全栈能力 ===== */
+    $wp_customize->add_section('bolent_harmony_section', array(
+        'title' => '鸿蒙全栈能力',
+        'panel' => 'bolent_home_panel',
+    ));
+    $harmony_headers = array(
+        'harmony_eyebrow' => array('label' => '小标题', 'default' => 'HARMONYOS ECOSYSTEM'),
+        'harmony_title'   => array('label' => '大标题', 'default' => '鸿蒙全栈能力'),
+        'harmony_desc'    => array('label' => '描述', 'default' => '覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，打造端到端的鸿蒙化解决方案'),
+    );
+    foreach ($harmony_headers as $id => $cfg) {
+        $wp_customize->add_setting('bolent_' . $id, array('default' => $cfg['default'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_' . $id, array('label' => $cfg['label'], 'section' => 'bolent_harmony_section', 'type' => 'text'));
+    }
+
+    $harmony_icons = array('smartphone', 'cpu', 'atom', 'package', 'gitmerge', 'layers');
+    $harmony_defaults = array(
+        array('鸿蒙应用开发', '基于 ArkUI + ArkTS 的原生应用开发，覆盖手机、平板、车机等多设备形态'),
+        array('硬件适配 & 驱动', '芯片平台适配、HDF 驱动开发、外设接入，让硬件轻松融入鸿蒙生态'),
+        array('原子化服务', '免安装、即用即走的轻量化服务，多端流转，提升用户体验与留存'),
+        array('鸿蒙分发 & 上架', '全流程指引 AppGallery Connect 上架、测试分发、合规审核'),
+        array('OpenHarmony 共建', '开源社区贡献、SIG 组参与、行业发行版定制，推动生态共建'),
+        array('跨端迁移方案', '从 Android/iOS 到 HarmonyOS 的应用迁移，降低迁移成本与风险'),
+    );
+    for ($i = 1; $i <= 6; $i++) {
+        $idx = $i - 1;
+        $wp_customize->add_setting('bolent_harmony_icon_' . $i, array('default' => $harmony_icons[$idx], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_harmony_icon_' . $i, array('label' => "卡片 {$i} — 图标名", 'section' => 'bolent_harmony_section', 'type' => 'text'));
+        $wp_customize->add_setting('bolent_harmony_title_' . $i, array('default' => $harmony_defaults[$idx][0], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_harmony_title_' . $i, array('label' => "卡片 {$i} — 标题", 'section' => 'bolent_harmony_section', 'type' => 'text'));
+        $wp_customize->add_setting('bolent_harmony_desc_' . $i, array('default' => $harmony_defaults[$idx][1], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_harmony_desc_' . $i, array('label' => "卡片 {$i} — 描述", 'section' => 'bolent_harmony_section', 'type' => 'textarea'));
+    }
+
+    /* ===== 核心服务 & 精选案例 — Section 头部可编辑 ===== */
+    $section_headers = array(
+        'bolent_services_header' => array('section' => 'bolent_harmony_section', 'prefix' => 'services', 'default_eyebrow' => 'SERVICES', 'default_title' => '核心服务', 'default_desc' => '全方位 IT 服务，以工程精度交付每一个项目'),
+        'bolent_cases_header'    => array('section' => 'bolent_harmony_section', 'prefix' => 'cases', 'default_eyebrow' => 'CASE STUDIES', 'default_title' => '精选案例', 'default_desc' => '以结果说话，这是我们交付价值的证明'),
+    );
+    foreach ($section_headers as $grp => $cfg) {
+        foreach (array('eyebrow', 'title', 'desc') as $f) {
+            $defaults = array('eyebrow' => $cfg['default_eyebrow'], 'title' => $cfg['default_title'], 'desc' => $cfg['default_desc']);
+            $wp_customize->add_setting('bolent_' . $cfg['prefix'] . '_' . $f, array('default' => $defaults[$f], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+            $wp_customize->add_control('bolent_' . $cfg['prefix'] . '_' . $f, array('label' => "{$cfg['default_title']} — " . array('eyebrow' => '小标题', 'title' => '大标题', 'desc' => '描述')[$f], 'section' => $cfg['section'], 'type' => ($f === 'desc') ? 'textarea' : 'text'));
+        }
+    }
+
+    /* ===== 为什么选择我们 ===== */
+    $wp_customize->add_section('bolent_whyus_section', array(
+        'title' => '为什么选择我们',
+        'panel' => 'bolent_home_panel',
+    ));
+    $why_headers = array(
+        'whyus_eyebrow' => array('label' => '小标题', 'default' => 'WHY BOLENT'),
+        'whyus_title'   => array('label' => '大标题', 'default' => '为什么选择我们'),
+        'whyus_desc'    => array('label' => '描述', 'default' => '不只是外包，我们是您值得信赖的技术合伙人'),
+    );
+    foreach ($why_headers as $id => $cfg) {
+        $wp_customize->add_setting('bolent_' . $id, array('default' => $cfg['default'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_' . $id, array('label' => $cfg['label'], 'section' => 'bolent_whyus_section', 'type' => 'text'));
+    }
+
+    $why_icons = array('target', 'sparkles', 'wrench', 'heart');
+    $why_defaults = array(
+        array('领域专业', '深耕鸿蒙生态与企业数字化，丰富的行业落地经验'),
+        array('卓越品质', '工程级精度交付，代码评审覆盖率 > 85%，测试覆盖率 > 80%'),
+        array('技术前沿', '持续跟进 HarmonyOS/OpenHarmony 最新版本与技术演进'),
+        array('客户至上', '不止于交付，我们关注长期合作与客户成功'),
+    );
+    for ($i = 1; $i <= 4; $i++) {
+        $idx = $i - 1;
+        $wp_customize->add_setting('bolent_whyus_icon_' . $i, array('default' => $why_icons[$idx], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_whyus_icon_' . $i, array('label' => "特征 {$i} — 图标名", 'section' => 'bolent_whyus_section', 'type' => 'text'));
+        $wp_customize->add_setting('bolent_whyus_title_' . $i, array('default' => $why_defaults[$idx][0], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_whyus_title_' . $i, array('label' => "特征 {$i} — 标题", 'section' => 'bolent_whyus_section', 'type' => 'text'));
+        $wp_customize->add_setting('bolent_whyus_desc_' . $i, array('default' => $why_defaults[$idx][1], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_whyus_desc_' . $i, array('label' => "特征 {$i} — 描述", 'section' => 'bolent_whyus_section', 'type' => 'textarea'));
+    }
+
+    /* ===== CTA ===== */
+    $wp_customize->add_section('bolent_cta_section', array(
+        'title' => 'CTA 行动号召',
+        'panel' => 'bolent_home_panel',
+    ));
+    $cta_fields = array(
+        'cta_title'  => array('label' => '标题', 'default' => '准备好开启鸿蒙化之旅了吗？'),
+        'cta_desc'   => array('label' => '描述', 'default' => '无论是应用迁移、硬件适配还是生态共建，我们与您并肩前行'),
+        'cta_btn'    => array('label' => '按钮文字', 'default' => '立即咨询'),
+    );
+    foreach ($cta_fields as $id => $cfg) {
+        $wp_customize->add_setting('bolent_' . $id, array('default' => $cfg['default'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_' . $id, array('label' => $cfg['label'], 'section' => 'bolent_cta_section', 'type' => (strpos($id, 'desc') !== false) ? 'textarea' : 'text'));
+    }
+
+    /* ===== 子页面 Hero 文案 ===== */
+    $wp_customize->add_section('bolent_pages_hero_section', array(
+        'title' => '子页面 Hero 文案',
+        'panel' => 'bolent_home_panel',
+    ));
+    $page_hero_defaults = array(
+        'services' => array('title1' => '我们的', 'highlight' => '服务', 'subtitle' => '全方位 IT 服务 · 鸿蒙全栈能力', 'desc' => '以工程精度交付每一个项目，从鸿蒙生态到企业数字化'),
+        'about'    => array('title1' => '关于 ', 'highlight' => 'Bolent', 'subtitle' => 'HarmonyOS 生态服务商', 'desc' => '覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，为企业打造端到端的鸿蒙化解决方案'),
+        'cases'    => array('title1' => '成功', 'highlight' => '案例', 'subtitle' => '以结果说话', 'desc' => '这是我们交付价值的证明'),
+        'careers'  => array('title1' => '加入 ', 'highlight' => 'Bolent', 'subtitle' => '共建鸿蒙生态 · 共创智能未来', 'desc' => '我们正在寻找对 HarmonyOS 生态充满热情的伙伴'),
+        'blog'     => array('title1' => '技术', 'highlight' => '博客', 'subtitle' => 'HarmonyOS · 技术实践 · 行业洞察', 'desc' => '分享鸿蒙生态开发经验与技术心得'),
+        'contact'  => array('title1' => '联系', 'highlight' => '我们', 'subtitle' => '让我们一起探讨鸿蒙化方案', 'desc' => '无论是应用迁移、硬件适配还是生态共建，我们与您并肩前行'),
+    );
+    foreach ($page_hero_defaults as $page => $defaults) {
+        $label = array('services' => '服务页', 'about' => '关于页', 'cases' => '案例页', 'careers' => '招聘页', 'blog' => '博客页', 'contact' => '联系页')[$page];
+        foreach (array('title1', 'highlight', 'subtitle', 'desc') as $f) {
+            $flabels = array('title1' => '标题前半', 'highlight' => '标题高亮', 'subtitle' => '副标题', 'desc' => '描述');
+            $wp_customize->add_setting("bolent_page_{$page}_{$f}", array('default' => $defaults[$f], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+            $wp_customize->add_control("bolent_page_{$page}_{$f}", array('label' => "{$label} — {$flabels[$f]}", 'section' => 'bolent_pages_hero_section', 'type' => 'text'));
+        }
+    }
+
+    /* ===== 联系信息 ===== */
+    $wp_customize->add_section('bolent_contact_info_section', array(
+        'title' => '联系信息',
+        'panel' => 'bolent_home_panel',
+    ));
+    $contact_info = array(
+        'contact_email'   => array('label' => '邮箱', 'default' => 'contact@szbolent.com.cn'),
+        'contact_phone'   => array('label' => '电话', 'default' => '+86 0755-XXXX-XXXX'),
+        'contact_address' => array('label' => '地址', 'default' => '深圳市 · 武汉市 · 中国香港'),
+    );
+    foreach ($contact_info as $id => $cfg) {
+        $wp_customize->add_setting('bolent_' . $id, array('default' => $cfg['default'], 'transport' => 'refresh', 'sanitize_callback' => 'sanitize_text_field'));
+        $wp_customize->add_control('bolent_' . $id, array('label' => $cfg['label'], 'section' => 'bolent_contact_info_section', 'type' => 'text'));
+    }
+}
+add_action('customize_register', 'bolent_customizer_register');
+
+/**
+ * 12. 辅助函数：获取主题 mod，带默认值回退
+ */
+function bolent_mod($key, $default = '') {
+    $val = get_theme_mod('bolent_' . $key, $default);
+    return !empty($val) ? $val : $default;
+}

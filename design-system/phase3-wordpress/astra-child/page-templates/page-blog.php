@@ -11,9 +11,9 @@ get_header();
 <section class="bolent-hero" style="min-height:50vh;">
     <div class="bolent-hero-grid"></div>
     <div class="bolent-hero-content">
-        <h1>技术<span class="bolent-hero-highlight">博客</span></h1>
-        <p class="bolent-hero-subtitle">HarmonyOS · 技术实践 · 行业洞察</p>
-        <p class="bolent-hero-desc">分享鸿蒙生态开发经验与技术心得</p>
+        <h1><?php echo esc_html(bolent_mod('page_blog_title1', '技术')); ?><span class="bolent-hero-highlight"><?php echo esc_html(bolent_mod('page_blog_highlight', '博客')); ?></span></h1>
+        <p class="bolent-hero-subtitle"><?php echo esc_html(bolent_mod('page_blog_subtitle', 'HarmonyOS · 技术实践 · 行业洞察')); ?></p>
+        <p class="bolent-hero-desc"><?php echo esc_html(bolent_mod('page_blog_desc', '分享鸿蒙生态开发经验与技术心得')); ?></p>
     </div>
 </section>
 

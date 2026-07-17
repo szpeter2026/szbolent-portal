@@ -11,9 +11,9 @@ get_header();
 <section class="bolent-hero" style="min-height:50vh;">
     <div class="bolent-hero-grid"></div>
     <div class="bolent-hero-content">
-        <h1>加入 <span class="bolent-hero-highlight">Bolent</span></h1>
-        <p class="bolent-hero-subtitle">共建鸿蒙生态 · 共创智能未来</p>
-        <p class="bolent-hero-desc">我们正在寻找对 HarmonyOS 生态充满热情的伙伴</p>
+        <h1><?php echo esc_html(bolent_mod('page_careers_title1', '加入 ')); ?><span class="bolent-hero-highlight"><?php echo esc_html(bolent_mod('page_careers_highlight', 'Bolent')); ?></span></h1>
+        <p class="bolent-hero-subtitle"><?php echo esc_html(bolent_mod('page_careers_subtitle', '共建鸿蒙生态 · 共创智能未来')); ?></p>
+        <p class="bolent-hero-desc"><?php echo esc_html(bolent_mod('page_careers_desc', '我们正在寻找对 HarmonyOS 生态充满热情的伙伴')); ?></p>
     </div>
 </section>
 

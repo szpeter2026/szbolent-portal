@@ -11,9 +11,9 @@ get_header();
 <section class="bolent-hero" style="min-height:50vh;">
     <div class="bolent-hero-grid"></div>
     <div class="bolent-hero-content">
-        <h1>成功<span class="bolent-hero-highlight">案例</span></h1>
-        <p class="bolent-hero-subtitle">以结果说话</p>
-        <p class="bolent-hero-desc">这是我们交付价值的证明</p>
+        <h1><?php echo esc_html(bolent_mod('page_cases_title1', '成功')); ?><span class="bolent-hero-highlight"><?php echo esc_html(bolent_mod('page_cases_highlight', '案例')); ?></span></h1>
+        <p class="bolent-hero-subtitle"><?php echo esc_html(bolent_mod('page_cases_subtitle', '以结果说话')); ?></p>
+        <p class="bolent-hero-desc"><?php echo esc_html(bolent_mod('page_cases_desc', '这是我们交付价值的证明')); ?></p>
     </div>
 </section>
 
