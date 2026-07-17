@@ -15,11 +15,9 @@ define('BOLENT_URI', get_stylesheet_directory_uri());
  * 1. 样式与字体加载
  */
 function bolent_enqueue_styles() {
-    // 父主题 Astra 样式
-    wp_enqueue_style('astra-parent', get_template_directory_uri() . '/style.css');
-
-    // 子主题品牌样式
-    wp_enqueue_style('bolent-child', get_stylesheet_uri(), array('astra-parent'), BOLENT_VERSION);
+    // 子主题品牌样式 — 加载在 Astra 之后
+    // 注：Astra 有自己的样式加载机制（astra-theme-css），不依赖手动注册的 handle
+    wp_enqueue_style('bolent-child', get_stylesheet_uri(), array('astra-theme-css'), BOLENT_VERSION);
 
     // Google Fonts: Manrope + Noto Sans SC + Noto Serif SC
     wp_enqueue_style('bolent-fonts', 'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;500;700&display=swap', array(), null);
@@ -27,7 +25,7 @@ function bolent_enqueue_styles() {
     // 移动端菜单脚本
     wp_enqueue_script('bolent-mobile-menu', BOLENT_URI . '/assets/mobile-menu.js', array(), BOLENT_VERSION, true);
 }
-add_action('wp_enqueue_scripts', 'bolent_enqueue_styles');
+add_action('wp_enqueue_scripts', 'bolent_enqueue_styles', 15);
 
 /**
  * 2. 注册导航菜单
