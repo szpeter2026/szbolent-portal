@@ -36,6 +36,10 @@ jobs:
               User root
               StrictHostKeyChecking no
 
+      - name: Ensure rsync on server
+        run: |
+          ssh deploy "which rsync || (apt-get update -qq && apt-get install -y -qq rsync)"
+
       - name: Deploy to server
         run: |
           rsync -avz --delete dist/ deploy:/var/www/szbolent-portal/dist/
