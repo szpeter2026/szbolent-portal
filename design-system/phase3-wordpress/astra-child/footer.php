@@ -28,20 +28,7 @@ if (!defined('ABSPATH')) exit;
                 'theme_location' => 'footer-services',
                 'container' => false,
                 'menu_class' => '',
-                'fallback_cb' => function() {
-                    echo '<ul>';
-                    $services = array(
-                        '鸿蒙应用开发' => '/services/harmonyos',
-                        '软件开发' => '/services/development',
-                        '数字化 & 数据' => '/services/digital',
-                        '自动化 & QA' => '/services/automation',
-                        'IT 外包' => '/services/outsourcing',
-                    );
-                    foreach ($services as $label => $slug) {
-                        echo '<li><a href="' . esc_url(home_url($slug)) . '">' . esc_html($label) . '</a></li>';
-                    }
-                    echo '</ul>';
-                },
+                'fallback_cb' => 'bolent_footer_services_menu',
             ));
             ?>
         </div>
@@ -54,19 +41,7 @@ if (!defined('ABSPATH')) exit;
                 'theme_location' => 'footer-explore',
                 'container' => false,
                 'menu_class' => '',
-                'fallback_cb' => function() {
-                    echo '<ul>';
-                    $explore = array(
-                        '成功案例' => '/case-study',
-                        '技术博客' => '/blog',
-                        '关于我们' => '/about',
-                        '招贤纳士' => '/careers',
-                    );
-                    foreach ($explore as $label => $slug) {
-                        echo '<li><a href="' . esc_url(home_url($slug)) . '">' . esc_html($label) . '</a></li>';
-                    }
-                    echo '</ul>';
-                },
+                'fallback_cb' => 'bolent_footer_explore_menu',
             ));
             ?>
         </div>
@@ -79,17 +54,7 @@ if (!defined('ABSPATH')) exit;
                 'theme_location' => 'footer-contact',
                 'container' => false,
                 'menu_class' => '',
-                'fallback_cb' => function() {
-                    echo '<ul>';
-                    $contact = array(
-                        '联系我们' => '/contact',
-                        '合作伙伴' => '/partners',
-                    );
-                    foreach ($contact as $label => $slug) {
-                        echo '<li><a href="' . esc_url(home_url($slug)) . '">' . esc_html($label) . '</a></li>';
-                    }
-                    echo '</ul>';
-                },
+                'fallback_cb' => 'bolent_footer_contact_menu',
             ));
             ?>
         </div>

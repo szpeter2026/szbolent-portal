@@ -4,6 +4,16 @@
  */
 if (!defined('ABSPATH')) exit;
 ?>
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
+    <?php wp_head(); ?>
+</head>
+<body <?php body_class(); ?>>
+<?php wp_body_open(); ?>
 <header class="bolent-header">
     <div class="bolent-header-inner">
         <!-- Logo -->
@@ -37,29 +47,6 @@ if (!defined('ABSPATH')) exit;
         </div>
     </div>
 </header>
-
-<?php
-/**
- * 默认菜单（未设置菜单时显示）— HarmonyOS 品牌导航
- */
-function bolent_default_menu() {
-    $items = array(
-        '/' => '首页',
-        '/about' => '关于我们',
-        '/services' => '服务',
-        '/case-study' => '案例',
-        '/blog' => '博客',
-        '/careers' => '招贤纳士',
-    );
-    echo '<nav class="bolent-nav">';
-    foreach ($items as $slug => $label) {
-        $url = home_url($slug);
-        $active = is_page(ltrim($slug, '/')) ? ' current-menu-item' : '';
-        echo '<a href="' . esc_url($url) . '" class="' . esc_attr($active) . '">' . esc_html($label) . '</a>';
-    }
-    echo '</nav>';
-}
-?>
 
 <script>
 function bolentToggleMenu() {

@@ -43,6 +43,71 @@ function bolent_register_menus() {
 add_action('init', 'bolent_register_menus');
 
 /**
+ * 主导航默认菜单（未设置菜单时显示）
+ */
+function bolent_default_menu() {
+    $items = array(
+        '/' => '首页',
+        '/about' => '关于我们',
+        '/services' => '服务',
+        '/case-studies' => '案例',
+        '/blog' => '博客',
+        '/careers' => '招贤纳士',
+    );
+    echo '<nav class="bolent-nav">';
+    foreach ($items as $slug => $label) {
+        $url = home_url($slug);
+        $active = is_page(ltrim($slug, '/')) ? ' current-menu-item' : '';
+        echo '<a href="' . esc_url($url) . '" class="' . esc_attr($active) . '">' . esc_html($label) . '</a>';
+    }
+    echo '</nav>';
+}
+
+/**
+ * 页脚默认菜单
+ */
+function bolent_footer_services_menu() {
+    echo '<ul>';
+    $services = array(
+        '鸿蒙应用开发' => '/services/harmonyos',
+        '软件开发' => '/services/development',
+        '数字化 & 数据' => '/services/digital',
+        '自动化 & QA' => '/services/automation',
+        'IT 外包' => '/services/outsourcing',
+    );
+    foreach ($services as $label => $slug) {
+        echo '<li><a href="' . esc_url(home_url($slug)) . '">' . esc_html($label) . '</a></li>';
+    }
+    echo '</ul>';
+}
+
+function bolent_footer_explore_menu() {
+    echo '<ul>';
+    $explore = array(
+        '成功案例' => '/case-studies',
+        '技术博客' => '/blog',
+        '关于我们' => '/about',
+        '招贤纳士' => '/careers',
+    );
+    foreach ($explore as $label => $slug) {
+        echo '<li><a href="' . esc_url(home_url($slug)) . '">' . esc_html($label) . '</a></li>';
+    }
+    echo '</ul>';
+}
+
+function bolent_footer_contact_menu() {
+    echo '<ul>';
+    $contact = array(
+        '联系我们' => '/contact',
+        '合作伙伴' => '/partners',
+    );
+    foreach ($contact as $label => $slug) {
+        echo '<li><a href="' . esc_url(home_url($slug)) . '">' . esc_html($label) . '</a></li>';
+    }
+    echo '</ul>';
+}
+
+/**
  * 3. 加载 Custom Post Type 配置
  */
 require_once BOLENT_DIR . '/cpt/services.php';
