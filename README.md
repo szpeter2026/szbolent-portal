@@ -39,6 +39,7 @@ npm run dev
 | [docs/TENCENT_CLOUD_COMMERCE.md](./docs/TENCENT_CLOUD_COMMERCE.md) | **腾讯云备案 / 支付 / P0–P2（与 looma-zervi 同步）** |
 | [docs/LINEAGE.md](./docs/LINEAGE.md) | 溯源与边界 |
 | [docs/INTEGRATION.md](./docs/INTEGRATION.md) | WP / API / Tatha 联调 |
+| [docs/OPERATIONS_MANUAL.md](./docs/OPERATIONS_MANUAL.md) | **运维手册（部署/排障/备份/验证）** |
 | [SOURCE.json](./SOURCE.json) | 机器可读来源登记 |
 
 ## SurfaceZervi 对照
@@ -56,6 +57,8 @@ npm run dev
 npm run dev      # 开发
 npm run build    # 生产构建 → dist/
 npm run preview  # 预览构建
+npm run deploy   # 部署到 47.115.168.107
+npm run verify   # 运维验证脚本（bash scripts/verify.sh）
 ```
 
 ## License
