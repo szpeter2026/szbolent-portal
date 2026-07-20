@@ -27,7 +27,7 @@
 | 标识 | IP | 云厂商 | 角色 | 关键进程 |
 |------|-----|--------|------|---------|
 | `portal` | `47.115.168.107` | 阿里云 ECS | 门户机 | Nginx, WordPress Docker, Vue3 静态文件 |
-| `api-proxy` | `139.180.184.25` | 腾讯云 | API 入口 | Nginx → Looma |
+| `api-proxy` | `api.genz.ltd` | 腾讯云 | API 入口 | Nginx → Looma |
 | `looma` | `1.14.202.161` | — | 后端 | Looma API (:5200) |
 
 ### 1.2 请求流转全链路
@@ -44,13 +44,13 @@
 │  }                                                          │
 │                                                             │
 │  location /v1/ {                                            │
-│    proxy_pass http://139.180.184.25/v1/;  ← Looma API      │
+│    proxy_pass http://api.genz.ltd/v1/;  ← Looma API      │
 │  }                                                          │
 └─────────────────────────────────────────────────────────────┘
                 │                           │
                 ▼                           ▼
 ┌───────────────────────┐    ┌────────────────────────────────┐
-│ WordPress Docker      │    │ 139.180.184.25:80 (Nginx)      │
+│ WordPress Docker      │    │ api.genz.ltd:80 (Nginx)      │
 │ MySQL 8.0 + WP 6.7   │    │   └─► 1.14.202.161:5200        │
 │ 127.0.0.1:8080        │    │      (Looma Python 后端)       │
 └───────────────────────┘    └────────────────────────────────┘
@@ -66,8 +66,7 @@
 | `/opt/bolent-wp/docker-compose.wp.prod.yml` | WordPress 编排文件 |
 | `/opt/bolent-wp/.env` | 数据库密码等敏感配置（600 权限） |
 | `/opt/bolent-wp/themes/bolent-astra-child/` | Bolent 子主题（只读挂载） |
-| `/etc/nginx/sites-available/szbolent.conf` | 生效的 Nginx 站点配置 |
-| `/etc/nginx/sites-enabled/szbolent.conf` | 软链接 → sites-available |
+| `/etc/nginx/conf.d/szbolent.conf` | 生效的 Nginx 站点配置（RHEL 系） |
 
 ---
 
@@ -162,8 +161,8 @@ npm run build
 rsync -avz --delete dist/ root@47.115.168.107:/var/www/szbolent-portal/dist/
 scp nginx.conf root@47.115.168.107:/var/www/szbolent-portal/nginx/szbolent.conf
 ssh root@47.115.168.107 "
-  cp /var/www/szbolent-portal/nginx/szbolent.conf /etc/nginx/sites-available/szbolent.conf
-  ln -sf /etc/nginx/sites-available/szbolent.conf /etc/nginx/sites-enabled/szbolent.conf
+  cp /var/www/szbolent-portal/nginx/szbolent.conf /etc/nginx/conf.d/szbolent.conf
+  rm -f /etc/nginx/conf.d/default.conf
   nginx -t && systemctl reload nginx
 "
 ```
@@ -332,7 +331,7 @@ EOF
 
 ③ Looma API 代理
   curl http://47.115.168.107/v1/
-  → 502/504: 检查 139.180.184.25 或 1.14.202.161 是否可达
+  → 502/504: 检查 api.genz.ltd 或 1.14.202.161 是否可达
 ```
 
 ### 5.2 常见故障及处理
@@ -372,7 +371,7 @@ curl http://47.115.168.107/wp-json/wp/v2/posts
 curl -s http://47.115.168.107/v1/poetry/
 
 # 2. 如果返回 502，检查中间代理机
-#    SSH 到 139.180.184.25，确认 Nginx 和到 1.14.202.161 的连通性
+#    SSH 到 api.genz.ltd，确认 Nginx 和到 1.14.202.161 的连通性
 
 # 3. 如果中间代理正常，检查 Looma 后端
 #    SSH 到 1.14.202.161
@@ -537,9 +536,8 @@ scp nginx.conf root@<新服务器IP>:/var/www/szbolent-portal/nginx/szbolent.con
 
 # === Step 4: 配置 Nginx ===
 ssh root@<新服务器IP> '
-  cp /var/www/szbolent-portal/nginx/szbolent.conf /etc/nginx/sites-available/szbolent.conf
-  ln -sf /etc/nginx/sites-available/szbolent.conf /etc/nginx/sites-enabled/szbolent.conf
-  rm -f /etc/nginx/sites-enabled/default
+  cp /var/www/szbolent-portal/nginx/szbolent.conf /etc/nginx/conf.d/szbolent.conf
+  rm -f /etc/nginx/conf.d/default.conf
   nginx -t && systemctl reload nginx
 '
 
@@ -556,13 +554,11 @@ ssh root@<新服务器IP> '
 # 如果新配置有问题，回滚到备份
 ssh root@47.115.168.107 '
   # 备份当前配置
-  cp /etc/nginx/sites-available/szbolent.conf /etc/nginx/sites-available/szbolent.conf.bak.$(date +%Y%m%d%H%M%S)
+  cp /etc/nginx/conf.d/szbolent.conf /etc/nginx/conf.d/szbolent.conf.bak.$(date +%Y%m%d%H%M%S)
   
-  # 从 Git 历史恢复
-  cd /var/www/szbolent-portal
-  # 或直接恢复上一次的备份
-  ls -t /etc/nginx/sites-available/szbolent.conf.bak.* | head -2
-  cp /etc/nginx/sites-available/szbolent.conf.bak.XXXXXXXX /etc/nginx/sites-available/szbolent.conf
+  # 从 Git 历史恢复或恢复上一次的备份
+  ls -t /etc/nginx/conf.d/szbolent.conf.bak.* | head -2
+  cp /etc/nginx/conf.d/szbolent.conf.bak.XXXXXXXX /etc/nginx/conf.d/szbolent.conf
   nginx -t && systemctl reload nginx
 '
 ```
@@ -612,7 +608,7 @@ ssh root@47.115.168.107 '
 
 - [ ] **代理可达**：`curl -s -o /dev/null -w '%{http_code}' http://47.115.168.107/v1/` → 非 `502`/`504`
 - [ ] **诗词 API**：`curl -s http://47.115.168.107/v1/poetry/` → 有 JSON 响应（可能是空数组或结果数组）
-- [ ] **Nginx 代理配置**：`ssh root@47.115.168.107 'grep -A5 "location /v1/" /etc/nginx/sites-available/szbolent.conf'` → 包含 `proxy_pass http://139.180.184.25`
+- [ ] **Nginx 代理配置**：`ssh root@47.115.168.107 'grep -A5 "location /v1/" /etc/nginx/conf.d/szbolent.conf' 2>/dev/null || ssh root@47.115.168.107 'grep -A5 "location /v1/" /etc/nginx/conf.d/bolent-wp.conf'` → 包含 `proxy_pass http://api.genz.ltd`
 
 ### 8.5 服务器基础健康验证
 
@@ -714,7 +710,7 @@ bash scripts/verify.sh
 | Gitee 仓库 | `git@gitee.com:szbenyx/szbolent-portal.git` |
 | 关联仓库 | `looma-zervi`（Looma Python 后端） |
 | 门户 IP | `47.115.168.107` |
-| API 代理 IP | `139.180.184.25` |
+| API 代理 IP | `api.genz.ltd` |
 | Looma 后端 IP | `1.14.202.161` |
 | 正式域名（备案后） | `www.szbolent.cn` / `www.szbolent.com.cn` |
 
@@ -729,7 +725,7 @@ Host bolent-portal
     IdentityFile ~/.ssh/id_ed25519
 
 Host bolent-api-proxy
-    HostName 139.180.184.25
+    HostName api.genz.ltd
     User root
 
 Host bolent-looma

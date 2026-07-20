@@ -44,9 +44,10 @@ services:
         define('WP_HOME','http://localhost:8800');
         define('WP_SITEURL','http://localhost:8800');
     volumes:
-      - ${POETRY_MODOWN_WP_CONTENT:-/Users/jason/SurfaceZervi/GitHub/szjason72/Poetry-modown/public/wp-content}:/var/www/html/wp-content
+      - szbolent_wp_data:/var/www/html
     ports:
       - "8800:80"
 
 volumes:
   szbolent_wp_mysql_data:
+  szbolent_wp_data:

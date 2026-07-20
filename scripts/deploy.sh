@@ -38,14 +38,8 @@ info "4/4 更新 Nginx 配置..."
 scp nginx.conf "$SERVER:$REMOTE_DIR/nginx/szbolent.conf"
 ssh "$SERVER" bash -s <<'ENDSSH'
     set -e
-    cp /var/www/szbolent-portal/nginx/szbolent.conf /etc/nginx/sites-available/szbolent.conf
-
-    # 确保 sites-enabled 目录存在
-    mkdir -p /etc/nginx/sites-enabled
-
-    # 移除默认站点并启用我们站点
-    rm -f /etc/nginx/sites-enabled/default
-    ln -sf /etc/nginx/sites-available/szbolent.conf /etc/nginx/sites-enabled/szbolent.conf
+    cp /var/www/szbolent-portal/nginx/szbolent.conf /etc/nginx/conf.d/szbolent.conf
+    rm -f /etc/nginx/conf.d/default.conf
 
     # 检查配置语法并重载
     nginx -t && systemctl reload nginx
