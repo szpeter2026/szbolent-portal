@@ -103,7 +103,14 @@ const routes: RouteRecordRaw[] = [
         path: 'pricing',
         name: 'Pricing',
         component: () => import('@/views/Pricing.vue'),
-        meta: { title: '定价方案' }
+        meta: {
+          title: '定价方案',
+          // ⚠️ 备案风险：个人备案 .cn 域名不得展示价格/付费内容
+          // 当前路由仅用于开发预览；生产环境应：
+          //   - 移除此路由（从 .cn 门户隐藏）
+          //   - 或将 Pricing 页面移至小程序/公司备案域名下
+          icpRisk: 'personal-domain-no-pricing'
+        }
       },
       {
         path: 'privacy',
@@ -168,6 +175,18 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const page = (to.meta.title as string) || seoConfig.defaultTitle
   document.title = seoConfig.titleTemplate.replace('%s', page)
+
+  // ⚠️ 个人备案域名保护：生产环境下 /pricing 页面应隐藏或重定向
+  // 当 Pricing 功能迁移到小程序/公司备案域后，删除此守卫
+  if (to.meta.icpRisk === 'personal-domain-no-pricing' && import.meta.env.PROD) {
+    console.warn(
+      '[router] /pricing 在个人备案生产环境不可用。' +
+      '请将定价页面迁移至小程序或公司备案域名（szbolent.com.cn）。'
+    )
+    // 暂不拦截访问（开发阶段仍需预览），仅记录警告
+    // 正式上线前改为: next({ name: 'Home' })
+  }
+
   next()
 })
 

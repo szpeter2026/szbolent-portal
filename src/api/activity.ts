@@ -1,16 +1,26 @@
 /**
- * 活动抽奖API接口
+ * ⚠️ ARCHIVED — 活动抽奖 API 接口
  *
- * DEPRECATED (P0-L6): 当前依赖 legacy bolent Sanic :8001。
- * looma-zervi 尚未迁移活动路由，待决策后：
- *   - 方案A: 迁移到 looma /v1/activity/*
- *   - 方案B: portal 下线活动模块
- * 参见 DUAL_REPO_WORK_GUIDE.md §6.1 P0-L6
+ * @deprecated 此模块依赖已下线的 legacy bolent Sanic (:8001)。
+ *   looma-zervi 尚未迁移活动路由，当前**所有函数不可用**。
+ *   待决策后：
+ *     - 方案A: 迁移到 looma /v1/activity/* 并改用 apiPost/apiGet
+ *     - 方案B: portal 下线活动模块（推荐，优先级低于诗词核心）
+ *
+ * @see DUAL_REPO_WORK_GUIDE.md §6.1 P0-L6
+ * @todo 迁移或删除 — 2026 Q3 评估
  */
 import axios from 'axios'
 
-/** legacy bolent Sanic 地址；迁移后改为 import.meta.env.VITE_LOOMA_API_BASE + '/v1/activity' */
+/** legacy bolent Sanic 地址（已下线）；迁移后改为 import.meta.env.VITE_LOOMA_API_BASE + '/v1/activity' */
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8001'
+
+/** ⚠️ 运行时警告：防止生产环境误调用已归档的 activity API */
+const _ARCHIVED_WARNING = '[activity.ts] 此模块已 ARCHIVED，依赖的下线服务 localhost:8001 不可用。如需活动功能，请先迁移至 looma /v1/activity/*。'
+
+if (import.meta.env.PROD) {
+  console.warn(_ARCHIVED_WARNING)
+}
 
 export interface Activity {
   id: number

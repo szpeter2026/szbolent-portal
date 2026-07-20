@@ -111,3 +111,49 @@ export function createOrder(params: Record<string, unknown>): Promise<Record<str
 export function queryOrder(orderId: string): Promise<Record<string, unknown>> {
   return apiGet(`/payment/status/${orderId}`)
 }
+
+// ── AI 问答接口（RAG）──
+
+/** RAG AI 问答请求参数 */
+interface AskRequest {
+  /** 用户问题 */
+  question: string
+  /** 可选：返回来源数量，默认 3 */
+  top_k?: number
+  /** 可选：会话 ID，用于多轮对话上下文 */
+  session_id?: string
+}
+
+/** RAG AI 问答响应 */
+interface AskResponse {
+  /** AI 生成的回答 */
+  answer: string
+  /** 引用的诗词来源 */
+  sources: Array<{
+    title: string
+    author: string
+    content_snippet: string
+    score: number
+  }>
+  /** 会话 ID（多轮对话时回传） */
+  session_id: string
+}
+
+/**
+ * RAG AI 问答 — 诗词知识库检索增强生成
+ *
+ * 端点：POST /v1/ask
+ * 数据真源：Looma backend → ChromaDB 向量检索 + LLM 生成
+ *
+ * @example
+ * ```ts
+ * const { answer, sources } = await ask('李白的静夜思表达了什么情感？')
+ * ```
+ */
+export function ask(question: string, options?: { top_k?: number; session_id?: string }): Promise<AskResponse> {
+  return apiPost<AskResponse>('/ask', {
+    question,
+    ...(options?.top_k != null && { top_k: options.top_k }),
+    ...(options?.session_id && { session_id: options.session_id }),
+  })
+}
