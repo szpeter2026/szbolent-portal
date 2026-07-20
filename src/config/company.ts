@@ -1,7 +1,7 @@
 /**
- * Bolent 门户品牌配置 v2.0
- * 对齐 Phase 1 品牌规范：数智企业门户定位
- * 域名：www.szbolent.com.cn
+ * Bolent 门户品牌配置 v2.1
+ * 对齐双域名架构：.cn（个人备案·内容站）+ .com.cn（企业备案·API/商业）
+ * 门户域名：www.szbolent.cn
  */
 
 export const companyInfo = {
@@ -23,7 +23,7 @@ export const companyInfo = {
   address: {
     main: {
       city: '中国',
-      full: 'www.szbolent.com.cn',
+      full: 'www.szbolent.cn',
       postcode: '',
     },
   },
@@ -84,7 +84,7 @@ export const seoConfig = {
     'IT服务',
     '企业门户',
   ],
-  siteUrl: 'https://www.szbolent.com.cn',
+  siteUrl: 'https://www.szbolent.cn',
   ogImage: '/images/og-image.jpg',
 }
 

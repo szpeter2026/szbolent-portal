@@ -61,7 +61,7 @@ if (!defined('ABSPATH')) exit;
     </div>
     <div class="bolent-footer-bottom">
         <span>&copy; <?php echo date('Y'); ?> Bolent. All rights reserved.</span>
-        <span>www.szbolent.com.cn</span>
+        <span>www.szbolent.cn</span>
     </div>
 </footer>
 <?php wp_footer(); ?>

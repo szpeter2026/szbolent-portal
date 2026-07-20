@@ -1,8 +1,14 @@
 # szbolent.com.cn 双机切换清单（DNS + Nginx + 环境变量）
 
-> **版本：** 1.0 · **日期：** 2026-07-11  
-> **用途：** 从当前内测态（`api.genz.ltd` + IP）迁移到企业备案主域 `szbolent.com.cn`  
-> **同步副本：** `szbolent-portal/docs/SZBOLENT_COM_CN_CUTOVER_CHECKLIST.md`（须同文同版）  
+> **状态：CANCELLED — 已决定长期使用 `api.genz.ltd` 作为 API 入口**
+> > **取消日期：** 2026-07-20
+> > **取消原因：** 前后端解耦架构决策 —— API 独立域名 `api.genz.ltd` 与门户 `www.szbolent.cn`（个人备案）彻底分离，不再切换到企业备案子域。
+> >
+> > --- **以下内容保留为存档参考，不再执行** ---
+>
+> **原版本：** 1.0 · **原日期：** 2026-07-11
+> **原用途：** 从当前内测态（`api.genz.ltd` + IP）迁移到企业备案主域 `szbolent.com.cn`
+> **同步副本：** `szbolent-portal/docs/SZBOLENT_COM_CN_CUTOVER_CHECKLIST.md`（须同文同版）
 > **关联：** [PRODUCTION_ARCHITECTURE.md](./PRODUCTION_ARCHITECTURE.md) · [TENCENT_CLOUD_COMMERCE.md](./TENCENT_CLOUD_COMMERCE.md)（portal 仓）
 
 ---
@@ -474,3 +480,4 @@ curl -sI -X OPTIONS "https://api.szbolent.com.cn/v1/auth/me" \
 | 版本 | 日期 | 说明 |
 |------|------|------|
 | 1.0 | 2026-07-11 | 初版：双机 DNS/Nginx/环境变量 + api.genz.ltd 迁移四阶段 |
+| — | 2026-07-20 | **CANCELLED** — 决定长期使用 api.genz.ltd，前后端解耦架构不再切换域名 |

@@ -40,7 +40,7 @@
 | 路径 | 角色 |
 |------|------|
 | `looma-zervi/` | API 真源、PlanetX/T-space 前端、微信小程序、诗词/RAG/支付 |
-| `szbolent-portal/` | `www.szbolent.com.cn` 门户壳（Vue SPA） |
+| `szbolent-portal/` | `www.szbolent.cn` 门户壳（Vue SPA；个人备案·内容站） |
 
 ### 3.2 双仓文档（均相关）
 
@@ -106,7 +106,7 @@
 | `Tatha+DemoPeter_融合决策_底座优先修订版.md` | ~18KB | 历史决策；结论已体现在 looma 架构 | 可先归档至 SurfaceZervi/docs |
 | `Tatha与DemoPeter_分析融合决策文档.md` | ~32KB | 同上 | 同上 |
 
-**说明：** `planex-miniprogram` 配置仍指向 `api.genz.ltd` + Supabase，与当前 `api.szbolent.com.cn` / Looma `:5200` 路线不一致，属过期副本。
+**说明：** `planex-miniprogram` 配置仍指向 `api.genz.ltd` + Supabase，与当前 `api.genz.ltd` / Looma `:5200` 路线基本一致。
 
 **潜在释放：~800KB + 文档**
 

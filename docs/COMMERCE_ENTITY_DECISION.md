@@ -1,11 +1,13 @@
 # 备案 · 支付 · 主体路径决策手册
 
-> **用途：** 对比「个人 / 个体户 / 大陆企业 / 香港企业 × 境内 / 境外部署」在 **szbolent.com.cn 诗词门户 + Looma 商业闭环** 下的可行性与成本，供选型决策。  
-> **同步副本：**  
-> - `/Users/jason/Projects/szbolent-portal/docs/COMMERCE_ENTITY_DECISION.md`  
-> - `/Users/jason/Projects/looma-zervi/docs/COMMERCE_ENTITY_DECISION.md`  
-> **关联文档：** `TENCENT_CLOUD_COMMERCE.md`（P0–P2 执行清单）、`INTEGRATION.md`  
+> **用途：** 对比「个人 / 个体户 / 大陆企业 / 香港企业 × 境内 / 境外部署」在 **szbolent.cn 诗词门户 + api.genz.ltd Looma API 商业闭环** 下的可行性与成本，供选型决策。
+> **同步副本：**
+> - `/Users/jason/Projects/szbolent-portal/docs/COMMERCE_ENTITY_DECISION.md`
+> - `/Users/jason/Projects/looma-zervi/docs/COMMERCE_ENTITY_DECISION.md`
+> **关联文档：** `TENCENT_CLOUD_COMMERCE.md`（P0–P2 执行清单）、`INTEGRATION.md`
 > **免责声明：** 费用为 **2026 年市场行情区间估算**，非报价单；审核规则以腾讯云、工信部、微信支付、微信公众平台最新政策为准。本文不构成法律或税务意见。
+>
+> **架构更新（2026-07-20）：** 已决定前后端解耦 —— 门户使用个人备案 `www.szbolent.cn`，API 长期使用已部署的 `api.genz.ltd`。原计划切换至 `api.szbolent.com.cn` 的迁移方案已取消（见 `SZBOLENT_COM_CN_CUTOVER_CHECKLIST.md` CANCELLED）。
 
 ---
 
@@ -13,8 +15,8 @@
 
 | 目标 | 说明 |
 |------|------|
-| 门户 | `www.szbolent.com.cn` 静态站（szbolent-portal） |
-| API | `api.szbolent.com.cn` → Looma Flask（诗词、JWT、tier、支付） |
+| 门户 | `www.szbolent.cn` 静态站（个人备案，szbolent-portal + WordPress） |
+| API | `api.genz.ltd` → Looma Flask（诗词、JWT、tier、支付）**已部署，长期使用** |
 | 小程序 | 微信生态登录 + 浏览 + 付费（PlanetX / Bolent 线） |
 | 支付 | P1 目标：微信 JSAPI / 小程序支付；当前 Stub |
 | 非目标（本文不展开） | 链上 GenZ 合约、genz.ltd DAO 治理 |
@@ -43,7 +45,7 @@
 | | 境内路径 | 境外路径 |
 |---|----------|----------|
 | 服务器 | 腾讯云 **大陆节点**（华东/华北等） | 香港、新加坡、美国等节点 |
-| 域名示例 | `szbolent.com.cn`、`api.szbolent.com.cn` | `genz.ltd`、海外子域 |
+| 域名示例 | `szbolent.cn`（个人备案·门户）、`api.genz.ltd`（已部署·API） | `genz.ltd`、海外子域 |
 | 备案 | **需要** ICP（企业或个人） | **不需要** 大陆 ICP |
 | 大陆用户访问 | 正常 | 可能延迟更高；部分服务受限 |
 | 微信支付 | 大陆商户号 | 需 HK 商户或第三方，**不能混用** |
@@ -73,8 +75,9 @@
 **架构：**
 
 ```text
-szbolent.com.cn / api.szbolent.com.cn（备案）
-  → 腾讯云大陆 CVM/Lighthouse
+www.szbolent.cn（个人备案 · 门户）+ api.genz.ltd（已部署 · API）
+  → 门户：腾讯云大陆 CVM/Lighthouse（个人备案 .cn）
+  → API：  腾讯云大陆 CVM 1.14.202.161（api.genz.ltd 已在线）
   → Looma :5200 + Nginx
   → 微信小程序 + 微信支付（同主体）
 ```
@@ -82,7 +85,7 @@ szbolent.com.cn / api.szbolent.com.cn（备案）
 | 项 | 内容 |
 |----|------|
 | 适用 | 正式商业运营、会员订阅、小程序、对公收款 |
-| 备案 | 企业 ICP；`szbolent.com.cn` + `api.szbolent.com.cn` 一并提交 |
+| 备案 | 门户 `szbolent.cn`（个人备案已提交）；API 域名 `api.genz.ltd` 已部署在线，无需额外备案切换 |
 | 支付 | 申请大陆微信支付商户号；`PAYMENT_STUB_MODE=false` |
 | 周期 | 执照 1–2 周（若新设）+ 备案 7–20 工作日 + 微信商户 3–10 工作日 |
 | 风险 | 类目选错导致小程序/商户审核补材料 |
@@ -146,7 +149,7 @@ genz.ltd（无大陆 ICP）
 ### 路径 E — 混合：香港母公司 + 大陆子公司（**团队既定结构**）
 
 > **现状：** 已有香港公司 + 已有大陆公司（香港公司持股大陆公司）；**无**大陆个体户。  
-> **结论：** 对 szbolent.com.cn + 微信生态 **合理且推荐**；Bolent 大陆闭环走 **大陆子公司**，genz.ltd 走 **香港母公司**。
+> **结论：** 对 szbolent.cn 门户 + api.genz.ltd API + 微信生态 **合理且推荐**；Bolent 大陆闭环走 **大陆子公司**，genz.ltd 走 **香港母公司**。API 域名长期使用 `api.genz.ltd`，不再切换至 `api.szbolent.com.cn`（迁移计划已 CANCELLED）。
 
 **股权与职能架构：**
 
@@ -162,23 +165,25 @@ genz.ltd（无大陆 ICP）
                            ▼
 ┌─────────────────────────────────────────────────────────────┐
 │  大陆有限公司（子公司 · 境内运营主体）                          │
-│  · ICP 备案：szbolent.com.cn、api.szbolent.com.cn                     │
-│  · 腾讯云大陆服务器、Looma API、门户静态站                      │
+│  · ICP 备案：szbolent.cn（个人备案·门户内容站）                │
+│  · API 服务：api.genz.ltd（已部署，1.14.202.161）             │
 │  · 微信小程序企业认证、微信支付商户号、对公收款                    │
 │  · 隐私政策 / 用户协议「运营者」、发票、劳动用工（如有）          │
 └──────────────────────────┬──────────────────────────────────┘
                            │
          ┌─────────────────┼─────────────────┐
          ▼                 ▼                 ▼
-   szbolent.com.cn      api.szbolent.com.cn      微信小程序
-   (portal dist)    (Looma :5200)       (wx.login / pay)
+   www.szbolent.cn      api.genz.ltd           微信小程序
+   (Vue3+WP 门户)    (Looma :5200)       (wx.login / pay)
+   个人备案           已部署在线            企业主体
 ```
 
 **双域分工（避免混线）：**
 
 | 域 / 产品 | 法律主体 | 部署 | 支付 |
 |-----------|----------|------|------|
-| `szbolent.com.cn`、`api.szbolent.com.cn` | **大陆子公司** | 腾讯云 **大陆** 节点 | 大陆微信支付 |
+| `www.szbolent.cn`（门户） | **个人备案** | 腾讯云大陆节点（内容站） | 不承载支付入口 |
+| `api.genz.ltd`（API） | **公司** / 香港母公司旗下 | 腾讯云大陆 1.14.202.161 | 大陆微信支付回调 |
 | `genz.ltd` 及境外子域 | **香港母公司** | 香港 / 海外节点 | WeChat Pay HK 或 Stripe 等 |
 | 本地开发 `localhost` | — | 本机 | Stub / 不测支付 |
 
@@ -250,10 +255,10 @@ genz.ltd（无大陆 ICP）
 - [ ] 含 **互联网信息服务** 或地方市监认可的等效表述（诗词文化展示 / 信息服务等）
 - [ ] 若缺项：评估 **增项变更** 后再提交 ICP / 商户（周期约 1–3 周，因地而异）
 
-**备案材料（`szbolent.com.cn` + `api.szbolent.com.cn`）**
+**备案材料（`szbolent.cn` 门户 + `api.genz.ltd` API）**
 
 - [ ] 网站名称与小程序名称协调（如 SZBolent 诗词门户）
-- [ ] 首页 URL：`https://www.szbolent.com.cn`
+- [ ] 首页 URL：`https://www.szbolent.cn`
 - [ ] 隐私政策、用户协议可访问（可先静态页 `/legal/*`）
 - [ ] 服务器在大陆节点且 IP 与备案一致
 
@@ -261,12 +266,12 @@ genz.ltd（无大陆 ICP）
 
 - [ ] 小程序 AppID 企业认证主体 = 大陆子公司
 - [ ] 商户平台绑定 **同一** 小程序 AppID
-- [ ] 公众平台配置 `api.szbolent.com.cn` 为 request 合法域名（P0-5）
-- [ ] 支付回调 URL：`https://api.szbolent.com.cn/v1/payment/notify/wechat`（P1）
+- [ ] 公众平台配置 `api.genz.ltd` 为 request 合法域名（P0-5）
+- [ ] 支付回调 URL：`https://api.genz.ltd/v1/payment/notify/wechat`（P1）
 
 **代码与配置对齐**
 
-- [ ] `szbolent-portal` 生产构建：`VITE_LOOMA_API_BASE=https://api.szbolent.com.cn`
+- [ ] `szbolent-portal` 生产构建：`VITE_LOOMA_API_BASE=https://api.genz.ltd`
 - [ ] `src/config/company.ts`：运营者、备案号、联系方式与 **大陆子公司** 一致
 - [ ] Looma 生产 `.env`：`WECHAT_PAY_NOTIFY_URL` 等指向备案域名
 
@@ -426,8 +431,8 @@ genz.ltd（无大陆 ICP）
 | 大陆主体类型 | 内资有限公司 / WFOE _（勾选）_ |
 | 香港主体（母公司） | _（填香港公司全称）_ |
 | 股权关系 | 香港公司 → 持股 → 大陆子公司 |
-| 门户域名 | www.szbolent.com.cn |
-| API 域名 | api.szbolent.com.cn |
+| 门户域名 | www.szbolent.cn（个人备案·内容站） |
+| API 域名 | api.genz.ltd（已部署，长期使用） |
 | 小程序 AppID | |
 | 预计备案提交日 | |
 | 预计首单支付测试日 | |
@@ -442,6 +447,7 @@ genz.ltd（无大陆 ICP）
 |------|------|------|
 | 1.0 | 2026-07-03 | 初版：主体/境内外/支付路径与费用区间估算 |
 | 1.1 | 2026-07-03 | 路径 E 扩展为团队既定结构；新增 §5 架构图与合规自检清单 |
+| 1.2 | 2026-07-20 | 架构更新：API 域名改为 api.genz.ltd（已部署长期使用）；门户改为 www.szbolent.cn（个人备案）；取消 api.szbolent.com.cn 迁移计划 |
 
 ---
 

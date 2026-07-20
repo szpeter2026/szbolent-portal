@@ -8,7 +8,7 @@
  */
 import axios from 'axios'
 
-/** 生产填 https://api.szbolent.com.cn；本地留空走 vite proxy /v1 → :5200 */
+/** 生产填 https://api.genz.ltd；本地留空走 vite proxy /v1 → :5200 */
 const LOOMA_BASE = (import.meta.env.VITE_LOOMA_API_BASE ?? '').replace(/\/$/, '')
 
 /** HTTP 超时统一 30s（G2 门禁） */

@@ -6,7 +6,7 @@
 
 ## 一、登录后台
 
-- 地址：`http://localhost:8800/wp-admin`（本地）或 `https://www.szbolent.com.cn/wp-admin`（线上）
+- 地址：`http://localhost:8800/wp-admin`（本地）或 `https://www.szbolent.cn/wp-admin`（线上）
 - 使用管理员账号登录
 
 ---

@@ -72,20 +72,20 @@ docker compose -f docker-compose.wp.yml up -d
 门户通过 `src/api/wordpress.ts` 读 `/wp-json/wp/v2/posts`。  
 开发代理见 `vite.config.ts` → `/wp-json`。
 
-## 4. 生产部署（www.szbolent.com.cn）
+## 4. 生产部署（www.szbolent.cn）
 
 | 组件 | 建议 |
 |------|------|
-| 门户静态站 | `npm run build` → CDN / Nginx |
-| Looma API | 同域反代 `/v1` 或独立 `api.szbolent.com.cn` |
-| WordPress | 同域反代 `/wp-json` 或子域 `cms.szbolent.com.cn` |
+| 门户静态站 / WordPress | `npm run build` → Nginx（**个人备案 .cn**） |
+| Looma API | 独立 `api.genz.ltd`（已部署） |
+| WordPress | 同域 `/wp-json` 于 `.cn` 或子域 `cms.szbolent.com.cn` |
 
 **生产环境变量（`.env.production`）：**
 
 ```env
-VITE_SITE_URL=https://www.szbolent.com.cn
-VITE_LOOMA_API_BASE=https://api.szbolent.com.cn
-VITE_BLOG_API_BASE=https://cms.szbolent.com.cn/wp-json/wp/v2
+VITE_SITE_URL=https://www.szbolent.cn
+VITE_LOOMA_API_BASE=https://api.genz.ltd
+VITE_BLOG_API_BASE=https://www.szbolent.cn/wp-json/wp/v2
 ```
 
 ## 5. 第一周 PR 粒度

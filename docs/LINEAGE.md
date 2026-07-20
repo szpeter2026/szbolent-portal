@@ -9,7 +9,7 @@
 ```
 archive-gitee/szbenyx/bolent/web-public   ← 2026-07-03 fork 基线
         ↓
-/Users/jason/Projects/szbolent-portal       ← 本工程（www.szbolent.com.cn canonical）
+/Users/jason/Projects/szbolent-portal       ← 本工程（www.szbolent.cn canonical；API 走 api.genz.ltd）
         ↓ 内容 / API / AI
 ├── GitHub/szjason72/Poetry-modown         ← WordPress headless CMS
 ├── /Users/jason/Projects/looma-zervi      ← Looma API（诗词 + RAG + 用户 + 支付）

@@ -93,7 +93,7 @@
 [your-message]
 
 ---
-此邮件由 www.szbolent.com.cn 联系表单自动发送
+此邮件由 www.szbolent.cn 联系表单自动发送
 
 <?php
 /**

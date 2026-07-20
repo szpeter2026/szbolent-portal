@@ -46,7 +46,7 @@
 
 - **文档：** `DUAL_REPO_WORK_GUIDE.md`、`TENCENT_CLOUD_COMMERCE.md`  
 - **范围：** `looma-zervi`（API + 小程序 + React 前端）+ `szbolent-portal`（Vue 门户）+ WordPress（第三服务）  
-- **P0 重点：** CORS、备案、`api.szbolent.com.cn`、portal 对接 Looma auth/payment、清理 legacy `:8001`  
+- **P0 重点：** CORS、备案、`api.genz.ltd`、portal 对接 Looma auth/payment、清理 legacy `:8001`  
 - **P2 目标：** `@looma/api-contract`、OpenAPI、双仓文档 CI diff
 
 ### 2.3 为何必须协同
@@ -56,7 +56,7 @@
 | 场景 | 后果 |
 |------|------|
 | portal 先手写完整 `looma.ts` + auth/compliance 类型 | Sprint 2 抽契约时需 **第三次** 重写 |
-| 小程序仍独立维护 JWT/consent | 直连 `api.szbolent.com.cn` 后与 Web 端 tier/consent 行为不一致 |
+| 小程序仍独立维护 JWT/consent | 直连 `api.genz.ltd` 后与 Web 端 tier/consent 行为不一致 |
 | portal 继续扩展 `poetry.ts` adapter 字段 | backend / shared-core / portal **三处 drift** |
 | 仅做线 B 清 legacy、不做线 A #3 | 门户登录若复制 consent 枚举，**合规遗漏风险重演** |
 
@@ -297,7 +297,7 @@ flowchart TD
 
 | 报告 # | 线 B 关联 |
 |--------|-----------|
-| 1 小程序 shared-core | 小程序直连 api.szbolent.com.cn 前必完成 |
+| 1 小程序 shared-core | 小程序直连 api.genz.ltd 前必完成 |
 | 2 题库 | 与 portal 无直接冲突；优先做 |
 | 3 合规 | portal 登录/consent **必须**等 #3 或 S0 |
 | 4 API Client | portal axios 应对齐 30s / 401 |

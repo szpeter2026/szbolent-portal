@@ -120,7 +120,7 @@ cat > /etc/nginx/conf.d/bolent-wp.conf <<'NGINX'
 server {
     listen 80;
     listen [::]:80;
-    server_name 47.115.168.107 szbolent.com.cn www.szbolent.com.cn bolent.cn www.bolent.cn;
+    server_name 47.115.168.107 szbolent.cn www.szbolent.cn szbolent.com.cn www.szbolent.com.cn bolent.cn www.bolent.cn;
 
     client_max_body_size 64m;
 
