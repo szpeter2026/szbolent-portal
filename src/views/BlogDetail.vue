@@ -6,10 +6,11 @@
       <p>加载中...</p>
     </div>
 
-    <!-- 错误状态 -->
+    <!-- 错误 / 降级空态 -->
     <div v-else-if="error" class="error-container">
-      <h2>❌ 加载失败</h2>
+      <h2>内容暂不可用</h2>
       <p>{{ error }}</p>
+      <p class="error-hint">博客由 WordPress 提供；若持续失败请检查本地 :8800 与 MySQL 容器。</p>
       <router-link to="/blog" class="btn btn-primary">返回博客列表</router-link>
     </div>
 
@@ -68,7 +69,7 @@
           <div class="content-grid">
             <!-- 主要内容 -->
             <div class="main-content">
-              <div class="wp-content" v-html="post.content.rendered"></div>
+              <div class="wp-content" v-html="safeContent"></div>
 
               <!-- 标签 -->
               <div v-if="postTags.length" class="post-tags">
@@ -159,15 +160,38 @@
         </div>
       </section>
 
-      <!-- CTA -->
-      <section class="post-cta">
+      <!-- 增长型门户 CTA：主 PlanetX / 次 DemoPPI -->
+      <section class="growth-cta section">
         <div class="container">
-          <div class="cta-content">
-            <h3>需要专业的 IT 服务？</h3>
-            <p>我们提供全方位的技术解决方案</p>
-            <router-link to="/contact" class="btn btn-primary btn-large">
-              联系我们
-            </router-link>
+          <div class="growth-cta__inner">
+            <h3>{{ growthCopy.title }}</h3>
+            <p class="growth-cta__lead">{{ growthCopy.lead }}</p>
+            <div class="growth-cta__actions">
+              <a
+                class="btn btn-primary btn-large"
+                :href="planetxUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ growthCopy.primary }}
+              </a>
+              <a
+                v-if="demoppiUrl"
+                class="btn btn-outline btn-large"
+                :href="demoppiUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {{ growthCopy.secondary }}
+              </a>
+              <router-link to="/contact" class="btn btn-outline btn-large">
+                {{ growthCopy.contact }}
+              </router-link>
+            </div>
+            <p v-if="hasRefCode" class="growth-cta__hint">
+              演示模式：主按钮已拼 <code>?ref=</code>（仅验 URL，不代表归因核销）。
+              正式环境请将 <code>VITE_PLANETX_REF_CODE</code> 留空。
+            </p>
           </div>
         </div>
       </section>
@@ -178,7 +202,13 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { getPostBySlug, getPosts, formatDate, type WPPost } from '@/api/wordpress'
+import { getPostBySlug, getPosts, formatDate, sanitizeHTML, type WPPost } from '@/api/wordpress'
+import {
+  DEMOPPI_URL,
+  PLANETX_REF_CODE,
+  growthCtaCopy,
+  planetxInviteUrl,
+} from '@/config/growth'
 
 const route = useRoute()
 const router = useRouter()
@@ -189,11 +219,17 @@ const loading = ref(false)
 const error = ref('')
 const copied = ref(false)
 
+const growthCopy = growthCtaCopy
+const planetxUrl = planetxInviteUrl()
+const demoppiUrl = DEMOPPI_URL
+const hasRefCode = Boolean(PLANETX_REF_CODE)
+
 // 计算属性
 const author = computed(() => post.value?._embedded?.author?.[0])
 const postCategories = computed(() => post.value?._embedded?.['wp:term']?.[0] || [])
 const postTags = computed(() => post.value?._embedded?.['wp:term']?.[1] || [])
 const featuredImage = computed(() => post.value?._embedded?.['wp:featuredmedia']?.[0]?.source_url)
+const safeContent = computed(() => sanitizeHTML(post.value?.content?.rendered || ''))
 
 // 加载文章
 const loadPost = async () => {
@@ -222,7 +258,12 @@ const loadPost = async () => {
       loadRelatedPosts(postData.categories[0], postData.id)
     }
   } catch (err: any) {
-    error.value = err.message || '加载失败，请稍后重试'
+    const msg = String(err?.message || '')
+    if (/Failed to fetch|NetworkError|ECONNREFUSED|500|502|503|504/i.test(msg)) {
+      error.value = '内容暂不可用，请稍后再试'
+    } else {
+      error.value = msg || '加载失败，请稍后重试'
+    }
     console.error('加载文章失败:', err)
   } finally {
     loading.value = false
@@ -308,6 +349,14 @@ onMounted(() => {
       border-top: 4px solid var(--primary-color);
       border-radius: 50%;
       animation: spin 1s linear infinite;
+    }
+
+    .error-hint {
+      max-width: 420px;
+      font-size: 0.95rem;
+      color: var(--bolent-text-muted);
+      margin: 0 16px 20px;
+      line-height: 1.6;
     }
 
     h2 {
@@ -727,33 +776,69 @@ onMounted(() => {
       }
     }
 
-    .post-cta {
+    .growth-cta {
       background: var(--bolent-gradient);
       padding: 80px 0;
       text-align: center;
       color: white;
 
-      .cta-content {
-        h3 {
-          font-size: 2rem;
-          margin-bottom: 16px;
+      .growth-cta__inner {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      h3 {
+        font-size: 2rem;
+        margin-bottom: 16px;
+        color: white;
+      }
+
+      .growth-cta__lead {
+        font-size: 1.125rem;
+        margin-bottom: 28px;
+        opacity: 0.95;
+        line-height: 1.7;
+      }
+
+      .growth-cta__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+      }
+
+      .btn-primary {
+        background: white;
+        color: var(--primary-color);
+        border: none;
+
+        &:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+          color: var(--primary-color);
+        }
+      }
+
+      .btn-outline {
+        background: transparent;
+        border: 1.5px solid rgba(255, 255, 255, 0.75);
+        color: white;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.12);
+          border-color: white;
           color: white;
         }
+      }
 
-        p {
-          font-size: 1.125rem;
-          margin-bottom: 30px;
-          opacity: 0.95;
-        }
+      .growth-cta__hint {
+        margin-top: 20px;
+        font-size: 0.9rem;
+        opacity: 0.85;
 
-        .btn {
-          background: white;
-          color: var(--primary-color);
-
-          &:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-          }
+        code {
+          font-family: var(--bolent-font-mono, monospace);
+          padding: 0 4px;
         }
       }
     }
