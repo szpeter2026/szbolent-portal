@@ -2,6 +2,7 @@
 
 > **真源文档：** [`PlanetX/docs/EXECUTION_DIRECTION.md`](../../PlanetX/docs/EXECUTION_DIRECTION.md)  
 > **M0 完成：** 2026-07-17  
+> **学习清单（对标案例）：** [`COMPOSABLE_PORTAL_LEARNING.md`](./COMPOSABLE_PORTAL_LEARNING.md)
 
 ## 已完成
 

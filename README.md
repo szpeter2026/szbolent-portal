@@ -40,6 +40,8 @@ npm run dev
 | [docs/LINEAGE.md](./docs/LINEAGE.md) | 溯源与边界 |
 | [docs/INTEGRATION.md](./docs/INTEGRATION.md) | WP / API / Tatha 联调 |
 | [docs/OPERATIONS_MANUAL.md](./docs/OPERATIONS_MANUAL.md) | **运维手册（部署/排障/备份/验证）** |
+| [docs/ARCHITECTURE_DECISION_MEMO.md](./docs/ARCHITECTURE_DECISION_MEMO.md) | 架构决策备忘（Composable 门户边界） |
+| [docs/COMPOSABLE_PORTAL_LEARNING.md](./docs/COMPOSABLE_PORTAL_LEARNING.md) | **Composable 门户学习清单（对标案例）** |
 | [SOURCE.json](./SOURCE.json) | 机器可读来源登记 |
 
 ## SurfaceZervi 对照
