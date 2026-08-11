@@ -1,6 +1,6 @@
 # 增长型门户 · 团队统一称谓备忘
 
-> **状态：** 团队共识草案（2026-08-11）  
+> **状态：** 已落地基线（`6df73a2` · 2026-08-11）— 门户最小落地已收口并提交  
 > **用途：** 统一营销与产品对外/对内称谓，避免「官网 / DXP / 自媒体 / DemoPPI 主链」混称  
 > **相关：** [`SITE_POSITIONING_MEMO.md`](./SITE_POSITIONING_MEMO.md) · [`COMPOSABLE_PORTAL_LEARNING.md`](./COMPOSABLE_PORTAL_LEARNING.md) · [`ARCHITECTURE_DECISION_MEMO.md`](./ARCHITECTURE_DECISION_MEMO.md)
 
@@ -37,9 +37,11 @@
 
 ```
 门户博客（内容触达）
-  → PlanetX 邀请码裂变（增长真源）
-    → DemoPPI（可选增强：加强了解，不阻塞主链）
+  → PlanetX 落点 / 站内邀请裂变（增长真源）
+  → DemoPPI（可选增强：加强了解，不阻塞主链）
 ```
+
+> **现行门户行为（最小落地）：** 博客主 CTA 只链 `https://app.genz.ltd`（不带 `?ref=` / utm）；裂变发码在 PlanetX 站内 SharePanel。门户带固定 `?ref=` 的渠道归因仍冻结，见 §8.2。
 
 ---
 
@@ -129,41 +131,43 @@ Bolent 以内容门户触达用户，并通过 PlanetX 邀请机制实现产品�
 | PlanetX 裂变主路径 | Looma（`api.genz.ltd` / `/v1/referral` 等）— **唯一裂变真源** |
 | DemoPPI 增强层 | 可用 Supabase 做试验；长期产品化则迁自有云，避免与 Looma 双轨并行服务同一用户群 |
 
-### 8.1 门户已落地（P0 · 本仓）
+### 8.1 门户已落地（P0 · 本仓 · 基线 `6df73a2`）
 
 | 项 | 状态 | 说明 |
 |----|------|------|
-| 环境变量 | ✅ | `VITE_PLANETX_URL` / `VITE_PLANETX_REF_CODE` / `VITE_DEMOPPI_URL`（见 `.env.example`） |
-| 邀请 URL 组装 | ✅ | `src/config/growth.ts` → `planetxInviteUrl()` = `{PLANETX_URL}/?ref={code}`；无 ref 时只回 base |
-| 博客详情双 CTA | ✅ | `BlogDetail.vue`：主按钮 PlanetX；次按钮 DemoPPI（仅当 `VITE_DEMOPPI_URL` 非空）；保留「联系我们」 |
-| 称谓文档 | ✅ | 本文 §1–§7 |
-| **本地验收** | ✅ **2026-08-11** | 见下方验收记录 |
+| 环境变量 | ✅ | `VITE_PLANETX_URL` / `VITE_PLANETX_REF_CODE` / `VITE_DEMOPPI_URL`（见 `.env.example` / `.env.production`） |
+| 邀请 URL 组装 | ✅ | `src/config/growth.ts` → `planetxInviteUrl()`；**无 ref 时只回 base** |
+| 博客详情 CTA | ✅ | `BlogDetail.vue`：主按钮「进入 PlanetX」；次按钮 DemoPPI（仅 `VITE_DEMOPPI_URL` 非空）；`hasRefCode` hint 仅有码时显示 |
+| 文案纪律 | ✅ | lead 写明「裂变邀请在 PlanetX 站内完成」，不暗示门户 ref 已归因 |
+| 称谓 + §8 纪律 | ✅ | 本文；含 P1-阻塞与一次性码 / 渠道码纪律 |
+| **Git 基线** | ✅ | `6df73a2`（growth 最小落地 + BlogDetail 依赖的 `sanitizeHTML` / dompurify 闭包） |
+| **最小落地复验** | ✅ **2026-08-11** | 见下方「现行基线」 |
 
-**本地配置示例（`.env.local`）：**
+**正式 / 本地现行配置（`.env.local` 与生产一致思路）：**
 
 ```bash
 VITE_PLANETX_URL=https://app.genz.ltd
-VITE_PLANETX_REF_CODE=          # 填运营/博主码后主按钮自动带 ?ref=
-VITE_DEMOPPI_URL=               # 填独立域后显示次 CTA，例如 https://ppi.example.com
+VITE_PLANETX_REF_CODE=          # 正式必须留空；仅验收演示时临时填
+VITE_DEMOPPI_URL=               # 空则不显示次 CTA；有独立域再填
 ```
 
 改 env 后需重启 `npm run dev`。
 
-**验收（门户 P0）— 已通过（2026-08-11 · `/blog/hello-world`）：**
+#### 现行基线复验（最小落地 · 2026-08-11 · 已通过）
 
-| 项 | 结果 |
-|----|------|
-| 文末标题「从内容走向共识增长」 | ✅ |
-| 主 CTA → `https://app.genz.ltd/?ref=portal-verify` | ✅ |
-| 次 CTA → `https://ppi.example.com`（已填 `VITE_DEMOPPI_URL`） | ✅ |
-| 「联系我们」→ `/contact` | ✅ |
-| ref hint 文案（有码时显示） | ✅ |
-| `growth.ts` 无 ref 时只回 base | ✅（逻辑核对） |
-| `VITE_DEMOPPI_URL` 为空时次按钮隐藏 | ✅（`v-if="demoppiUrl"`） |
+| 项 | 现行行为 | 结果 |
+|----|----------|------|
+| 主 CTA | `https://app.genz.ltd`（无 `?ref=`、无 utm） | ✅ |
+| 次 CTA | `VITE_DEMOPPI_URL` 未配置 → 不显示 | ✅ |
+| `VITE_PLANETX_REF_CODE` | 留空；仅验收演示时临时填 | ✅ |
+| 文案 | 「进入 PlanetX」；裂变说明指向站内 SharePanel | ✅ |
+| ref hint | `hasRefCode` 为假 → 不显示 | ✅ |
+| 渠道归因 | 冻结至 PlanetX 消费 `?ref=` + Looma 渠道码两边都动之后 | ✅（纪律） |
 
-> **注意：** 验收时 `.env.local` 使用测试值 `VITE_PLANETX_REF_CODE=portal-verify`、`VITE_DEMOPPI_URL=https://ppi.example.com`。  
-> **门户 P0 只验收「URL 拼装与 CTA 展示」**，不验收 Looma 核销。  
-> **现阶段正式运营默认：主 CTA 不带 ref**（`VITE_PLANETX_REF_CODE` 留空 → 只链 `https://app.genz.ltd`）。原因见 §8.2。
+#### 历史：URL 拼装验收（同日稍早 · 非生产配置）
+
+曾用 `VITE_PLANETX_REF_CODE=portal-verify`、`VITE_DEMOPPI_URL=https://ppi.example.com` 验「拼装与 CTA 展示」：主链带 `?ref=portal-verify`、次 CTA 可见、hint 可见。  
+**门户 P0 拼装验收 ≠ Looma 核销，也 ≠ 生产归因。** `portal-verify` / `ppi.example.com` 仅作文档历史说明，勿写回生产 env。
 
 ### 8.2 PlanetX 裂变主路径（待适配 · 含阻塞项）
 
@@ -211,23 +215,26 @@ VITE_DEMOPPI_URL=               # 填独立域后显示次 CTA，例如 https://
 3. `VITE_PLANETX_REF_CODE` **只留给验收演示**（点进能看到 `?ref=` 拼对即可，**不验证核销**）。  
 4. 真要渠道归因，两条都动才有意义：PlanetX 落地消费 `?ref=`（注册成功后调 `/use`）+ Looma 加 `max_uses`/campaign 类型（否则归因码一人占掉）。
 
-### 8.3 DemoPPI 共识增强层（待适配）
+### 8.3 DemoPPI 共识增强层（P1 回链 ✅ · 2026-08-12）
 
-| 优先级 | 项 | Owner | 验收 |
-|--------|----|--------|------|
-| P0 | 独立域名上线（不占 `szbolent.cn`） | DemoPPI / 运维 | HTTPS 可访问；门户 `VITE_DEMOPPI_URL` 可配置 |
-| P0 | 门户次 CTA 指向该域 | 门户 | 已支持；填 env 即可 |
-| P1 | DemoPPI 内回链：门户博客 + 主 CTA 去 PlanetX | DemoPPI | Layer0 后或 `/p/[user]` 可见双链 |
-| P1 | 对外叙事只保留一条顺序 | 策略 | 推荐：博客 →（可选）DemoPPI → PlanetX；材料不混称 |
-| P2 | 个人页只读拉取门户最新博客（可选） | DemoPPI | 只读 WP REST；不做第二 CMS |
-| 冻结 | Looma ↔ Supabase SSO | — | L2 以前不做 |
-| 纪律 | 不把 Supabase 升格为主链数据面 | 策略 | 见 §8.0；非反 Supabase，反与自有云重复建设 |
+| 优先级 | 项 | Owner | 状态 | 验收 |
+|--------|----|--------|------|------|
+| P0 | 独立域名上线（不占 `szbolent.cn`） | DemoPPI / 运维 | ❌ 待定域 | HTTPS 可访问；门户再填 `VITE_DEMOPPI_URL` |
+| P0 | 门户次 CTA 指向该域 | 门户 | ✅ 代码已支持；env 仍空 | `VITE_DEMOPPI_URL` 非空才展示；定域后填 |
+| **P1** | **DemoPPI 内回链：门户博客 + 主 CTA 去 PlanetX** | **DemoPPI** | **✅ 已落地并验证** | `/p/[username]` FollowButton 下双链；首页 Hero 旁入口；小程序 `planetxUrl`/`portalUrl`；均 env-gated |
+| **P1** | **对外叙事只保留一条顺序** | **策略 / DemoPPI** | **✅** | `docs/strategy.md` 三层定位；推荐：博客 →（可选）DemoPPI → PlanetX |
+| P2 | 个人页只读拉取门户最新博客（可选） | DemoPPI | ⏳ 待门户 WP REST 公网就绪 | 只读 WP REST；不做第二 CMS |
+| 冻结 | Looma ↔ Supabase SSO | — | ✅ 未破 | L2 以前不做 |
+| 纪律 | 不把 Supabase 升格为主链数据面 | 策略 | ✅ 未破 | 见 §8.0 |
+| 纪律 | 无 DemoPPI 邀请混用 / 无门户固定 ref 生产归因 | DemoPPI | ✅ 未破 | PlanetX 主链仅裸落点 `https://app.genz.ltd` |
+
+**DemoPPI P1 配置备忘（对方仓，非本仓）：** `NEXT_PUBLIC_PLANETX_URL=https://app.genz.ltd`；`NEXT_PUBLIC_PORTAL_URL` 待门户博客公网就绪再填。
 
 ### 8.4 排期建议（四步 · 已按阻塞项修正）
 
 1. **定域** — PlanetX 落点 `https://app.genz.ltd`；DemoPPI 独立域写入 `VITE_DEMOPPI_URL`（可选）。
-2. **门户 P0** — ✅ 已验收；**正式配置将 `VITE_PLANETX_REF_CODE` 留空**，主 CTA 只落点。
-3. **人工路径** — 博客 → CTA 进 PlanetX →（可选）DemoPPI；站内用 SharePanel 体验「发码」；**勿宣称门户 ref 已归因**。
+2. **门户 P0** — ✅ 基线 `6df73a2`；正式 / 本地 `VITE_PLANETX_REF_CODE` 留空，主 CTA 只落点（§8.1 现行复验已通过）。
+3. **人工路径** — 博客 → CTA 进 PlanetX →（可选）DemoPPI；站内用 SharePanel 体验「发码」；**勿宣称门户 ref 已归因**。DemoPPI → PlanetX / 门户回链已通（§8.3 P1 ✅）；门户 → DemoPPI 次 CTA 仍待定域填 `VITE_DEMOPPI_URL`。
 4. **再开渠道归因专项** — 先做 §8.2 **P1-阻塞**（PlanetX 消费 `?ref=`），需要多人同一码时再做 Looma 渠道码；完成前不把真实码写进门户生产 env。
 
 ### 8.5 冻结项（适配时勿破）
@@ -242,4 +249,13 @@ VITE_DEMOPPI_URL=               # 填独立域后显示次 CTA，例如 https://
 
 ---
 
-*备忘收敛自 2026-08-11 团队对齐；§8.2 已与代码对齐：标注 PlanetX 落地未消费 `?ref=` 为 P1-阻塞，并区分一次性码 / 渠道码 / 验收假码。变更时同步 README 文档表。*
+### 修订记录
+
+| 日期 | 说明 |
+|------|------|
+| 2026-08-11 | 初稿：称谓 §1–§7 + 适配清单 §8 |
+| 2026-08-11 | §8.0 数据面；§8.2 标注 PlanetX 未消费 `?ref=` 为 P1-阻塞；一次性 / 渠道 / 验收假码纪律 |
+| 2026-08-11 | **最小落地收口**：主 CTA 无 ref；文案指向站内 SharePanel；基线 commit `6df73a2`；§8.1 区分拼装验收 vs 现行复验 |
+| 2026-08-12 | §8.3 DemoPPI P1 回链标记 ✅（对方仓已验）；本仓仍等独立域再填 `VITE_DEMOPPI_URL`；P2 等 WP REST |
+
+*变更时同步 README 文档表。*

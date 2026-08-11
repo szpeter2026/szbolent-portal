@@ -42,6 +42,8 @@ npm run dev
 | [docs/OPERATIONS_MANUAL.md](./docs/OPERATIONS_MANUAL.md) | **运维手册（部署/排障/备份/验证）** |
 | [docs/ARCHITECTURE_DECISION_MEMO.md](./docs/ARCHITECTURE_DECISION_MEMO.md) | 架构决策备忘（Composable 门户边界） |
 | [docs/COMPOSABLE_PORTAL_LEARNING.md](./docs/COMPOSABLE_PORTAL_LEARNING.md) | **Composable 门户学习清单（对标案例）** |
+| [docs/SITE_POSITIONING_MEMO.md](./docs/SITE_POSITIONING_MEMO.md) | **建站定位备忘（文化智能 / 行业信任 / 双线）** |
+| [docs/GROWTH_PORTAL_NAMING.md](./docs/GROWTH_PORTAL_NAMING.md) | **增长型门户称谓 + §8 适配清单**（基线 `6df73a2`：主 CTA 只落 PlanetX，ref 归因冻结） |
 | [SOURCE.json](./SOURCE.json) | 机器可读来源登记 |
 
 ## SurfaceZervi 对照
