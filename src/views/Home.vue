@@ -13,7 +13,7 @@
         <div class="hero-content" data-aos="fade-up">
           <!-- 生态认证徽章 -->
           <div class="hero-badges">
-            <span class="badge" v-for="badge in partnerBadges" :key="badge">
+            <span class="badge" v-for="badge in partnerBadges" :key="badge.text">
               <component :is="badge.icon" :size="16" stroke-width="2" />
               {{ badge.text }}
             </span>
@@ -50,7 +50,7 @@
           <span class="section-tag">HARMONYOS ECOSYSTEM</span>
           <h2 class="section-heading">鸿蒙全栈能力</h2>
           <p class="section-lead">
-            覆盖从芯片适配到应用分发的 HarmonyOS 全生态链路，<br />打造端到端的鸿蒙化解决方案
+            覆盖从芯片适配、昇腾 AI 到应用分发的 HarmonyOS 全生态链路，<br />打造端到端的鸿蒙化与算力解决方案
           </p>
         </div>
 
@@ -191,25 +191,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { companyInfo as company } from '@/config/company'
 import {
   Database, Code2, Bot, Settings, Rocket, Globe,
   Target, Sparkles, Wrench, HeartHandshake,
   Smartphone, Cpu, Atom, Package, GitMerge,
-  Layers, ShoppingBag, Cloud,
+  Layers, ShoppingBag, Cloud, BrainCircuit,
   Zap, ArrowRight, ChevronDown, MessageCircle,
   CheckCircle, Shield, Award,
 } from 'lucide-vue-next'
+import type { Component } from 'vue'
 
-// ─── 鸿蒙生态认证 ───
-const partnerBadges = ref([
-  { text: 'HarmonyOS 开发者', icon: CheckCircle },
-  { text: '鸿蒙生态合作伙伴', icon: Shield },
-  { text: 'OpenHarmony 贡献者', icon: Award },
-])
+// ─── 生态认证徽章（真源：company.certifications）───
+const badgeIconByLabel: Record<string, Component> = {
+  'HarmonyOS 开发者': CheckCircle,
+  '鸿蒙生态合作伙伴': Shield,
+  'OpenHarmony 贡献者': Award,
+  '昇腾 ISV 认证服务商': BrainCircuit,
+}
 
-// ─── 鸿蒙全栈能力 ───
+const partnerBadges = computed(() =>
+  company.certifications.map((text) => ({
+    text,
+    icon: badgeIconByLabel[text] ?? Award,
+  })),
+)
+
+// ─── 鸿蒙全栈能力（含昇腾 AI）───
 const harmonyCapabilities = ref([
   {
     icon: Smartphone,
@@ -220,6 +229,11 @@ const harmonyCapabilities = ref([
     icon: Cpu,
     title: '硬件适配 & 驱动',
     description: '芯片平台适配、HDF 驱动开发、外设接入，让硬件轻松融入鸿蒙生态',
+  },
+  {
+    icon: BrainCircuit,
+    title: '昇腾 AI 适配',
+    description: '面向昇腾算力的模型迁移、推理部署与行业方案集成，服务 ISV 认证交付链路',
   },
   {
     icon: Atom,
@@ -443,10 +457,15 @@ const features = ref([
 
   .hero-content {
     text-align: center;
-    color: white;
+    color: #fff;
     max-width: 860px;
     margin: 0 auto;
     padding: 40px 20px;
+
+    /* 覆盖全局 h1/p 的深色墨色（main.scss），否则暗色 hero 上几乎不可见 */
+    h1, h2, h3, h4, h5, h6, p {
+      color: inherit;
+    }
   }
 
   .hero-badges {
@@ -484,9 +503,10 @@ const features = ref([
     line-height: 1.15;
     margin-bottom: 20px;
     letter-spacing: -0.02em;
+    color: #fff;
 
     .hero-highlight {
-      background: linear-gradient(135deg, #4A90E2, #A78BFA);
+      background: linear-gradient(135deg, #7EB6F6, #C4B5FD);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -544,12 +564,13 @@ const features = ref([
 
 .btn-outline-light {
   background: transparent;
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border: 1.5px solid rgba(255, 255, 255, 0.65);
   color: #fff;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.9);
+    color: #fff;
   }
 }
 

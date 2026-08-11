@@ -66,15 +66,26 @@ export const companyInfo = {
     },
   ],
 
-  certifications: [] as string[],
-  partners: [] as Array<{ name: string; logo: string }>,
+  /** 生态资质（首页徽章 / 关于页背书共用） */
+  certifications: [
+    'HarmonyOS 开发者',
+    '鸿蒙生态合作伙伴',
+    'OpenHarmony 贡献者',
+    '昇腾 ISV 认证服务商',
+  ],
+
+  partners: [
+    { name: 'HarmonyOS', logo: '' },
+    { name: 'OpenHarmony', logo: '' },
+    { name: '昇腾', logo: '' },
+  ] as Array<{ name: string; logo: string }>,
 }
 
 export const seoConfig = {
   defaultTitle: 'Bolent — 数智企业门户',
   titleTemplate: '%s | Bolent',
   defaultDescription:
-    'Bolent 是融合现代科技与文化底蕴的数智企业，提供软件开发、数字化、IT管理及AI读诗等全方位服务。',
+    'Bolent 是融合现代科技与文化底蕴的数智企业，提供软件开发、数字化、IT管理及AI读诗等全方位服务；HarmonyOS 生态与昇腾 ISV 认证服务商。',
   keywords: [
     'Bolent',
     '数智企业',
@@ -83,6 +94,9 @@ export const seoConfig = {
     '数字化转型',
     'IT服务',
     '企业门户',
+    'HarmonyOS',
+    '昇腾 ISV',
+    '昇腾认证服务商',
   ],
   siteUrl: 'https://www.szbolent.cn',
   ogImage: '/images/og-image.jpg',

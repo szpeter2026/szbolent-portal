@@ -96,6 +96,21 @@
       </div>
     </section>
 
+    <!-- 生态资质背书 -->
+    <section class="certifications-section section">
+      <div class="container">
+        <div class="section-title" data-aos="fade-up">
+          <h3>生态资质</h3>
+          <p class="cert-lead">
+            在 HarmonyOS / OpenHarmony 生态之外，Bolent 同时面向昇腾算力场景提供 ISV 级交付能力。
+          </p>
+        </div>
+        <ul class="cert-list" data-aos="fade-up" data-aos-delay="80">
+          <li v-for="item in company.certifications" :key="item">{{ item }}</li>
+        </ul>
+      </div>
+    </section>
+
     <!-- 团队 CTA -->
     <section class="team-cta section">
       <div class="container">
@@ -111,6 +126,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { companyInfo as company } from '@/config/company'
 
 const whyChooseUs = ref([
   {
@@ -318,6 +334,43 @@ const whyChooseUs = ref([
     }
   }
 
+  .certifications-section {
+    .section-title {
+      text-align: center;
+      margin-bottom: 32px;
+
+      h3 {
+        margin-bottom: 12px;
+      }
+
+      .cert-lead {
+        max-width: 640px;
+        margin: 0 auto;
+        color: var(--bolent-text-secondary);
+        line-height: 1.7;
+      }
+    }
+
+    .cert-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto;
+      max-width: 820px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+
+      li {
+        padding: 18px 22px;
+        border: 1px solid var(--bolent-border);
+        border-radius: var(--bolent-radius-md);
+        background: var(--bolent-bg-soft);
+        color: var(--bolent-ink);
+        font-weight: 500;
+      }
+    }
+  }
+
   .team-cta {
     background: var(--bolent-gradient);
     text-align: center;
@@ -375,6 +428,10 @@ const whyChooseUs = ref([
       .why-grid {
         grid-template-columns: 1fr;
       }
+    }
+
+    .certifications-section .cert-list {
+      grid-template-columns: 1fr;
     }
 
     .team-cta {
