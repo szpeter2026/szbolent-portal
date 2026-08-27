@@ -2,7 +2,7 @@
 
 > **状态：** 已共识（2026-07-21）  
 > **范围：** szbolent-portal 运行时形态与下一阶段迭代边界  
-> **相关：** [`EXECUTION_DIRECTION.md`](./EXECUTION_DIRECTION.md) · [`INTEGRATION.md`](./INTEGRATION.md) · [`OPERATIONS_MANUAL.md`](./OPERATIONS_MANUAL.md)
+> **相关：** [`SITE_POSITIONING_MEMO.md`](./SITE_POSITIONING_MEMO.md) · [`EXECUTION_DIRECTION.md`](./EXECUTION_DIRECTION.md) · [`INTEGRATION.md`](./INTEGRATION.md) · [`OPERATIONS_MANUAL.md`](./OPERATIONS_MANUAL.md)
 
 ---
 

@@ -57,9 +57,10 @@
           <p>加载中...</p>
         </div>
 
-        <!-- 错误状态 -->
+        <!-- 错误 / 降级空态（WP 或 MySQL 不可用） -->
         <div v-else-if="error" class="error-state">
-          <p>❌ {{ error }}</p>
+          <p>📭 {{ error }}</p>
+          <p class="error-hint">博客内容由 WordPress 提供；服务恢复后即可正常浏览。</p>
           <button @click="loadPosts" class="btn btn-primary">重试</button>
         </div>
 
@@ -104,7 +105,7 @@
                 </router-link>
               </h3>
 
-              <div class="post-excerpt" v-html="getExcerpt(post)"></div>
+              <p class="post-excerpt">{{ getExcerpt(post) }}</p>
 
               <div class="post-footer">
                 <router-link :to="`/blog/${post.slug}`" class="read-more">
@@ -232,7 +233,12 @@ const loadPosts = async () => {
     totalPosts.value = result.total
     totalPages.value = result.totalPages
   } catch (err: any) {
-    error.value = err.message || '加载失败，请稍后重试'
+    const msg = String(err?.message || '')
+    if (/Failed to fetch|NetworkError|ECONNREFUSED|500|502|503|504/i.test(msg)) {
+      error.value = '内容暂不可用，请稍后再试'
+    } else {
+      error.value = msg || '加载失败，请稍后重试'
+    }
     console.error('加载文章失败:', err)
   } finally {
     loading.value = false
@@ -411,6 +417,12 @@ onMounted(() => {
         font-size: 1.125rem;
         color: var(--text-secondary);
         margin-bottom: 20px;
+      }
+
+      .error-hint {
+        font-size: 0.95rem;
+        color: var(--bolent-text-muted);
+        margin-top: -8px;
       }
     }
 

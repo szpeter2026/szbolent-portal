@@ -34,17 +34,37 @@ export default defineConfig({
     host: '0.0.0.0',
     open: true,
     proxy: {
-      // Looma REST（本地联调 · 见 docs/TENCENT_CLOUD_COMMERCE.md §6.1）
-      '/v1': {
-        target: 'http://127.0.0.1:5200',
-        changeOrigin: true
+      // =============================================
+      // Page Engine :5300 — 动态菜单 / 页面 Schema / 权限
+      // =============================================
+      '/v1/menus': {
+        target: 'http://127.0.0.1:5300',
+        changeOrigin: true,
       },
+      '/v1/pages': {
+        target: 'http://127.0.0.1:5300',
+        changeOrigin: true,
+      },
+      '/v1/permissions': {
+        target: 'http://127.0.0.1:5300',
+        changeOrigin: true,
+      },
+
+      // =============================================
+      // Looma — 诗词 / RAG / Auth / 支付 等
+      // 本地可不启 :5200，默认回源 api.genz.ltd
+      // =============================================
+      '/v1': {
+        target: process.env.VITE_LOOMA_PROXY || 'http://api.genz.ltd',
+        changeOrigin: true,
+      },
+
       // 代理 WordPress REST API (PoetImmortal 博客)
       '/wp-json': {
         target: process.env.VITE_WP_PROXY || 'http://localhost:8800',
         changeOrigin: true,
-        rewrite: path => path
-      }
+        rewrite: path => path,
+      },
     }
   },
   build: {

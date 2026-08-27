@@ -4,7 +4,10 @@
       <!-- 顶部横幅 -->
       <div class="page-header" data-aos="fade-down">
         <h1>诗词鉴赏</h1>
-        <p>品味千年文化，感受诗词之美</p>
+        <p>
+          品味千年文化，感受诗词之美
+          <span v-if="totalCount" class="stats-badge">共 {{ totalCount.toLocaleString() }} 首</span>
+        </p>
       </div>
       
       <!-- 筛选器 -->
@@ -12,12 +15,13 @@
         <div class="filter-group">
           <label>朝代：</label>
           <button
-            v-for="d in dynasties"
-            :key="d"
-            :class="{ active: dynasty === d }"
-            @click="selectDynasty(d)"
+            v-for="d in dynastyOptions"
+            :key="d.name"
+            :class="{ active: dynasty === d.name }"
+            @click="selectDynasty(d.name)"
           >
-            {{ d || '全部' }}
+            {{ d.name || '全部' }}
+            <span v-if="d.count" class="filter-count">({{ d.count }})</span>
           </button>
         </div>
         
@@ -113,8 +117,30 @@ import { poetryApi, type Poem } from '@/api/poetry'
 
 const router = useRouter()
 
-// 筛选选项
-const dynasties = ['', '先秦', '汉', '魏晋', '南北朝', '隋', '唐', '宋', '元', '明', '清']
+// ── 统计（GET /v1/poetry/stats）──
+interface DynastyOption {
+  name: string
+  count: number
+}
+
+const dynastyOptions = ref<DynastyOption[]>([{ name: '', count: 0 }])
+const totalCount = ref(0)
+
+async function loadStats() {
+  try {
+    const stats = await poetryApi.getStats()
+    totalCount.value = stats.total
+    const options: DynastyOption[] = [{ name: '', count: stats.total }]
+    for (const d of stats.dynasties) {
+      options.push({ name: d.name, count: d.count })
+    }
+    dynastyOptions.value = options
+  } catch (err) {
+    console.error('加载统计失败:', err)
+  }
+}
+
+// 筛选选项（季节性/主题暂无后端字段，保持硬编码）
 const seasons = ['', '春', '夏', '秋', '冬']
 const themes = ['', '边塞', '送别', '山水', '田园', '咏史', '咏物', '爱情', '哲理']
 
@@ -206,6 +232,7 @@ const goToDetail = (id: number) => {
 
 onMounted(() => {
   loadPoems()
+  loadStats()
 })
 </script>
 
@@ -236,6 +263,17 @@ onMounted(() => {
 .page-header p {
   font-size: 18px;
   opacity: 0.9;
+}
+
+.stats-badge {
+  display: inline-block;
+  margin-left: 12px;
+  padding: 2px 14px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  vertical-align: middle;
 }
 
 .filters {
@@ -283,6 +321,11 @@ onMounted(() => {
   background: var(--bolent-gradient);
   color: white;
   border-color: transparent;
+}
+
+.filter-count {
+  font-size: 11px;
+  opacity: 0.7;
 }
 
 .loading {

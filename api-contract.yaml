@@ -1,0 +1,512 @@
+openapi: 3.0.3
+info:
+  title: Looma Page Engine API
+  description: |
+    页面引擎契约 — 动态路由 + 页面 Schema + 权限系统的 API 定义。
+    这是 share-core 的唯一真源，Python 和 Rust 后端都向此契约对齐。
+  version: 1.0.0
+
+servers:
+  - url: http://127.0.0.1:5200/v1
+    description: 本地开发
+  - url: https://api.genz.ltd/v1
+    description: 生产环境
+
+tags:
+  - name: menus
+    description: 动态菜单/路由（数据库驱动）
+  - name: pages
+    description: 页面 Schema（Schema → 组件渲染）
+  - name: permissions
+    description: 权限检查
+
+# ============================================================
+# 数据模型
+# ============================================================
+components:
+  schemas:
+    # --- 页面组件定义 ---
+    PageComponent:
+      type: object
+      required: [type]
+      properties:
+        id:
+          type: string
+          description: 组件在页面内的唯一标识
+          example: "hero-01"
+        type:
+          type: string
+          description: 组件类型名，对应前端 componentMap 的 key
+          enum:
+            - Hero
+            - Skills
+            - Timeline
+            - Contact
+            - Gallery
+            - Stats
+            - Form
+            - List
+            - Card
+            - Chart
+            - RichText
+            - Markdown
+            - CodeBlock
+            - Embed
+          example: "Hero"
+        props:
+          type: object
+          additionalProperties: true
+          description: 传给组件的 props，结构由组件自身定义
+          example:
+            title: "张三"
+            subtitle: "全栈工程师"
+        dataSource:
+          type: string
+          nullable: true
+          description: 独立数据源 API 路径。为空则使用页面的全局 dataSource
+          example: "/v1/jobfirst/cv/user_123/experience"
+        visibleTo:
+          type: string
+          description: 可见性控制
+          default: public
+          enum:
+            - public          # 所有人可见
+            - authenticated   # 已登录
+            - subscriber      # 订阅者/关注者
+            - friend          # 好友
+            - employer        # 雇主/HR
+            - admin           # 管理员
+            - vc_verified     # 通过 VC 认证
+          example: "public"
+        requiredRole:
+          type: string
+          nullable: true
+          description: requiredRole 与 visibleTo='role' 配合使用
+          example: "employer"
+        requiredVC:
+          type: string
+          nullable: true
+          description: 需要的 VC 凭证类型 (YeDall DID)
+          example: "employment_verification"
+        order:
+          type: integer
+          default: 0
+          description: 组件在页面内的排列顺序
+
+    # --- 页面 Schema ---
+    PageSchema:
+      type: object
+      required: [id, path, product, components]
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "a1b2c3d4-..."
+        product:
+          type: string
+          description: 产品标识 — 多产品共享同一套引擎的关键
+          enum: [jobfirst, genzer, blog, szbolent]
+          example: "blog"
+        path:
+          type: string
+          description: URL 路径，同一产品内唯一
+          example: "/resume/zhangsan"
+        pageType:
+          type: string
+          description: 页面类型，影响布局和预加载策略
+          enum: [landing, detail, list, dashboard, form, custom]
+          default: "custom"
+          example: "detail"
+        layout:
+          type: string
+          description: 布局模板名，对应前端 Layout 组件
+          default: "default"
+          enum: [default, fullWidth, sidebar, cardGrid, split]
+          example: "sidebar"
+        title:
+          type: string
+          description: 页面标题（<title> + <h1>）
+          example: "张三的简历"
+        description:
+          type: string
+          nullable: true
+          description: 页面描述（meta description）
+        visibility:
+          type: string
+          description: 页面级的默认可见性（组件级可覆盖）
+          default: "public"
+          enum: [public, authenticated, subscriber, friend, employer, admin, vc_verified]
+        dataSource:
+          type: string
+          nullable: true
+          description: 页面的默认数据源 API，组件级 dataSource 优先
+          example: "/v1/jobfirst/cv/user_123"
+        meta:
+          type: object
+          properties:
+            ogImage: { type: string }
+            ogType: { type: string }
+            canonical: { type: string }
+        components:
+          type: array
+          items:
+            $ref: '#/components/schemas/PageComponent'
+          description: 页面包含的组件列表（按 order 排序）
+        status:
+          type: string
+          enum: [draft, published, archived]
+          default: "draft"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    # --- 菜单节点 ---
+    MenuItem:
+      type: object
+      required: [id, title, path]
+      properties:
+        id:
+          type: integer
+          example: 1
+        parentId:
+          type: integer
+          nullable: true
+          description: 父节点 ID，null 表示根节点
+          example: null
+        title:
+          type: string
+          description: 菜单显示文本
+          example: "我的简历"
+        path:
+          type: string
+          description: 前端路由路径
+          example: "/resume"
+        icon:
+          type: string
+          nullable: true
+          description: 图标名（对应 icon 组件库）
+          example: "file-text"
+        component:
+          type: string
+          nullable: true
+          description: 页面级路由时的组件名（菜单项直接指向链接则不需要）
+          example: "ResumePage"
+        visibleTo:
+          type: string
+          default: "public"
+          enum: [public, authenticated, subscriber, friend, employer, admin, vc_verified]
+          description: 菜单项可见性
+        requiredPermission:
+          type: string
+          nullable: true
+          description: 需要的权限标识
+          example: "resume.view"
+        sortOrder:
+          type: integer
+          default: 0
+        product:
+          type: string
+          description: 所属产品
+          example: "jobfirst"
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuItem'
+          description: 子菜单（递归结构）
+        meta:
+          type: object
+          additionalProperties: true
+          description: 路由 meta 信息（keepAlive, requiresAuth 等）
+
+    # --- 权限策略 ---
+    PermissionPolicy:
+      type: object
+      required: [product, subject, action, resource]
+      properties:
+        product:
+          type: string
+          example: "jobfirst"
+        subject:
+          type: string
+          description: Casbin subject — 用户 ID 或角色
+          example: "user_abc123"
+        action:
+          type: string
+          description: 操作
+          example: "read"
+        resource:
+          type: string
+          description: 资源路径
+          example: "/v1/jobfirst/cv/user_abc123"
+
+    # --- 通用响应 ---
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+
+# ============================================================
+# API 端点
+# ============================================================
+paths:
+  # --- 菜单/路由 ---
+  /menus:
+    get:
+      tags: [menus]
+      operationId: getMenus
+      summary: 获取用户的可见菜单树
+      description: |
+        根据当前登录用户（JWT token）和 Casbin 权限策略，
+        返回该用户可见的菜单树。不同用户看到不同的菜单结构。
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: product
+          in: query
+          schema:
+            type: string
+            enum: [jobfirst, genzer, blog, szbolent]
+          required: true
+          description: 产品标识
+      responses:
+        '200':
+          description: 菜单树
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+        '401':
+          $ref: '#/components/schemas/ErrorResponse'
+
+  /menus/admin:
+    get:
+      tags: [menus]
+      operationId: getAllMenus
+      summary: 获取完整菜单树（管理员）
+      description: 管理端获取所有菜单项（不受当前用户权限过滤）
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: product
+          in: query
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 完整菜单树
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MenuItem'
+
+    post:
+      tags: [menus]
+      operationId: createMenuItem
+      summary: 创建菜单项（管理员）
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MenuItem'
+      responses:
+        '201':
+          description: 创建成功
+        '403':
+          $ref: '#/components/schemas/ErrorResponse'
+
+  # --- 页面 Schema ---
+  /pages/by-path:
+    get:
+      tags: [pages]
+      operationId: getPageByPath
+      summary: 根据路径获取页面 Schema
+      description: |
+        前端渲染引擎调用此端点获取页面定义。
+        返回的 components 列表已按当前用户权限过滤。
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: path
+          in: query
+          schema:
+            type: string
+          required: true
+          description: 页面路径，如 /resume/zhangsan
+      responses:
+        '200':
+          description: 页面 Schema
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageSchema'
+        '404':
+          description: 页面不存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /pages:
+    get:
+      tags: [pages]
+      operationId: listPages
+      summary: 列出产品的所有页面（管理员）
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: product
+          in: query
+          schema:
+            type: string
+          required: true
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, published, archived]
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: 页面列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PageSchema'
+                  total:
+                    type: integer
+
+    post:
+      tags: [pages]
+      operationId: createOrUpdatePage
+      summary: 创建或更新页面 Schema（管理员/AI）
+      description: |
+        管理员通过后台、或 AI 通过 MCP Sidecar 调用此端点。
+        存在则更新，不存在则创建。
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PageSchema'
+      responses:
+        '200':
+          description: 创建/更新成功
+        '403':
+          $ref: '#/components/schemas/ErrorResponse'
+
+  /pages/{id}:
+    delete:
+      tags: [pages]
+      operationId: deletePage
+      summary: 删除页面
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+            format: uuid
+          required: true
+      responses:
+        '204':
+          description: 删除成功
+
+  # --- 权限 ---
+  /permissions/check:
+    post:
+      tags: [permissions]
+      operationId: checkPermission
+      summary: 检查用户是否有某权限
+      description: 前端 PermissionGuard 调用此端点进行权限校验
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [resource, action]
+              properties:
+                resource:
+                  type: string
+                  example: "resume.timeline"
+                action:
+                  type: string
+                  example: "read"
+      responses:
+        '200':
+          description: 权限检查结果
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  allowed:
+                    type: boolean
+                  reason:
+                    type: string
+                    nullable: true
+
+  /permissions/my:
+    get:
+      tags: [permissions]
+      operationId: getMyPermissions
+      summary: 获取当前用户的完整权限列表
+      description: 用于前端缓存权限信息，减少逐条检查的请求数
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: product
+          in: query
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 权限策略列表
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PermissionPolicy'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Looma JWT token
