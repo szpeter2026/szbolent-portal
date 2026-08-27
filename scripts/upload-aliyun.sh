@@ -7,7 +7,8 @@
 #
 # 资产清单（钉死，2026-08-27 已回传落地）：
 #   [有源] szbolent-portal dist   本地 $ROOT/dist          → 阿里 /var/www/szbolent-portal/dist
-#   [回传] poetries-h5             本地源缺失，仅阿里 /var/www/poetries-h5/dist → 已 pull 至 $BACKUP_DIR/poetries-h5-dist/
+#   [有源] poetries-h5             构建源 gitee szbenyx/poetries（本地 ~/SurfaceZervi/archive-gitee/szbenyx/poetries，
+#                                  dist 11 chunk 与线上一致，commit d10e0ef）→ 阿里 /var/www/poetries-h5/dist
 #   [回传] WP 主题 bolent-astra-child 阿里 bind 挂载源 /opt/bolent-wp/themes/bolent-astra-child
 #                                  → 已回传本地 $ROOT/themes/（补上 compose 引用），可 --with-theme 反传
 #   [参考] nginx conf              阿里 live=/etc/nginx/conf.d/{00-szbolent,szbolent-h5}.conf；
@@ -18,7 +19,7 @@
 #   ./upload-aliyun.sh --with-theme  # 上传 portal dist 后顺带反传本地 themes/bolent-astra-child → 阿里
 #   ./upload-aliyun.sh --no-build    # 跳过 npm run build（dist 已是最新产物）
 #   ./upload-aliyun.sh --dry-run     # 只做本地构建 + 同源化 + 检查，不 ssh 不写远端
-#   ./upload-aliyun.sh pull-poetries # 阿里 poetries-h5 dist → 本地备份基线（源缺失的兜底）
+#   ./upload-aliyun.sh pull-poetries # 阿里 poetries-h5 dist → 本地备份基线（回滚依据；源在 szbenyx/poetries 仓）
 #   ./upload-aliyun.sh pull-theme    # 阿里主题 bolent-astra-child → 本地 themes/（与线上对账）
 #   ./upload-aliyun.sh pull-nginx    # 阿里 live nginx conf → 本地备份（防施工/回滚依据）
 #
@@ -171,7 +172,7 @@ pull_poetries() {
   ssh_aliyun "mkdir -p ${REMOTE_POETRIES_DIST}"
   mkdir -p "$BACKUP_DIR"
   rsync -avz -e "ssh ${SSH_OPTS[*]}" "${SSH_TARGET}:${REMOTE_POETRIES_DIST}/" "$BACKUP_DIR/poetries-h5-dist/"
-  green "✓ 已拉回。提示：poetries-h5 本地构建源缺失，此为唯一基线，请勿删除。"
+  green "✓ 已拉回。构建源在 gitee szbenyx/poetries（~/SurfaceZervi/archive-gitee/szbenyx/poetries），此备份为回滚基线。"
 }
 
 # ---------- 拉回 live nginx conf 备份 ----------
