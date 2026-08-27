@@ -1,9 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
+import { useDynamicRouter } from '@/composables/useDynamicRouter'
+
+/**
+ * 路由架构说明
+ * ─────────────
+ * 静态路由（本文件）：核心 layout + Looma 诗词专区 + 404 + 必要 fallback
+ * 动态路由（Page Engine :5300）：blog / careers / 未来新增页面
+ *
+ * 注入方式：loadMenus(router, 'szbolent', undefined, 'main')
+ *   → 动态路由作为 'main' (MainLayout) 的子路由注入，与 Header 菜单同源
+ *   → 冲突检查：已存在同 path 的静态路由不会被覆盖
+ */
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    name: 'main',
     component: () => import('@/layouts/MainLayout.vue'),
     children: [
       {
@@ -30,15 +43,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/ServiceDetail.vue'),
         meta: { title: '服务详情' }
       },
-      {
-        path: 'blog',
-        name: 'blog',
-        component: () => import('@/views/Blog.vue'),
-        meta: { title: '博客' }
-      },
+      // blog 列表可由 Page Engine 动态注入；详情带 :slug，静态兜底（菜单通常不挂参数路由）
       {
         path: 'blog/:slug',
-        name: 'blog-detail',
+        name: 'BlogDetail',
         component: () => import('@/views/BlogDetail.vue'),
         meta: { title: '博客详情' }
       },
@@ -54,19 +62,14 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/CaseStudyDetail.vue'),
         meta: { title: '案例详情' }
       },
-      {
-        path: 'careers',
-        name: 'Careers',
-        component: () => import('@/views/Careers.vue'),
-        meta: { title: '加入我们' }
-      },
+      // careers → 由 Page Engine 动态路由管理
       {
         path: 'contact',
         name: 'Contact',
         component: () => import('@/views/Contact.vue'),
         meta: { title: '联系我们' }
       },
-      // 诗词专区路由
+      // 诗词专区路由（Looma 管理，非 Page Engine）
       {
         path: 'poetry',
         name: 'Poetry',
@@ -105,10 +108,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/Pricing.vue'),
         meta: {
           title: '定价方案',
-          // ⚠️ 备案风险：个人备案 .cn 域名不得展示价格/付费内容
-          // 当前路由仅用于开发预览；生产环境应：
-          //   - 移除此路由（从 .cn 门户隐藏）
-          //   - 或将 Pricing 页面移至小程序/公司备案域名下
           icpRisk: 'personal-domain-no-pricing'
         }
       },
@@ -123,29 +122,7 @@ const routes: RouteRecordRaw[] = [
         name: 'Terms',
         component: () => import('@/views/Terms.vue'),
         meta: { title: '用户协议' }
-      },
-      // 活动抽奖路由 — 已禁用：依赖的 legacy Sanic :8001 已退役
-      // 待 Looma 后端活动 API 就绪后重新启用
-      // {
-      //   path: 'activity',
-      //   name: 'Activity',
-      //   component: () => import('@/views/activity/Layout.vue'),
-      //   meta: { title: '活动中心' },
-      //   children: [
-      //     {
-      //       path: '',
-      //       name: 'ActivityList',
-      //       component: () => import('@/views/activity/List.vue'),
-      //       meta: { title: '活动列表' }
-      //     },
-      //     {
-      //       path: ':id',
-      //       name: 'ActivityDetail',
-      //       component: () => import('@/views/activity/Detail.vue'),
-      //       meta: { title: '活动详情' }
-      //     }
-      //   ]
-      // }
+      }
     ]
   },
 
@@ -172,19 +149,44 @@ const router = createRouter({
 })
 
 // 路由守卫
-router.beforeEach((to, from, next) => {
+const { loadMenus, routeLoaded } = useDynamicRouter()
+
+// 每次模块求值时重置已加载标记（HMR 会重建 router，需重新注入动态路由）
+// production 下仅运行一次，无副作用
+routeLoaded.delete('szbolent')
+
+/** 动态路由初始化 Promise（main.ts 中 await 后挂载） */
+export const menusInit = loadMenus(router, 'szbolent', undefined, 'main')
+
+let menusReady: Promise<void> | null = null
+
+router.beforeEach(async (to, from, next) => {
+  // 确保动态路由已加载（首屏 / HMR 重载场景）
+  if (!menusReady) {
+    if (!routeLoaded.get('szbolent')) {
+      menusReady = loadMenus(router, 'szbolent', undefined, 'main')
+    } else {
+      menusReady = Promise.resolve()
+    }
+  }
+  await menusReady
+
+  // 动态路由加载后，重新匹配当前路径（修复全页刷新 Race Condition）
+  if (to.name === 'NotFound' && to.fullPath !== '/404') {
+    const resolved = router.resolve(to.fullPath)
+    if (resolved.name !== 'NotFound') {
+      return next(to.fullPath)
+    }
+  }
+
   const page = (to.meta.title as string) || seoConfig.defaultTitle
   document.title = seoConfig.titleTemplate.replace('%s', page)
 
-  // ⚠️ 个人备案域名保护：生产环境下 /pricing 页面应隐藏或重定向
-  // 当 Pricing 功能迁移到小程序/公司备案域后，删除此守卫
   if (to.meta.icpRisk === 'personal-domain-no-pricing' && import.meta.env.PROD) {
     console.warn(
       '[router] /pricing 在个人备案生产环境不可用。' +
       '请将定价页面迁移至小程序或公司备案域名（szbolent.com.cn）。'
     )
-    // 暂不拦截访问（开发阶段仍需预览），仅记录警告
-    // 正式上线前改为: next({ name: 'Home' })
   }
 
   next()

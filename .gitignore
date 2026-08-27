@@ -33,3 +33,13 @@ storybook-static
 
 # Local agent memory (do not commit)
 .workbuddy/
+
+# Local tool dirs / Rust build artifacts
+.claude/
+.playwright/
+.playwright-cli/
+backend/target/
+backend/.env
+
+# 回传产物基线（poetries-h5 dist 等，不入库）
+backup/

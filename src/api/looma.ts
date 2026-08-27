@@ -80,8 +80,9 @@ export async function apiPost<T>(path: string, body?: Record<string, unknown>): 
 
 /** Web 登录 */
 export async function login(email: string, password: string): Promise<{ token: string }> {
-  const data = await apiPost<{ token: string }>('/auth/login', { email, password })
-  if (data.token) setToken(data.token)
+  const data = await apiPost<{ access_token: string }>('/auth/login', { email, password }) as any
+  const token = data.access_token || data.token
+  if (token) setToken(token)
   return data
 }
 
@@ -114,20 +115,25 @@ export function queryOrder(orderId: string): Promise<Record<string, unknown>> {
 
 // ── AI 问答接口（RAG）──
 
-/** RAG AI 问答请求参数 */
-interface AskRequest {
-  /** 用户问题 */
-  question: string
-  /** 可选：返回来源数量，默认 3 */
-  top_k?: number
-  /** 可选：会话 ID，用于多轮对话上下文 */
-  session_id?: string
+/** RAG AI 问答响应 — 提取的诗词结构化信息 */
+interface ExtractedPoem {
+  title: string
+  author: string
+  dynasty: string
+  content: string
+  theme: string
 }
 
 /** RAG AI 问答响应 */
 interface AskResponse {
   /** AI 生成的回答 */
   answer: string
+  /** 意图分类（如 poetry） */
+  intent?: string
+  /** 意图置信度 (0-1) */
+  intent_confidence?: number
+  /** 提取的诗词结构化信息 */
+  extracted?: ExtractedPoem
   /** 引用的诗词来源 */
   sources: Array<{
     title: string
@@ -135,25 +141,62 @@ interface AskResponse {
     content_snippet: string
     score: number
   }>
-  /** 会话 ID（多轮对话时回传） */
-  session_id: string
+  /** 消耗 token 数 */
+  tokens_used?: number
 }
 
 /**
  * RAG AI 问答 — 诗词知识库检索增强生成
  *
- * 端点：POST /v1/ask
+ * 端点：POST /v1/ask（字段 query）
  * 数据真源：Looma backend → ChromaDB 向量检索 + LLM 生成
+ *
+ * @throws {ConsentRequiredError} 当用户尚未授权 ask_rag scope 时抛出
  *
  * @example
  * ```ts
  * const { answer, sources } = await ask('李白的静夜思表达了什么情感？')
  * ```
  */
-export function ask(question: string, options?: { top_k?: number; session_id?: string }): Promise<AskResponse> {
-  return apiPost<AskResponse>('/ask', {
-    question,
-    ...(options?.top_k != null && { top_k: options.top_k }),
-    ...(options?.session_id && { session_id: options.session_id }),
-  })
+export async function ask(question: string, options?: { top_k?: number; session_id?: string }): Promise<AskResponse> {
+  try {
+    return await apiPost<AskResponse>('/ask', {
+      query: question,
+      ...(options?.top_k != null && { top_k: options.top_k }),
+      ...(options?.session_id && { session_id: options.session_id }),
+    })
+  } catch (e: any) {
+    // 检测后端返回的 consent_required
+    const body = e?.response?.data
+    if (body?.action === 'grant_consent' && body?.required_scope) {
+      const err = new Error(body.message || '需要授权') as any
+      err.code = 'CONSENT_REQUIRED'
+      err.requiredScope = body.required_scope
+      throw err
+    }
+    throw e
+  }
+}
+
+// ── 同意授权接口 ──
+
+/** 同意授权 scope 请求 */
+interface GrantConsentRequest {
+  scope: string
+}
+
+/** 同意授权 scope 响应 */
+interface GrantConsentResponse {
+  scope: string
+  granted: boolean
+}
+
+/**
+ * 向 Looma 提交 scope 授权同意
+ *
+ * 端点：POST /v1/compliance/consent/grant（compliance_bp）
+ * scope 示例：'ask_rag'（RAG 检索授权）、'did_verify'（DID 验证授权）
+ */
+export function grantConsent(scope: string): Promise<GrantConsentResponse> {
+  return apiPost<GrantConsentResponse>('/compliance/consent/grant', { scope } as GrantConsentRequest)
 }

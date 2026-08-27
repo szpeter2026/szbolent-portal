@@ -34,16 +34,13 @@
             </ul>
           </div>
 
-          <!-- 快速链接 -->
+          <!-- 快速链接 — 动态菜单驱动（与 Header 同源 Page Engine） -->
           <div class="footer-col">
             <h4 class="footer-title">快速链接</h4>
             <ul class="footer-links">
-              <li><router-link to="/">首页</router-link></li>
-              <li><router-link to="/about">关于我们</router-link></li>
-              <li><router-link to="/blog">博客</router-link></li>
-              <li><router-link to="/case-study">案例研究</router-link></li>
-              <li><router-link to="/careers">加入我们</router-link></li>
-              <li><router-link to="/contact">联系我们</router-link></li>
+              <li v-for="item in quickLinks" :key="item.path">
+                <router-link :to="item.path">{{ item.title }}</router-link>
+              </li>
             </ul>
           </div>
 
@@ -81,8 +78,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { Github, MapPin, Mail } from 'lucide-vue-next'
+import { useDynamicRouter } from '@/composables/useDynamicRouter'
+
+const { menus, loadMenus } = useDynamicRouter()
+
+/** 快捷链接：来自 Page Engine 的动态菜单（去重首页、过滤外链） */
+const quickLinks = computed(() => {
+  return menus.value.filter((item) => {
+    // 首页 Footer 已有 logo 区域，不重复
+    if (item.path === '/') return false
+    // 外链不展示在快速链接
+    if (item.path?.startsWith('http')) return false
+    return true
+  })
+})
+
+onMounted(() => {
+  // 幂等加载菜单数据（与 Header 共享 ref，不会重复请求）
+  loadMenus(undefined, 'szbolent')
+})
 
 const currentYear = computed(() => new Date().getFullYear())
 </script>

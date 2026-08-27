@@ -1,98 +1,73 @@
-# 双仓远端同步状态与职责对照
+# 双仓同步状态
 
-> **更新：** 2026-07-16 · WordPress 阿里云主站部署 · 双端远端同步  
-> **联调报告：** [ROUND1_INTEGRATION_REPORT.md](./ROUND1_INTEGRATION_REPORT.md)（含 **§8 补充通知**）  
-> **远端 HEAD：** [looma `main`](https://github.com/szpeter2026/looma-zervi/tree/main) · [portal `main`](https://github.com/szpeter2026/szbolent-portal/tree/main)
+> 最后更新：2026-07-20（Plan A + Plan B 收口）
 
----
+## 架构概览
 
-## 0. 给 szbenyx 的三条必读
+```
+szbolent-portal (Vite :3000)          Looma (:5200) / Page Engine (:5300)
+┌─────────────────────────────┐       ┌──────────────────────────────┐
+│  src/                       │       │  Looma (Axum Rust)           │
+│  ├─ api/looma.ts           │──◄───│  ├─ /v1/poetry/*             │
+│  ├─ views/poetry/*         │       │  ├─ /v1/ask (RAG)            │
+│  ├─ components/shared/     │       │  ├─ /v1/auth/*              │
+│  │   ChatDialog.vue         │       │  └─ /v1/compliance/consent/* │
+│  ├─ router/index.ts        │──◄───│  Page Engine (Salvo Rust)    │
+│  ├─ main.ts                │       │  ├─ /v1/menus               │
+│  └─ composables/           │       │  ├─ /v1/products            │
+│      usePermission.ts      │       │  └─ /v1/pages/*             │
+└─────────────────────────────┘       └──────────────────────────────┘
+```
 
-1. **请 pull 两仓**，阅读 **[PAYMENT_TIER_CONTRACT.md](./PAYMENT_TIER_CONTRACT.md)**（支付/tier 统一标准 · CN ¥9.9 / US $1.99）。  
-2. **大陆主站：** WordPress 已部署阿里云 `47.115.168.107`（Bolent 子主题 + Podman）；Vue 门户 SPA 逐步由 WP 承接营销页。  
-3. **同步命令：** 各仓 `npm run sync:push`（portal）或 `./scripts/sync-remotes.sh push`（looma，待补齐）。
+## 两仓同步状态
 
----
+| 功能 | 门户仓 (szbolent-portal) | 服务仓 (Looma/Page Engine) | 状态 |
+|------|------------------------|---------------------------|------|
+| 诗词列表/详情 | `src/views/poetry/` | Looma :5200 /v1/poetry/* | ✅ |
+| 诗词 AI 对话 | `src/components/shared/ChatDialog.vue` | Looma :5200 /v1/ask + /v1/compliance/consent/grant | ✅ |
+| 用户认证 | `src/composables/usePermission.ts` + `looma.ts` login | Looma :5200 /v1/auth/login + /v1/auth/profile | ✅ |
+| 同意授权 | `looma.ts` grantConsent | Looma :5200 /v1/compliance/consent/grant | ✅ |
+| 动态菜单/路由 | `src/main.ts` + `src/router/index.ts` | Page Engine :5300 /v1/menus | ✅ |
+| 动态页面 | `src/router/index.ts` 动态注册 | Page Engine :5300 /v1/pages/* | ✅ |
+| Header/Footer | `src/components/Header.vue` / `Footer.vue` | Page Engine :5300 /v1/menus + /v1/products | ✅ |
+| 博客 | `src/views/Blog.vue` 等 | WordPress :8800 /wp-json/*（本地） | ✅ |
+| `/cases` → `/case-study` | router 重定向 | - | ✅ |
+| 翻译 i18n | `src/i18n/` | - | ⚡ 持续补充 |
+| About / Contact | `src/views/Home.vue` / `Contact.vue` | Page Engine :5300 | ⚡ 待确认 |
+| 案例详情 pages | 待对接 | Page Engine :5300 | ⚡ 待对接 |
 
-## 1. 远端推送摘要（最新）
+### 状态说明
 
-| 仓 | 分支 | Commit | 作者 | 内容 |
-|----|------|--------|------|------|
-| **looma-zervi** | `main` | `b40700d` | Jason | 双仓 sync status 文档对齐 |
-| | | `11a206d` | Jason | Phase 3 纯 UI 组件库 + Storybook `:6007` |
-| | | `8f08d50` | Jason | 支付契约 `payment.v1.json` + region-aware plans |
-| **szbolent-portal** | `main` | `528198d` | Jason | Storybook 组件 stories + React 依赖修复 |
-| | | `bfad810` | Jason | 移除 onboarding MDX 脚手架 |
-| | | `cbd2d8d` | Jason | Storybook init + Astra design-system + 外包文档 |
-| | | `2ed3fec` | Jason | PAYMENT_TIER_CONTRACT 双仓存档 |
+- ✅ 双仓就绪 / 联调通过
+- ⚡ 门户仓就绪 / 服务 API 可用或进行中
+- 🔄 进行中
+- ⏸ 阻塞
+- ❌ 未启动
 
----
+## API 契约
 
-## 2. 同步状态
+详见 [`../api-contract.yaml`](../api-contract.yaml) 和 [`INTEGRATION.md`](./INTEGRATION.md)。
 
-### looma-zervi
+### ask API 字段约定
 
-| 项 | 说明 |
-|----|------|
-| `main` | **2026-07-05** 已与 `github/main` 同步 |
-| Storybook | `frontend/` · `pnpm storybook` → **:6007** |
-| 支付真源 | `backend/contracts/payment.v1.json` · `GET /v1/payment/plans?region=CN\|US` |
+- **请求字段：** `query`（非 `question`）
+- **登录响应：** `access_token`（非 `token`）
+- **consent 路径：** `/v1/compliance/consent/grant`（非 `/v1/consent/grant`）
 
-### szbolent-portal
+## 联调里程碑
 
-| 项 | 说明 |
-|----|------|
-| `main` | 待推送：WP 生产部署脚本 + GitHub/Gitee 同步工具 |
-| WordPress | 阿里云 `47.115.168.107` · `/opt/bolent-wp` · Bolent Astra Child |
-| 同步 | `npm run sync:push` → `origin` + `gitee`；CI `sync-to-gitee.yml` |
-| Storybook | `npm run storybook` → **:6006** |
+| 日期 | 里程碑 | 验收 |
+|------|--------|------|
+| 2026-07-17 | M0 完成 | JobFirst 收件箱 + 事件契约 + PWA 代码 |
+| 2026-07-19 | Plan A 收口 | Page Engine 管路由，动态菜单/路由闭环 |
+| **2026-07-20** | **Plan B 收口** | **ChatDialog 全链路：login → consent → ask → answer** |
 
----
+## 下一步待办
 
-## 3. 第一轮联调结论（不变）
-
-| 链路 | 状态 |
-|------|------|
-| 诗词 portal ↔ looma | ✅ 70% |
-| 博客 portal ↔ WP | ⚠️ 40% |
-| 活动 legacy `:8001` | ❌ 10% |
-
-详情 → `ROUND1_INTEGRATION_REPORT.md` §2–§4。
-
----
-
-## 4. szbenyx 待办
-
-| 优先级 | 任务 |
-|--------|------|
-| **P0** | 两仓 `main` 分支保护 + required checks |
-| **P0** | portal vite 清 `:8001`（P0-P4） |
-| **P1** | portal 接 `looma.ts` + Pricing（**PAYMENT_TIER_CONTRACT §6.2**） |
-| **P1** | Astra 外包 Phase 1–4（见 portal 外包交付文档） |
-| **P1** | contracts、`poetry.ts`/authors、legal |
-| **P2** | DECISION_RESPONSE 歧义清理 |
-
----
-
-## 5. Jason 待办
-
-| 优先级 | 任务 |
-|--------|------|
-| **P1** | looma Phase 4 Storybook 七态走查（`:6007`） |
-| **P1** | P1 微信支付替换 Stub |
-| **P1** | Chroma import 或确认 58k 基线 |
-| **P1** | WP uploads + 较新 SQL |
-| **P2** | miniprogram shared-core / consent（W2–W3） |
-
----
-
-## 6. 文档真源
-
-| 文档 | 说明 |
-|------|------|
-| **`PAYMENT_TIER_CONTRACT.md`** | 支付/tier 契约（双仓同文） |
-| `DUAL_REPO_SYNC_STATUS.md` | 本文（远端 HEAD + 待办） |
-| `DUAL_REPO_WORK_GUIDE.md` | 双仓分工与 P0 清单 |
-| `ROUND1_INTEGRATION_REPORT.md` | 联调发现 + §8 补充通知 |
-| portal `docs/szbolent-portal-outsourcing-astra-deliverables.md` | Astra 门户外包交付 |
-| looma `frontend/looma-zervi-design-outsourcing-deliverables.md` | Looma 设计外包交付 |
+| # | 任务 | 优先级 | 说明 |
+|---|------|--------|------|
+| 1 | 诗人直链修复 | 穿插小修 | 不挡主路径 |
+| 2 | PWA 配置补完 | 穿插小修 | vite-plugin-pwa 接入 |
+| 3 | YeDall 锚定集成 | 下一主线 | DID + VC + 锚定 |
+| 4 | 第一轮录屏/演示 | 按需 | 完整 walkthrough |
+| 5 | 3-5 人封闭试用 | 按需 | 反馈收集 |

@@ -7,9 +7,12 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ChatDialog: typeof import('./components/shared/ChatDialog.vue')['default']
     Footer: typeof import('./components/Footer.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
     LuckyWheel: typeof import('./components/LuckyWheel.vue')['default']
+    PageRenderer: typeof import('./components/shared/PageRenderer.vue')['default']
+    PermissionGuard: typeof import('./components/shared/PermissionGuard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

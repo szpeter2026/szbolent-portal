@@ -7,37 +7,26 @@
           <img src="/bolent-logo.svg" alt="Bolent" class="logo-img" />
         </router-link>
 
-        <!-- 桌面导航 -->
+        <!-- 桌面导航 — 数据源：Page Engine :5300 GET /v1/menus?product=szbolent -->
         <nav class="nav-desktop">
           <ul class="nav-menu">
-            <li>
-              <router-link to="/" class="nav-link">首页</router-link>
-            </li>
-            <li>
-              <router-link to="/about" class="nav-link">关于我们</router-link>
-            </li>
-            <li class="dropdown">
-              <a href="#" class="nav-link">
-                服务
-                <i class="icon-arrow-down"></i>
-              </a>
-              <ul class="dropdown-menu">
-                <li><router-link to="/services/outsourcing">IT 外包</router-link></li>
-                <li><router-link to="/services/agile">敏捷咨询</router-link></li>
-                <li><router-link to="/services/automation">自动化 & QA</router-link></li>
-                <li><router-link to="/services/development">软件开发</router-link></li>
-                <li><router-link to="/services/digital">数字化 & 数据</router-link></li>
-                <li><router-link to="/services/it-management">IT 管理</router-link></li>
-              </ul>
-            </li>
-            <li>
-              <router-link to="/blog" class="nav-link">博客</router-link>
-            </li>
-            <li>
-              <router-link to="/case-study" class="nav-link">案例研究</router-link>
-            </li>
-            <li>
-              <router-link to="/careers" class="nav-link">加入我们</router-link>
+            <li
+              v-for="item in navItems"
+              :key="item.id"
+              :class="{ dropdown: item.children && item.children.length > 0 }"
+            >
+              <template v-if="item.children && item.children.length > 0">
+                <a href="#" class="nav-link">
+                  {{ item.title }}
+                  <i class="icon-arrow-down"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li v-for="child in item.children" :key="child.id">
+                    <router-link :to="child.path">{{ child.title }}</router-link>
+                  </li>
+                </ul>
+              </template>
+              <router-link v-else :to="item.path" class="nav-link">{{ item.title }}</router-link>
             </li>
           </ul>
         </nav>
@@ -54,30 +43,29 @@
       </div>
     </div>
 
-    <!-- 移动端导航 -->
+    <!-- 移动端导航 — 数据源：Page Engine -->
     <div class="mobile-nav" :class="{ 'mobile-nav-open': isMobileMenuOpen }">
       <nav>
         <ul class="mobile-nav-menu">
-          <li><router-link to="/" @click="closeMobileMenu">首页</router-link></li>
-          <li><router-link to="/about" @click="closeMobileMenu">关于我们</router-link></li>
+          <template v-for="item in navItems" :key="item.id">
+            <li v-if="item.children && item.children.length > 0">
+              <a href="#" @click.prevent="toggleMobileExpand(item.id)">
+                {{ item.title }}
+                <i class="icon-arrow-down" :class="{ 'rotate': expandedMobileIds.includes(item.id) }"></i>
+              </a>
+              <ul class="submenu" v-show="expandedMobileIds.includes(item.id)">
+                <li v-for="child in item.children" :key="child.id">
+                  <router-link :to="child.path" @click="closeMobileMenu">{{ child.title }}</router-link>
+                </li>
+              </ul>
+            </li>
+            <li v-else>
+              <router-link :to="item.path" @click="closeMobileMenu">{{ item.title }}</router-link>
+            </li>
+          </template>
           <li>
-            <a href="#" @click.prevent="toggleServicesMenu">
-              服务
-              <i class="icon-arrow-down" :class="{ 'rotate': isServicesOpen }"></i>
-            </a>
-            <ul class="submenu" v-show="isServicesOpen">
-              <li><router-link to="/services/outsourcing" @click="closeMobileMenu">IT 外包</router-link></li>
-              <li><router-link to="/services/agile" @click="closeMobileMenu">敏捷咨询</router-link></li>
-              <li><router-link to="/services/automation" @click="closeMobileMenu">自动化 & QA</router-link></li>
-              <li><router-link to="/services/development" @click="closeMobileMenu">软件开发</router-link></li>
-              <li><router-link to="/services/digital" @click="closeMobileMenu">数字化 & 数据</router-link></li>
-              <li><router-link to="/services/it-management" @click="closeMobileMenu">IT 管理</router-link></li>
-            </ul>
+            <router-link to="/contact" @click="closeMobileMenu" class="btn btn-primary">联系我们</router-link>
           </li>
-          <li><router-link to="/blog" @click="closeMobileMenu">博客</router-link></li>
-          <li><router-link to="/case-study" @click="closeMobileMenu">案例研究</router-link></li>
-          <li><router-link to="/careers" @click="closeMobileMenu">加入我们</router-link></li>
-          <li><router-link to="/contact" @click="closeMobileMenu" class="btn btn-primary">联系我们</router-link></li>
         </ul>
       </nav>
     </div>
@@ -85,11 +73,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useDynamicRouter } from '@/composables/useDynamicRouter'
 
+// ── Page Engine 动态菜单 ──
+const { menus, loading: menuLoading, loadMenus } = useDynamicRouter()
+
+const navItems = computed(() => menus.value)
+
+// ── 滚动 & 移动端状态 ──
 const isScrolled = ref(false)
 const isMobileMenuOpen = ref(false)
-const isServicesOpen = ref(false)
+
+/** 移动端手风琴：记录展开的菜单项 ID */
+const expandedMobileIds = ref<number[]>([])
+
+function toggleMobileExpand(id: number) {
+  const idx = expandedMobileIds.value.indexOf(id)
+  if (idx > -1) expandedMobileIds.value.splice(idx, 1)
+  else expandedMobileIds.value.push(id)
+}
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > 50
@@ -102,15 +105,13 @@ const toggleMobileMenu = () => {
 
 const closeMobileMenu = () => {
   isMobileMenuOpen.value = false
-  isServicesOpen.value = false
+  expandedMobileIds.value = []
   document.body.style.overflow = ''
 }
 
-const toggleServicesMenu = () => {
-  isServicesOpen.value = !isServicesOpen.value
-}
-
 onMounted(() => {
+  // P2 最小切片：加载 szbolent 菜单树（不注入路由，仅消费数据）
+  loadMenus(undefined, 'szbolent')
   window.addEventListener('scroll', handleScroll)
 })
 
