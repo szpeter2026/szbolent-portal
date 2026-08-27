@@ -17,9 +17,11 @@
 # 用法：
 #   ./upload-aliyun.sh               # 默认：构建 → 同源化 → 上传 portal dist → 远端验证
 #   ./upload-aliyun.sh --with-theme  # 上传 portal dist 后顺带反传本地 themes/bolent-astra-child → 阿里
+#   ./upload-aliyun.sh upload-poetries # poetries-h5：构建(src/build/h5) → 同源化 → 上传 → 远端复核
+#                                       # 源仓:~/Projects/poetries-h5(gitee szbenyx/poetries)，可 POETRIES_SRC= 覆盖
 #   ./upload-aliyun.sh --no-build    # 跳过 npm run build（dist 已是最新产物）
 #   ./upload-aliyun.sh --dry-run     # 只做本地构建 + 同源化 + 检查，不 ssh 不写远端
-#   ./upload-aliyun.sh pull-poetries # 阿里 poetries-h5 dist → 本地备份基线（回滚依据；源在 szbenyx/poetries 仓）
+#   ./upload-aliyun.sh pull-poetries # 阿里 poetries-h5 dist → 本地备份基线（回滚依据）
 #   ./upload-aliyun.sh pull-theme    # 阿里主题 bolent-astra-child → 本地 themes/（与线上对账）
 #   ./upload-aliyun.sh pull-nginx    # 阿里 live nginx conf → 本地备份（防施工/回滚依据）
 #
@@ -44,6 +46,8 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PORTAL_DIST="$ROOT/dist"
 LOCAL_THEME_DIR="$ROOT/themes/bolent-astra-child"
 BACKUP_DIR="$ROOT/backup/aliyun"
+POETRIES_SRC="${POETRIES_SRC:-$HOME/Projects/poetries-h5}"
+POETRIES_BUILD="$POETRIES_SRC/dist/build/h5"
 
 # macOS 兼容的 BSD sed
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -52,7 +56,7 @@ else
   SED_CMD=(sed -i)
 fi
 
-MODE="upload"   # upload | pull-poetries | pull-theme | pull-nginx
+MODE="upload"   # upload | upload-poetries | pull-poetries | pull-theme | pull-nginx
 DO_BUILD=1
 DO_THEME=0
 DRY_RUN=0
@@ -62,6 +66,7 @@ for arg in "$@"; do
     --no-build) DO_BUILD=0 ;;
     --with-theme) DO_THEME=1 ;;
     --dry-run)  DRY_RUN=1 ;;
+    upload-poetries) MODE="upload-poetries" ;;
     pull-poetries) MODE="pull-poetries" ;;
     pull-theme)    MODE="pull-theme" ;;
     pull-nginx)    MODE="pull-nginx" ;;
@@ -165,6 +170,32 @@ pull_theme() {
   green "✓ 已拉回。改动本地主题后用 --with-theme 反传。"
 }
 
+# ---------- 上传 poetries-h5（构建 → 同源化 → 上传 → 远端复核） ----------
+upload_poetries() {
+  if [ "$DO_BUILD" -eq 1 ]; then
+    [ -d "$POETRIES_SRC" ] || err "poetries-h5 源仓不存在: $POETRIES_SRC（用 POETRIES_SRC= 指定，或 clone gitee szbenyx/poetries）"
+    green "构建 poetries-h5 ..."
+    ( cd "$POETRIES_SRC" && npm run build:h5 )
+  fi
+  [ -d "$POETRIES_BUILD" ] || err "无构建产物: $POETRIES_BUILD"
+  same_origin "$POETRIES_BUILD"
+  if [ "$DRY_RUN" -eq 1 ]; then
+    green "[dry-run] 将 rsync → ${SSH_TARGET}:${REMOTE_POETRIES_DIST}/"
+    return
+  fi
+  green "上传 → ${SSH_TARGET}:${REMOTE_POETRIES_DIST}/"
+  # 不带 --delete：保留远端 .bak.20260827 等施工备份
+  rsync -avz -e "ssh ${SSH_OPTS[*]}" "${POETRIES_BUILD}/" "${SSH_TARGET}:${REMOTE_POETRIES_DIST}/"
+  green "✓ 上传完成，远端同源复核 ..."
+  local bad
+  bad="$(ssh_aliyun "grep -rl 'api\\.genz\\.ltd' ${REMOTE_POETRIES_DIST}/assets --include='*.js' 2>/dev/null || true")"
+  if [ -n "$bad" ]; then
+    red "✗ 远端仍残留 api.genz.ltd: $bad"
+    exit 1
+  fi
+  green "✓ 远端同源复核通过（残留=0）"
+}
+
 # ---------- 拉回 poetries-h5 基线（源缺失兜底） ----------
 pull_poetries() {
   [ "$DRY_RUN" -eq 1 ] && { green "[dry-run] 将拉取 ${SSH_TARGET}:${REMOTE_POETRIES_DIST} → $BACKUP_DIR/poetries-h5-dist/"; return; }
@@ -190,6 +221,7 @@ pull_nginx() {
 
 # ---------- 入口 ----------
 case "$MODE" in
+  upload-poetries) preflight; upload_poetries ;;
   pull-poetries) preflight; pull_poetries ;;
   pull-theme)    preflight; pull_theme ;;
   pull-nginx)    preflight; pull_nginx ;;
