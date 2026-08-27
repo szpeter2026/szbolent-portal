@@ -40,3 +40,6 @@ storybook-static
 .playwright-cli/
 backend/target/
 backend/.env
+
+# 回传产物基线（poetries-h5 dist 等，不入库）
+backup/

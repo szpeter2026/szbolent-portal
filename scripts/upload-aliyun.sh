@@ -5,18 +5,21 @@
 #   阿里云 47.115.168.107 = 内容终端（非 Looma 大脑）。站点 /v1/ 由 nginx 反代指天翼 14.29.216.219。
 #   因此上传产物必须满足「同源」：dist 内不得残留 api.genz.ltd（否则跨域 / 直连海外 / 指向漂移）。
 #
-# 资产清单（钉死）：
+# 资产清单（钉死，2026-08-27 已回传落地）：
 #   [有源] szbolent-portal dist   本地 $ROOT/dist          → 阿里 /var/www/szbolent-portal/dist
-#   [无源] poetries-h5             仅阿里 /var/www/poetries-h5/dist，本地源缺失 → pull-poetries 拉回基线
-#   [无源] WP 主题 bolent-astra-child 仅阿里（compose 挂载 ./themes/bolent-astra-child，本地仓无 themes/）→ 待重建
+#   [回传] poetries-h5             本地源缺失，仅阿里 /var/www/poetries-h5/dist → 已 pull 至 $BACKUP_DIR/poetries-h5-dist/
+#   [回传] WP 主题 bolent-astra-child 阿里 bind 挂载源 /opt/bolent-wp/themes/bolent-astra-child
+#                                  → 已回传本地 $ROOT/themes/（补上 compose 引用），可 --with-theme 反传
 #   [参考] nginx conf              阿里 live=/etc/nginx/conf.d/{00-szbolent,szbolent-h5}.conf；
 #                                  本地仓内参考文件非 live，勿上传 → pull-nginx 拉回备份
 #
 # 用法：
 #   ./upload-aliyun.sh               # 默认：构建 → 同源化 → 上传 portal dist → 远端验证
+#   ./upload-aliyun.sh --with-theme  # 上传 portal dist 后顺带反传本地 themes/bolent-astra-child → 阿里
 #   ./upload-aliyun.sh --no-build    # 跳过 npm run build（dist 已是最新产物）
 #   ./upload-aliyun.sh --dry-run     # 只做本地构建 + 同源化 + 检查，不 ssh 不写远端
 #   ./upload-aliyun.sh pull-poetries # 阿里 poetries-h5 dist → 本地备份基线（源缺失的兜底）
+#   ./upload-aliyun.sh pull-theme    # 阿里主题 bolent-astra-child → 本地 themes/（与线上对账）
 #   ./upload-aliyun.sh pull-nginx    # 阿里 live nginx conf → 本地备份（防施工/回滚依据）
 #
 # SSH（第 13 步勘察用 root）：
@@ -34,9 +37,11 @@ REMOTE_BASE=/var/www
 REMOTE_PORTAL_DIST="${REMOTE_BASE}/szbolent-portal/dist"
 REMOTE_POETRIES_DIST="${REMOTE_BASE}/poetries-h5/dist"
 REMOTE_NGINX_CONF_DIR=/etc/nginx/conf.d
+REMOTE_THEME_DIR=/opt/bolent-wp/themes/bolent-astra-child
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 PORTAL_DIST="$ROOT/dist"
+LOCAL_THEME_DIR="$ROOT/themes/bolent-astra-child"
 BACKUP_DIR="$ROOT/backup/aliyun"
 
 # macOS 兼容的 BSD sed
@@ -46,15 +51,18 @@ else
   SED_CMD=(sed -i)
 fi
 
-MODE="upload"   # upload | pull-poetries | pull-nginx
+MODE="upload"   # upload | pull-poetries | pull-theme | pull-nginx
 DO_BUILD=1
+DO_THEME=0
 DRY_RUN=0
 
 for arg in "$@"; do
   case "$arg" in
     --no-build) DO_BUILD=0 ;;
+    --with-theme) DO_THEME=1 ;;
     --dry-run)  DRY_RUN=1 ;;
     pull-poetries) MODE="pull-poetries" ;;
+    pull-theme)    MODE="pull-theme" ;;
     pull-nginx)    MODE="pull-nginx" ;;
     -h|--help) grep '^#' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "未知参数: $arg" >&2; exit 1 ;;
@@ -116,6 +124,7 @@ upload_portal() {
   same_origin "$PORTAL_DIST"
   if [ "$DRY_RUN" -eq 1 ]; then
     green "[dry-run] 将 rsync → ${SSH_TARGET}:${REMOTE_PORTAL_DIST}/"
+    [ "$DO_THEME" -eq 1 ] && green "[dry-run] 将 rsync 主题 → ${SSH_TARGET}:${REMOTE_THEME_DIR}/"
     return
   fi
   green "上传 → ${SSH_TARGET}:${REMOTE_PORTAL_DIST}/"
@@ -137,6 +146,22 @@ upload_portal() {
   if [ "$lc" = "$rc" ]; then
     warn "⚠ chunk 文件名与线上相同（${lc}），nginx immutable cache 会命中旧缓存 → 浏览器需强刷 Cmd/Ctrl+Shift+R"
   fi
+  # 可选：反传主题
+  if [ "$DO_THEME" -eq 1 ]; then
+    [ -d "$LOCAL_THEME_DIR" ] || err "本地主题不存在: $LOCAL_THEME_DIR（先 ./upload-aliyun.sh pull-theme）"
+    green "反传主题 → ${SSH_TARGET}:${REMOTE_THEME_DIR}/"
+    rsync -avz -e "ssh ${SSH_OPTS[*]}" "$LOCAL_THEME_DIR/" "${SSH_TARGET}:${REMOTE_THEME_DIR}/"
+    warn "主题为 bind 挂载，落盘即生效；WP 侧若启用页面/对象缓存需清缓存后生效。"
+  fi
+}
+
+# ---------- 拉回 WP 主题（对账/基线） ----------
+pull_theme() {
+  [ "$DRY_RUN" -eq 1 ] && { green "[dry-run] 将拉取 ${SSH_TARGET}:${REMOTE_THEME_DIR} → $LOCAL_THEME_DIR/"; return; }
+  green "拉回主题 bolent-astra-child → $LOCAL_THEME_DIR/"
+  mkdir -p "$LOCAL_THEME_DIR"
+  rsync -avz -e "ssh ${SSH_OPTS[*]}" "${SSH_TARGET}:${REMOTE_THEME_DIR}/" "$LOCAL_THEME_DIR/"
+  green "✓ 已拉回。改动本地主题后用 --with-theme 反传。"
 }
 
 # ---------- 拉回 poetries-h5 基线（源缺失兜底） ----------
@@ -165,6 +190,7 @@ pull_nginx() {
 # ---------- 入口 ----------
 case "$MODE" in
   pull-poetries) preflight; pull_poetries ;;
+  pull-theme)    preflight; pull_theme ;;
   pull-nginx)    preflight; pull_nginx ;;
   upload)        preflight; upload_portal ;;
 esac
